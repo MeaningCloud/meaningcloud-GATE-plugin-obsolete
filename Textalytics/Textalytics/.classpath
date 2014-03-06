@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="src" output="classes" path="src"/>
+	<classpathentry kind="var" path="JRE_LIB" sourcepath="JRE_SRC"/>
+	<classpathentry kind="lib" path="C:/Program Files/GATE_Developer_7.1/bin/gate.jar"/>
+	<classpathentry kind="lib" path="C:/Program Files/GATE_Developer_7.1/lib/ant-launcher.jar"/>
+	<classpathentry kind="lib" path="C:/Program Files/GATE_Developer_7.1/lib/ant.jar"/>
+	<classpathentry kind="lib" path="C:/Program Files/GATE_Developer_7.1/lib/aopalliance.jar"/>
+	<classpathentry kind="lib" path="C:/Program Files/GATE_Developer_7.1/lib/apache-mime4j-core.jar"/>
+	<classpathentry kind="lib" path="C:/Program Files/GATE_Developer_7.1/lib/apache-mime4j-dom.jar"/>
+	<classpathentry kind="lib" path="C:/Program Files/GATE_Developer_7.1/lib/bcmail-jdk15.jar"/>
+	<classpathentry kind="lib" path="C:/Program Files/GATE_Developer_7.1/lib/bcprov-jdk15.jar"/>
+	<classpathentry kind="lib" path="C:/Program Files/GATE_Developer_7.1/lib/commons-codec.jar"/>
+	<classpathentry kind="lib" path="C:/Program Files/GATE_Developer_7.1/lib/commons-compress.jar"/>
+	<classpathentry kind="lib" path="C:/Program Files/GATE_Developer_7.1/lib/commons-io.jar"/>
+	<classpathentry kind="lib" path="C:/Program Files/GATE_Developer_7.1/lib/commons-lang.jar"/>
+	<classpathentry kind="lib" path="C:/Program Files/GATE_Developer_7.1/lib/commons-logging.jar"/>
+	<classpathentry kind="lib" path="C:/Program Files/GATE_Developer_7.1/lib/dom4j.jar"/>
+	<classpathentry kind="lib" path="C:/Program Files/GATE_Developer_7.1/lib/flying-saucer-core.jar"/>
+	<classpathentry kind="lib" path="C:/Program Files/GATE_Developer_7.1/lib/fontbox.jar"/>
+	<classpathentry kind="lib" path="C:/Program Files/GATE_Developer_7.1/lib/gate-asm.jar"/>
+	<classpathentry kind="lib" path="C:/Program Files/GATE_Developer_7.1/lib/gate-compiler-jdt.jar"/>
+	<classpathentry kind="lib" path="C:/Program Files/GATE_Developer_7.1/lib/ivy.jar"/>
+	<classpathentry kind="lib" path="C:/Program Files/GATE_Developer_7.1/lib/java-getopt.jar"/>
+	<classpathentry kind="lib" path="C:/Program Files/GATE_Developer_7.1/lib/jaxen.jar"/>
+	<classpathentry kind="lib" path="C:/Program Files/GATE_Developer_7.1/lib/jdom.jar"/>
+	<classpathentry kind="lib" path="C:/Program Files/GATE_Developer_7.1/lib/jempbox.jar"/>
+	<classpathentry kind="lib" path="C:/Program Files/GATE_Developer_7.1/lib/junit.jar"/>
+	<classpathentry kind="lib" path="C:/Program Files/GATE_Developer_7.1/lib/log4j.jar"/>
+	<classpathentry kind="lib" path="C:/Program Files/GATE_Developer_7.1/lib/lucene-core.jar"/>
+	<classpathentry kind="lib" path="C:/Program Files/GATE_Developer_7.1/lib/metadata-extractor.jar"/>
+	<classpathentry kind="lib" path="C:/Program Files/GATE_Developer_7.1/lib/nekohtml.jar"/>
+	<classpathentry kind="lib" path="C:/Program Files/GATE_Developer_7.1/lib/pdfbox.jar"/>
+	<classpathentry kind="lib" path="C:/Program Files/GATE_Developer_7.1/lib/poi-ooxml-schemas.jar"/>
+	<classpathentry kind="lib" path="C:/Program Files/GATE_Developer_7.1/lib/poi-ooxml.jar"/>
+	<classpathentry kind="lib" path="C:/Program Files/GATE_Developer_7.1/lib/poi-scratchpad.jar"/>
+	<classpathentry kind="lib" path="C:/Program Files/GATE_Developer_7.1/lib/poi.jar"/>
+	<classpathentry kind="lib" path="C:/Program Files/GATE_Developer_7.1/lib/spring-aop.jar"/>
+	<classpathentry kind="lib" path="C:/Program Files/GATE_Developer_7.1/lib/spring-beans.jar"/>
+	<classpathentry kind="lib" path="C:/Program Files/GATE_Developer_7.1/lib/spring-core.jar"/>
+	<classpathentry kind="lib" path="C:/Program Files/GATE_Developer_7.1/lib/stax2-api.jar"/>
+	<classpathentry kind="lib" path="C:/Program Files/GATE_Developer_7.1/lib/tika-core.jar"/>
+	<classpathentry kind="lib" path="C:/Program Files/GATE_Developer_7.1/lib/tika-parsers.jar"/>
+	<classpathentry kind="lib" path="C:/Program Files/GATE_Developer_7.1/lib/woodstox-core-lgpl.jar"/>
+	<classpathentry kind="lib" path="C:/Program Files/GATE_Developer_7.1/lib/xercesImpl.jar"/>
+	<classpathentry kind="lib" path="C:/Program Files/GATE_Developer_7.1/lib/xmlbeans.jar"/>
+	<classpathentry kind="lib" path="C:/Program Files/GATE_Developer_7.1/lib/xmlunit.jar"/>
+	<classpathentry kind="lib" path="C:/Program Files/GATE_Developer_7.1/lib/xpp3.jar"/>
+	<classpathentry kind="lib" path="C:/Program Files/GATE_Developer_7.1/lib/xstream.jar"/>
+	<classpathentry kind="lib" path="C:/Users/ADRIAN/workspace/Textalytics/lib/gson-2.2.4.jar"/>
+	<classpathentry kind="lib" path="C:/Users/ADRIAN/workspace/Textalytics/lib/gson-2.2.4-javadoc.jar"/>
+	<classpathentry kind="lib" path="C:/Users/ADRIAN/workspace/Textalytics/lib/gson-2.2.4-sources.jar"/>
+	<classpathentry kind="output" path="classes"/>
+</classpath>
