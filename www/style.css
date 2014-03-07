@@ -43,6 +43,7 @@ nav ul {
 	list-style: none;
 	position: relative;
 	display: inline-table;
+	padding-right: 52px;
 }
 nav ul li:hover > ul {
 	display: block;
