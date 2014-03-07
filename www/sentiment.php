@@ -64,6 +64,7 @@ require_once('Header.inc');
 	The Annotations created follow the structure of the <a href="<?php echo $URI;?>">API specification</a>.
 	Sometimes you may find nested objects in the specification. Those objects are flattened using ";" as 1st level separator and "|" as 2nd level separator.
 	</p>
+	<p>Also, a list of entities and concepts with their sentiment scores will be created as Document Features. Again, ";" will be the 1st level separator, while "|" will split nested objects in a 2nd level of deepness</p>
   </div>
   
       <!-- Sección -->

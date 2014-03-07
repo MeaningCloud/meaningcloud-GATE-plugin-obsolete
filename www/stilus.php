@@ -1,7 +1,7 @@
 <?php
 require_once('Config.inc');
 
-$TITLE = 'Daedalus GATE plugin';
+$TITLE = 'Spell, Grammar and Style Proofreading';
 $DESCRIPTION = 'Help page for the GATE Plugin to use Textalytics features inside GATE';
 $SECTION = STILUS_SECTION;
 $URI = 'http://textalytics.com/core/stilus-info';
