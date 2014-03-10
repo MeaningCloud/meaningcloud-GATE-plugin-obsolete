@@ -27,9 +27,9 @@ public class SentimentBean {
 	}
 	public class Entity{
 		String text;
-		double score;
+		Double score;
 		String score_tag;
-		double sd;
+		Double sd;
 		String sd_tag;
 		@Override public String toString() {
 		      StringBuilder sb = new StringBuilder();
@@ -50,9 +50,9 @@ public class SentimentBean {
 	}
 	public class Concept{
 		String text;
-		double score;
+		Double score;
 		String score_tag;
-		double sd;
+		Double sd;
 		String sd_tag;
 		@Override public String toString() {
 		      StringBuilder sb = new StringBuilder();
@@ -74,7 +74,7 @@ public class SentimentBean {
 
 	public class Keyword{
 		String text;
-		double score;
+		Double score;
 		String score_tag;
 		Entityform[] entity_list = null;
 		Conceptform[] concept_list = null;
@@ -101,9 +101,9 @@ public class SentimentBean {
 		Long inip;
 		Long endp;
 		String text;
-		double score;
+		Double score;
 		String score_tag;
-		double sd;
+		Double sd;
 		String sd_tag;
 		String subjectivity;
 		String irony;
@@ -137,9 +137,9 @@ public class SentimentBean {
 	public class Sent_data{
 		public Serialized_resp.Status status;
 		public String model;
-		public double score;
+		public Double score;
 		public String score_tag;
-		public double sd;
+		public Double sd;
 		public String sd_tag;
 		public String subjectivity;
 		public String irony;
@@ -179,14 +179,14 @@ public class SentimentBean {
 			FeatureMap doc_fm = Factory.newFeatureMap();
 			if(model!=null)
 				doc_fm.put("model", new String(model.getBytes(),"UTF-8"));
-			Double  d = new Double(score);
-			if(d!=null)
-				doc_fm.put("score", d==null ? "" : d.toString());
+			//Double  d = new Double(score);
+			if(score!=null)
+				doc_fm.put("score", score==null ? "" : score);
 			if(score_tag!=null)
 				doc_fm.put("score_tag", new String(score_tag.getBytes(),"UTF-8"));
-			d = new Double(sd);
-			if(d!=null)
-				doc_fm.put("sd", d==null ? "" :d.toString());
+			//d = new Double(sd);
+			if(sd!=null)
+				doc_fm.put("sd", sd==null ? "" :sd.toString());
 			if(sd_tag!=null)
 				doc_fm.put("sd_tag", new String(sd_tag.getBytes(),"UTF-8"));
 			if(subjectivity!=null)
@@ -201,30 +201,30 @@ public class SentimentBean {
 						if(e.text!=null)
 							//doc_fm.put("entity_"+cnt+"_text", new String(e.text.getBytes(),"UTF-8"));
 							entity_text=new String(e.text.getBytes(),"UTF-8");
-						Double s = new Double(e.score);
-						if(s!=null)
+						//Double s = new Double(e.score);
+						if(e.score!=null)
 							//doc_fm.put("entity_"+(cnt+1)+"_score", e.score);
-							entity_score=s.toString();
+							entity_score=e.score.toString();
 						if(e.score_tag!=null)
 							//doc_fm.put("entity_"+(cnt+1)+"_score_tag", new String(e.score_tag.getBytes(),"UTF-8"));
 							entity_score_tag=new String(e.score_tag.getBytes(),"UTF-8");
-						s = new Double(e.sd);
-						if(s!=null)
+						//s = new Double(e.sd);
+						if(e.sd!=null)
 							//doc_fm.put("entity_"+(cnt+1)+"_sd", e.sd);
-							entity_sd=s.toString();
+							entity_sd=e.sd.toString();
 						if(e.sd_tag!=null)
 							//doc_fm.put("entity_"+(cnt+1)+"_sd_tag", new String(e.sd_tag.getBytes(),"UTF-8"));
 							entity_sd_tag=new String(e.sd_tag.getBytes(),"UTF-8");
 					}else{
 						if(e.text!=null)
 							entity_text+=";"+new String(e.text.getBytes(),"UTF-8");
-						Double s = new Double(e.score);
-						if(s!=null)
+						//Double s = new Double(e.score);
+						if(e.score!=null)
 							entity_score+=";"+Double.toString(e.score);
 						if(e.score_tag!=null)
 							entity_score_tag+=";"+new String(e.score_tag.getBytes(),"UTF-8");
-						s = new Double(e.sd);
-						if(s!=null)
+						//s = new Double(e.sd);
+						if(e.sd!=null)
 							entity_sd+=";"+Double.toString(e.sd);
 						if(e.sd_tag!=null)
 							entity_sd_tag+=";"+new String(e.sd_tag.getBytes(),"UTF-8");
@@ -256,15 +256,15 @@ public class SentimentBean {
 					if(c.text!=null)
 						//doc_fm.put("concept_"+(cnt+1)+"_text", new String(c.text.getBytes(),"UTF-8"));
 						concept_text+=new String(c.text.getBytes(),"UTF-8");
-					Double s = new Double(c.score);
-					if(s!=null)
+					//Double s = new Double(c.score);
+					if(c.score!=null)
 						//doc_fm.put("concept_"+(cnt+1)+"_score", c.score);
 						concept_score+=Double.toString(c.score);
 					if(c.score_tag!=null)
 						//doc_fm.put("concept_"+(cnt+1)+"_score_tag", new String(c.score_tag.getBytes(),"UTF-8"));
 						concept_score_tag+=new String(c.score_tag.getBytes(),"UTF-8");
-					s = new Double(c.sd);
-					if(s!=null)
+					//s = new Double(c.sd);
+					if(c.sd!=null)
 						//doc_fm.put("concept_"+(cnt+1)+"_sd", c.sd);
 						concept_sd+=Double.toString(c.sd);
 					if(c.sd_tag!=null)
