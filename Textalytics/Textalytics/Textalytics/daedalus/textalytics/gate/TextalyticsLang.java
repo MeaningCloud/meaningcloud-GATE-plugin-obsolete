@@ -46,7 +46,7 @@ public class TextalyticsLang extends AbstractLanguageAnalyser implements
 
   private String inputASname, outputASname;
 
-  private List<String> inputASTypes = new ArrayList<String>();
+  private List<String> annotationTypes = new ArrayList<String>();
 
   private boolean debug = false;
 
@@ -71,7 +71,7 @@ public class TextalyticsLang extends AbstractLanguageAnalyser implements
       text += content.toString();
       process(text, null);
     } else {
-      if(inputASTypes.size() == 0) {
+      if(annotationTypes.size() == 0) {
         Iterator<Annotation> inputIt =
           gate.Utils.inDocumentOrder(inputAnnSet).iterator();
 
@@ -88,8 +88,8 @@ public class TextalyticsLang extends AbstractLanguageAnalyser implements
           process(text, ann);
         }
       } else {
-        if(debug) Out.println("inputASTypes size: " + inputASTypes.size());
-        for(String inputAnnExpr : inputASTypes) {
+        if(debug) Out.println("annotationTypes size: " + annotationTypes.size());
+        for(String inputAnnExpr : annotationTypes) {
           if(debug) Out.println("inputAnnExpr: " + inputAnnExpr);
           AnnotationSet filteredAS =
             ASutil.getFilteredAS(inputAnnSet, inputAnnExpr);
@@ -206,13 +206,13 @@ public class TextalyticsLang extends AbstractLanguageAnalyser implements
 		  Iterator<String> it = lang_list.iterator();
 		  int cat_count = 0;
 		  FeatureMap fm = Factory.newFeatureMap();
-		  String lang = "";
+		  List<String> lang = new ArrayList<String>();
 		  while(it.hasNext()) {
-			  if(cat_count == 0){
-				  lang += new String(it.next().getBytes(),"utf-8");
-			  }else{
+			  //if(cat_count == 0){
+				  lang.add(new String(it.next().getBytes(),"utf-8"));
+			  /*}else{
 				  lang += ";"+new String(it.next().getBytes(),"utf-8");
-			  }
+			  }*/
 		  }
 		  fm.put("lang", lang);
 		  if(inputAnn != null) {
@@ -282,11 +282,11 @@ public class TextalyticsLang extends AbstractLanguageAnalyser implements
   @Optional
   @CreoleParameter(comment = "Filter content by this expression. It allows format: \n"
     + "Type.FeatureName  \n" + "or  \n" + "Type.FeatureName==FeatureValue  \n")
-  public void setInputASTypes(List<String> iat) {
-    this.inputASTypes = iat;
+  public void setannotationTypes(List<String> iat) {
+    this.annotationTypes = iat;
   }
 
-  public List<String> getInputASTypes() {
-    return inputASTypes;
+  public List<String> getannotationTypes() {
+    return annotationTypes;
   }
 }

@@ -43,7 +43,7 @@
                   <boolean>false</boolean>
                 </entry>
                 <entry>
-                  <string>inputASTypes</string>
+                  <string>annotationTypes</string>
                   <gate.util.persistence.CollectionPersistence>
                     <localList/>
                     <collectionType>java.util.ArrayList</collectionType>
@@ -116,7 +116,7 @@
                   <boolean>false</boolean>
                 </entry>
                 <entry>
-                  <string>inputASTypes</string>
+                  <string>annotationTypes</string>
                   <gate.util.persistence.CollectionPersistence>
                     <localList/>
                     <collectionType>java.util.ArrayList</collectionType>
@@ -191,7 +191,7 @@
                   <boolean>false</boolean>
                 </entry>
                 <entry>
-                  <string>inputASTypes</string>
+                  <string>annotationTypes</string>
                   <gate.util.persistence.CollectionPersistence>
                     <localList/>
                     <collectionType>java.util.ArrayList</collectionType>
@@ -302,7 +302,7 @@
                   <boolean>true</boolean>
                 </entry>
                 <entry>
-                  <string>inputASTypes</string>
+                  <string>annotationTypes</string>
                   <gate.util.persistence.CollectionPersistence>
                     <localList/>
                     <collectionType>java.util.ArrayList</collectionType>
@@ -412,7 +412,7 @@
                   <boolean>true</boolean>
                 </entry>
                 <entry>
-                  <string>inputASTypes</string>
+                  <string>annotationTypes</string>
                   <gate.util.persistence.CollectionPersistence>
                     <localList/>
                     <collectionType>java.util.ArrayList</collectionType>
@@ -471,7 +471,7 @@
                   <boolean>false</boolean>
                 </entry>
                 <entry>
-                  <string>inputASTypes</string>
+                  <string>annotationTypes</string>
                   <gate.util.persistence.CollectionPersistence>
                     <localList/>
                     <collectionType>java.util.ArrayList</collectionType>

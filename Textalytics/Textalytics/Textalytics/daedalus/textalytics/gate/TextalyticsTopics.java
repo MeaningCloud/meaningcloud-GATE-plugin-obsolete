@@ -59,7 +59,7 @@ public class TextalyticsTopics  extends AbstractLanguageAnalyser
   implements ProcessingResource, Serializable {
 
      private String inputASname, outputASname, apiURL="", key, lang="en", topicTypes="a",timeref;
-     private List<String> inputASTypes = new ArrayList<String>(); // list of input annotations from which string content will be submitted
+     private List<String> annotationTypes = new ArrayList<String>(); // list of input annotations from which string content will be submitted
      private Boolean unknownWords=false,relaxedTypography=true,subTopics=false, caseSensitive=false,debug=false;
      private String dictionary="chetsdpCA";//, userDictionary="";
      private DisambiguationLevel disambiguationLevel;
@@ -134,7 +134,7 @@ public class TextalyticsTopics  extends AbstractLanguageAnalyser
               times = 0;
           }
       }else{
-          if (inputASTypes.size()==0) {
+          if (annotationTypes.size()==0) {
               Iterator<Annotation> inputIt = gate.Utils.inDocumentOrder(inputAnnSet).iterator();
               
               while(inputIt.hasNext()){
@@ -159,8 +159,8 @@ public class TextalyticsTopics  extends AbstractLanguageAnalyser
                   }
               }              
           }else{
-              if(debug)Out.println("inputASTypes size: "+inputASTypes.size());
-              for (String inputAnnExpr : inputASTypes) {
+              if(debug)Out.println("annotationTypes size: "+annotationTypes.size());
+              for (String inputAnnExpr : annotationTypes) {
                   if(debug)Out.println("inputAnnExpr: "+inputAnnExpr);
                   AnnotationSet filteredAS = ASutil.getFilteredAS(inputAnnSet,inputAnnExpr);
                   if(debug){
@@ -407,12 +407,12 @@ public class TextalyticsTopics  extends AbstractLanguageAnalyser
             "Type.FeatureName  \n"+
             "or  \n"+
             "Type.FeatureName==FeatureValue  \n")
-    public void setInputASTypes(List<String> inputASTypes) {
-        this.inputASTypes = inputASTypes;
+    public void setannotationTypes(List<String> inputASTypes) {
+        this.annotationTypes = inputASTypes;
     }
 
-    public List<String> getInputASTypes() {
-        return inputASTypes;
+    public List<String> getannotationTypes() {
+        return annotationTypes;
     }
        
     @Optional
