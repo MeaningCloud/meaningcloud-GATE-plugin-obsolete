@@ -9,4 +9,5 @@ Textalytics2GATE.daedalus.textalytics.gate classes
 -->
 <CREOLE-DIRECTORY>
       <JAR SCAN="true">Textalytics.jar</JAR>
+	  <JAR>lib/gson-2.2.4.jar</JAR>
 </CREOLE-DIRECTORY>
