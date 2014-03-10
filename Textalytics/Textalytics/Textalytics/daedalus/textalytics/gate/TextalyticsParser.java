@@ -64,7 +64,7 @@ public class TextalyticsParser  extends AbstractLanguageAnalyser
     
      private String inputASname, outputASname, apiURL, key, lang="",ud="";
      private Boolean unknownWords=false,relaxedTypography=true,debug=false;     
-     private List<String> inputASTypes = new ArrayList<String>(); // list of input annotations from which string content will be submitted     
+     private List<String> annotationTypes = new ArrayList<String>(); // list of input annotations from which string content will be submitted     
      private String dictionary="";
      private DisambiguationLevel disambiguationLevel;
      private static final int RETRY = 10; 
@@ -133,7 +133,7 @@ public class TextalyticsParser  extends AbstractLanguageAnalyser
            }
            times = 0;
       }else{
-          if (inputASTypes.size()==0) {
+          if (annotationTypes.size()==0) {
               Iterator<Annotation> inputIt = gate.Utils.inDocumentOrder(inputAnnSet).iterator();
               
               while(inputIt.hasNext()){
@@ -166,7 +166,7 @@ public class TextalyticsParser  extends AbstractLanguageAnalyser
               }              
           }else{
               //if(debug)Out.println("inputASTypes size: "+inputASTypes.size());
-              for (String inputAnnExpr : inputASTypes) {
+              for (String inputAnnExpr : annotationTypes) {
                   //if(debug)Out.println("inputAnnExpr: "+inputAnnExpr);
                   AnnotationSet filteredAS = ASutil.getFilteredAS(inputAnnSet,inputAnnExpr);
                   //if(debug)Out.println("FilteredAS: "+gate.Utils.cleanStringFor(document, filteredAS));
@@ -403,13 +403,13 @@ public class TextalyticsParser  extends AbstractLanguageAnalyser
             "Type.FeatureName  \n"+
             "or  \n"+
             "Type.FeatureName==FeatureValue  \n")
-    public void setinputASTypes(List<String> iat)
+    public void setannotationTypes(List<String> iat)
     {
-	this.inputASTypes = iat;
+	this.annotationTypes = iat;
     }
-    public List<String> getinputASTypes()
+    public List<String> getannotationTypes()
     {
-	return inputASTypes;
+	return annotationTypes;
     }
 
 

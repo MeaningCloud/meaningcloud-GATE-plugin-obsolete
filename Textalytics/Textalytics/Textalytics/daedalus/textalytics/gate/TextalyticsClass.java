@@ -53,7 +53,7 @@ import daedalus.textalytics.gate.param.ASutil;
 public class TextalyticsClass  extends AbstractLanguageAnalyser
   implements ProcessingResource {
      private String inputASname, outputASname;
-     private List<String> inputASTypes = new ArrayList<String>();
+     private List<String> annotationTypes = new ArrayList<String>();
      private String apiURL="", key="", title="";
      private Boolean verbose=false,debug=false;
      private String model="",categories="";
@@ -92,7 +92,7 @@ public void execute() throws ExecutionException
           type = "_document";
           process(text,type,null,inputAnnSet);
       }else{
-          if (inputASTypes.size()==0) {
+          if (annotationTypes.size()==0) {
               Iterator<Annotation> inputIt = gate.Utils.inDocumentOrder(inputAnnSet).iterator();
               
               while(inputIt.hasNext()){
@@ -106,8 +106,8 @@ public void execute() throws ExecutionException
                   process(text,type,ann,inputAnnSet);
               }              
           }else{
-              if(debug)Out.println("inputASTypes size: "+inputASTypes.size());
-              for (String inputAnnExpr : inputASTypes) {
+              if(debug)Out.println("annotationTypes size: "+annotationTypes.size());
+              for (String inputAnnExpr : annotationTypes) {
                   if(debug)Out.println("inputAnnExpr: "+inputAnnExpr);
                   AnnotationSet filteredAS = ASutil.getFilteredAS(inputAnnSet,inputAnnExpr);
                   if(debug)Out.println("FilteredAS: "+gate.Utils.cleanStringFor(document, filteredAS));
@@ -402,14 +402,14 @@ public void execute() throws ExecutionException
             "Type.FeatureName  \n"+
             "or  \n"+
             "Type.FeatureName==FeatureValue  \n")
-    public void setinputASTypes(List<String> iat)
+    public void setannotationTypes(List<String> iat)
     {
-	this.inputASTypes = iat;
+	this.annotationTypes = iat;
     }
     
-    public List<String> getinputASTypes()
+    public List<String> getannotationTypes()
     {
-	return inputASTypes;
+	return annotationTypes;
     }
 
     

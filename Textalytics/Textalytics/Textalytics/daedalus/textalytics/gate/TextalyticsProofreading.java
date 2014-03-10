@@ -55,7 +55,7 @@ public class TextalyticsProofreading  extends AbstractLanguageAnalyser
              properNouns=true,tautologyAndLanMisuse=true,spacing=true,
              openingClosing=true,punctuation=true,foreign=true,confusion=true,
              percentage=true,consonantRed=true,debug=false;
-     private List<String> inputASTypes = new ArrayList<String>();
+     private List<String> annotationTypes = new ArrayList<String>();
      
     public String textTransform(boolean bool){
     String ret = bool ? "y" : "n";
@@ -80,7 +80,7 @@ public class TextalyticsProofreading  extends AbstractLanguageAnalyser
           //type = "_document";
           process(text,type,null,outputAnnSet);
       }else{
-          if (inputASTypes.size()==0) {
+          if (annotationTypes.size()==0) {
               Iterator<Annotation> inputIt = gate.Utils.inDocumentOrder(inputAnnSet).iterator();
               
               while(inputIt.hasNext()){
@@ -94,8 +94,8 @@ public class TextalyticsProofreading  extends AbstractLanguageAnalyser
                   process(text,type,ann,outputAnnSet);
               }              
           }else{
-              if(debug)Out.println("inputASTypes size: "+inputASTypes.size());
-              for (String inputAnnExpr : inputASTypes) {
+              if(debug)Out.println("annotationTypes size: "+annotationTypes.size());
+              for (String inputAnnExpr : annotationTypes) {
                   if(debug)Out.println("inputAnnExpr: "+inputAnnExpr);
                   AnnotationSet filteredAS = ASutil.getFilteredAS(inputAnnSet,inputAnnExpr);
                   if(debug)Out.println("FilteredAS: "+gate.Utils.cleanStringFor(document, filteredAS));
@@ -541,14 +541,14 @@ public class TextalyticsProofreading  extends AbstractLanguageAnalyser
             "Type.FeatureName  \n"+
             "or  \n"+
             "Type.FeatureName==FeatureValue  \n")
-    public void setinputASTypes(List<String> iat)
+    public void setannotationTypes(List<String> iat)
     {
-	this.inputASTypes = iat;
+	this.annotationTypes = iat;
     }
     
-    public List<String> getinputASTypes()
+    public List<String> getannotationTypes()
     {
-	return inputASTypes;
+	return annotationTypes;
     }  
   
 } // class PoSTaggingTextalytics

@@ -17,11 +17,11 @@ import daedalus.textalytics.gate.param.TokenBean;
 
 public class TestWorkbench {
 	public static void main( String[] args ) throws IOException {
-		String str = FileUtils.readFileToString(new File( "data/pais.txt" ));
+		String str = FileUtils.readFileToString(new File( "data/marca.txt" ));
 		
 		Post post;
 	    post = new Post ("http://textalytics.com/core/parser-1.2");
-	    post.addParameter("key", "");
+	    post.addParameter("key", "daedalus1298");
 	    post.addParameter("txt", str);
 	    post.addParameter("lang", "es");
 	    post.addParameter("of", "json");

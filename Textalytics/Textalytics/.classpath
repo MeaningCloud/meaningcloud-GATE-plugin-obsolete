@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
-	<classpathentry kind="src" output="classes" path="src"/>
+	<classpathentry kind="src" output="classes" path="Textalytics"/>
 	<classpathentry kind="var" path="JRE_LIB" sourcepath="JRE_SRC"/>
 	<classpathentry kind="lib" path="C:/Program Files/GATE_Developer_7.1/bin/gate.jar"/>
 	<classpathentry kind="lib" path="C:/Program Files/GATE_Developer_7.1/lib/ant-launcher.jar"/>
