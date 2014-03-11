@@ -61,7 +61,7 @@ public static List<Annot> transform(List<TopicsBean.Entity> entity_list,String n
                 }
 
                 if(!ent.form.isEmpty())
-                    fm.put("Form",new String(ent.form.getBytes(),"utf-8"));
+                    fm.put("Form",ent.form);
                 if(!ent.dictionary.isEmpty())
                      fm.put("Dictionary",new String(ent.dictionary.getBytes(),"UTF-8"));
                 if(!ent.id.isEmpty())
@@ -138,8 +138,8 @@ public static List<Annot> transform(List<TopicsBean.Entity> entity_list,String n
                 	ArrayList<ArrayList<Long>> offsets = new ArrayList<ArrayList<Long>>();
                 	for(int i_it=0;i_it<ent.variant_list.size();i_it++){
                 		ArrayList<Long> offset = new ArrayList<Long>();
-                		variant.add(!ent.variant_list.get(i_it).form.isEmpty() ? new String(ent.variant_list.get(i_it).form.getBytes(),"utf-8") : "");
-                		offset.add(Long.parseLong(ent.variant_list.get(i_it).inip));offset.add(Long.parseLong(ent.variant_list.get(i_it).endp+1));
+                		variant.add(!ent.variant_list.get(i_it).form.isEmpty() ? ent.variant_list.get(i_it).form : "");
+                		offset.add(Long.parseLong(ent.variant_list.get(i_it).inip));offset.add(Long.parseLong(ent.variant_list.get(i_it).endp)+1);
                 		offsets.add(offset);
                 	}
                 	fm.put("variant_form", variant);

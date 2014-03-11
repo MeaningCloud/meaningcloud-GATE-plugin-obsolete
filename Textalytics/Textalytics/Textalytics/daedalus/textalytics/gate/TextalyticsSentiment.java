@@ -95,7 +95,27 @@ public class TextalyticsSentiment  extends AbstractLanguageAnalyser
            times = 0;
       }else{
           if (annotationTypes.size()==0) {
-              Iterator<Annotation> inputIt = gate.Utils.inDocumentOrder(inputAnnSet).iterator();
+        	  text+=content.toString();
+              //type = "_document";
+               boolean apiOK = false;
+               int times = 0;
+               while(times<RETRY && !apiOK ){
+                   try {
+                       apiOK = processWithTextalytics(text,type,null,outputAnnSet);
+                       if(debug)Out.println("Nr of retry: "+times+". Text: "+text);
+                       times++;
+                   } catch (InvalidOffsetException ex) {
+                       Logger.getLogger(TextalyticsSentiment.class.getName()).log(Level.SEVERE, null, ex);
+                   } catch (XPathExpressionException ex) {
+                       Logger.getLogger(TextalyticsSentiment.class.getName()).log(Level.SEVERE, null, ex);
+                   } catch (UnsupportedEncodingException ex) {
+                       Logger.getLogger(TextalyticsSentiment.class.getName()).log(Level.SEVERE, null, ex);
+                   } catch (IOException ex) {
+                       Logger.getLogger(TextalyticsSentiment.class.getName()).log(Level.SEVERE, null, ex);
+                   }
+               }
+               times = 0;
+              /*Iterator<Annotation> inputIt = gate.Utils.inDocumentOrder(inputAnnSet).iterator();
               
               while(inputIt.hasNext()){
                   Annotation ann = inputIt.next();
@@ -123,7 +143,7 @@ public class TextalyticsSentiment  extends AbstractLanguageAnalyser
                       }
                   }
                   times = 0;
-              }              
+              } */             
           }else{
               if(debug)Out.println("annotationTypes size: "+annotationTypes.size());
               for (String inputAnnExpr : annotationTypes) {

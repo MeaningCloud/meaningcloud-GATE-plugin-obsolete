@@ -233,7 +233,7 @@ public class SentimentBean {
 					at.inip = s.inip;
 					at.endp = s.endp+1;
 					if(s.text!=null)
-						at.fm.put("text",s.text.isEmpty() ?"":new String(s.text.getBytes(),"UTF-8"));	
+						at.fm.put("text",s.text.isEmpty() ? "" :new String(s.text.getBytes(),"UTF-8"));	
 					at.fm.put("score", (s.score!=null ?  s.score : ""));
 					if(s.score_tag!=null)
 						at.fm.put("score_tag", s.score_tag.isEmpty() ?"":new String(s.score_tag.getBytes(),"UTF-8"));

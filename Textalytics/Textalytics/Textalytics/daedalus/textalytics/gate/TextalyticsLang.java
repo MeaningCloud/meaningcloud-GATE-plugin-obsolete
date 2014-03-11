@@ -72,7 +72,9 @@ public class TextalyticsLang extends AbstractLanguageAnalyser implements
       process(text, null);
     } else {
       if(annotationTypes.size() == 0) {
-        Iterator<Annotation> inputIt =
+    	  text += content.toString();
+          process(text, null);
+        /*Iterator<Annotation> inputIt =
           gate.Utils.inDocumentOrder(inputAnnSet).iterator();
 
         while(inputIt.hasNext()) {
@@ -86,7 +88,7 @@ public class TextalyticsLang extends AbstractLanguageAnalyser implements
               Level.SEVERE, null, ex);
           }
           process(text, ann);
-        }
+        }*/
       } else {
         if(debug) Out.println("annotationTypes size: " + annotationTypes.size());
         for(String inputAnnExpr : annotationTypes) {

@@ -135,7 +135,21 @@ public class TextalyticsTopics  extends AbstractLanguageAnalyser
           }
       }else{
           if (annotationTypes.size()==0) {
-              Iterator<Annotation> inputIt = gate.Utils.inDocumentOrder(inputAnnSet).iterator();
+              text+=content.toString();
+              //type = "_document";
+              Iterator<String> udIt = this.getudDictionaries().iterator();
+              while(udIt.hasNext()){
+                  String ud = udIt.next();
+                  boolean apiOK = false;
+                  int times = 0;
+                  while(times<RETRY && !apiOK ){
+                      apiOK = processWithTextalytics(text,type,null,outputAnnSet,ud);
+                      if(debug)Out.println("Nr of retry: "+times+". Text: "+text);
+                      times++;
+                  }
+                  times = 0;
+              }
+              /*Iterator<Annotation> inputIt = gate.Utils.inDocumentOrder(inputAnnSet).iterator();
               
               while(inputIt.hasNext()){
                   Annotation ann = inputIt.next();
@@ -157,7 +171,7 @@ public class TextalyticsTopics  extends AbstractLanguageAnalyser
                       }
                       times = 0;
                   }
-              }              
+              }  */            
           }else{
               if(debug)Out.println("annotationTypes size: "+annotationTypes.size());
               for (String inputAnnExpr : annotationTypes) {

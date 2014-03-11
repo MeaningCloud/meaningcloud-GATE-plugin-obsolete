@@ -80,7 +80,9 @@ public class TextalyticsProofreading  extends AbstractLanguageAnalyser
           process(text,type,null,outputAnnSet);
       }else{
           if (annotationTypes.size()==0) {
-              Iterator<Annotation> inputIt = gate.Utils.inDocumentOrder(inputAnnSet).iterator();
+        	  text+=content.toString();
+              process(text,type,null,outputAnnSet);
+              /*Iterator<Annotation> inputIt = gate.Utils.inDocumentOrder(inputAnnSet).iterator();
               
               while(inputIt.hasNext()){
                   Annotation ann = inputIt.next();
@@ -90,7 +92,7 @@ public class TextalyticsProofreading  extends AbstractLanguageAnalyser
                       Logger.getLogger(TextalyticsClass.class.getName()).log(Level.SEVERE, null, ex);
                   }
                   process(text,type,ann,outputAnnSet);
-              }              
+              }  */            
           }else{
               if(debug)Out.println("annotationTypes size: "+annotationTypes.size());
               for (String inputAnnExpr : annotationTypes) {

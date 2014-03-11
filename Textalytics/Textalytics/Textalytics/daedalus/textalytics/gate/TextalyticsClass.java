@@ -93,7 +93,10 @@ public void execute() throws ExecutionException
           process(text,type,null,inputAnnSet);
       }else{
           if (annotationTypes.size()==0) {
-              Iterator<Annotation> inputIt = gate.Utils.inDocumentOrder(inputAnnSet).iterator();
+        	  text+=content.toString();
+              type = "_document";
+              process(text,type,null,inputAnnSet);
+              /*Iterator<Annotation> inputIt = gate.Utils.inDocumentOrder(inputAnnSet).iterator();
               
               while(inputIt.hasNext()){
                   Annotation ann = inputIt.next();
@@ -104,7 +107,7 @@ public void execute() throws ExecutionException
                       Logger.getLogger(TextalyticsClass.class.getName()).log(Level.SEVERE, null, ex);
                   }
                   process(text,type,ann,inputAnnSet);
-              }              
+              }  */            
           }else{
               if(debug)Out.println("annotationTypes size: "+annotationTypes.size());
               for (String inputAnnExpr : annotationTypes) {
