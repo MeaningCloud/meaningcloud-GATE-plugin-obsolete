@@ -54,23 +54,18 @@ public static class Recursive{ //Required in order to perform recursive calls to
 
 public static Recursive collectInfo(Element response_node, String nameNode, String dompos,String fatherID) throws InvalidOffsetException, UnsupportedEncodingException, XPathExpressionException {
    
-    //gate.AnnotationSet a = original;
     List<Annot> outAS = new ArrayList<Annot>();
     List<TokenBean.Token_xml> tokenList = new ArrayList<TokenBean.Token_xml>();
               
-     //NodeList nodeL = response.getElementsByTagName(nameNode);
     XPath xpath = XPathFactory.newInstance().newXPath();
     XPathExpression expr1 = xpath.compile(dompos);
     NodeList nodeL = (NodeList)expr1.evaluate(response_node, XPathConstants.NODESET);
-    //System.out.println("tokens: "+nodeL.getLength());
       for(int i=0; i<nodeL.getLength(); i++) {
-         
-    	  TokenBean.Token_xml token = new TokenBean.Token_xml();
+        TokenBean.Token_xml token = new TokenBean.Token_xml();
         token.fatherID = fatherID;
         Node node = nodeL.item(i);
         NodeList data_node = node.getChildNodes();
         
-
         for(int j=0; j<data_node.getLength(); j++){         
           
           Node n = data_node.item(j); 

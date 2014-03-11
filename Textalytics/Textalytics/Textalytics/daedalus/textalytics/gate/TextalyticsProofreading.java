@@ -42,7 +42,7 @@ import daedalus.textalytics.gate.param.ASutil;
 
 
 /** 
- * This class is the implementation of the resource POSTAGGINGTEXTALYTICS.
+ * This class is the implementation of the resource TEXTALYTICSPROOFREADING.
  */
 @CreoleResource(name = "Textalytics Spell, Grammar and Style Proofreading",
                 comment = "Textalytics Spell, Grammar and Style Proofreading",
@@ -50,11 +50,11 @@ import daedalus.textalytics.gate.param.ASutil;
 public class TextalyticsProofreading  extends AbstractLanguageAnalyser
   implements ProcessingResource {
 
-     private String inputASname, outputASname, apiURL="", key="", lang="en",manyErrors="2", dictionary="";
-     private Boolean prefixed=true,quotesOrItalics=true,too_longSent=true,
-             properNouns=true,tautologyAndLanMisuse=true,spacing=true,
-             openingClosing=true,punctuation=true,foreign=true,confusion=true,
-             percentage=true,consonantRed=true,debug=false;
+     private String inputASname, outputASname, apiURL, key, lang,manyErrors, dictionary;
+     private Boolean prefixed,quotesOrItalics,too_longSent,
+             properNouns,tautologyAndLanMisuse,spacing,
+             openingClosing,punctuation,foreign,confusion,
+             percentage,consonantRed,debug;
      private List<String> annotationTypes = new ArrayList<String>();
      
     public String textTransform(boolean bool){
@@ -77,7 +77,6 @@ public class TextalyticsProofreading  extends AbstractLanguageAnalyser
             
       if(inputAnnSet.isEmpty()){
           text+=content.toString();
-          //type = "_document";
           process(text,type,null,outputAnnSet);
       }else{
           if (annotationTypes.size()==0) {
@@ -85,7 +84,6 @@ public class TextalyticsProofreading  extends AbstractLanguageAnalyser
               
               while(inputIt.hasNext()){
                   Annotation ann = inputIt.next();
-                  //type = "_"+ann.getType();
                   try {
                       text = content.getContent(ann.getStartNode().getOffset(), ann.getEndNode().getOffset()).toString();    
                   } catch (InvalidOffsetException ex) {
@@ -102,7 +100,6 @@ public class TextalyticsProofreading  extends AbstractLanguageAnalyser
                   Iterator<Annotation> itr = gate.Utils.inDocumentOrder(filteredAS).iterator();
                   while(itr.hasNext()){
                       Annotation ann = (Annotation) itr.next();
-                      //type = "_"+ann.getType();
                       try {
                           text = content.getContent(ann.getStartNode().getOffset(), ann.getEndNode().getOffset()).toString();
                       } catch (InvalidOffsetException ex) {
@@ -129,37 +126,28 @@ public class TextalyticsProofreading  extends AbstractLanguageAnalyser
           String api = this.getapiURL();
           String key = this.getkey();
           String txt = text;
-          String langg = "en";
-           
-          try{
-             if(!this.getlang().isEmpty())
-                 langg = this.getlang();
-          }catch(Exception e){}
-          
-          
-          String dic = "";
-          if(this.getdictionary().isEmpty()){
-              String lang = getlang();
-              if ("es".equals(lang)) {
-                dic = "chetsdpqr";
-              }
-              else if ("en".equals(lang)) {
-                dic = "chetsdpCA";
-              }
-              else if ("fr".equals(lang)) {
-                dic = "chetsdpF";
-              }
-              else if ("it".equals(lang)) {
-                dic = "chetsdpoa";
-              }              
-          }
           
           Post post;
           post = new Post (api);
-          post.addParameter("key", key);
+          if(key!=null && !key.isEmpty())
+        	  post.addParameter("key", key);
+          else{
+        	  Logger.getLogger(TextalyticsTopics.class.getName()).severe("Key is not set");
+        	  return;
+          }
           post.addParameter("txt", txt);
-          post.addParameter("lang", langg);
-          post.addParameter("dic",dic);
+          if(this.getlang()!=null && !this.getlang().isEmpty())
+        	  post.addParameter("lang", this.getlang());
+          else{
+        	  Logger.getLogger(TextalyticsTopics.class.getName()).severe("Lang is not set");
+        	  return;
+          }
+          if(this.getdictionary()!=null)
+        	  post.addParameter("dic",this.getdictionary());
+          else{
+        	  Logger.getLogger(TextalyticsTopics.class.getName()).severe("Dictionary is unset");
+        	  return;
+          }
           post.addParameter("of", "xml");
           post.addParameter("pp",textTransform(this.getprefixed()));
           post.addParameter("aqoi",textTransform(this.getquotesOrItalics()));
@@ -192,7 +180,7 @@ public class TextalyticsProofreading  extends AbstractLanguageAnalyser
                   NamedNodeMap attributes = status.getAttributes();
                   org.w3c.dom.Node code = attributes.item(0);
                   if(!code.getTextContent().equals("0")) {
-                	  Logger.getLogger(TextalyticsTopics.class.getName()).severe("API Error: "+code.getTextContent()+""+post.params.toString());
+                	  Logger.getLogger(TextalyticsTopics.class.getName()).severe("API Error: "+code.getTextContent()+". "+post.params.toString());
                   } else {
                       try{
                           List<StilusClient.result> result_list = StilusClient.collectInfo(response_node,"result",outputAnnSet);
@@ -223,56 +211,46 @@ public class TextalyticsProofreading  extends AbstractLanguageAnalyser
    }
    
    public void setDocFeatures(List<StilusClient.result> result_list,String type, Annotation inputAnn,AnnotationSet outputAnnSet) throws InvalidOffsetException{
-
-       Iterator<StilusClient.result> it = result_list.iterator();
+	  if(result_list.size()>0){ 
+	   Iterator<StilusClient.result> it = result_list.iterator();
        if(debug)Out.println("resultList: "+result_list.size());
-    try{
-        
-        int res_count = 0;
-    while(it.hasNext()){
-        gate.FeatureMap fm= gate.Factory.newFeatureMap();
-        res_count++;
-        StilusClient.result r = it.next();
-        if(!r.text.isEmpty())
-            fm.put("text", r.text);
-        if(!r.type.isEmpty())
-            fm.put("type",r.type);
-        if(!r.level.isEmpty())
-            fm.put("level",r.level);
-        if(!r.rule.isEmpty())
-            fm.put("rule", r.rule);
-        if(!r.msg.isEmpty())
-            fm.put("msg", r.msg);
-        if(r.sug_list.size() > 0){
-            Iterator<StilusClient.result.suggestion> it2 = r.sug_list.iterator();
-            int sug_count = 0;
-            String sug_form="",sug_confidence="";
-            while(it2.hasNext()){
-                StilusClient.result.suggestion s = it2.next();
-            	if(sug_count == 0){
-            		sug_form += s.form;
-            		sug_confidence += s.confidence;
-            	}else{
-            		sug_form+=";"+s.form;
-            		sug_confidence += ";"+s.confidence;
-            	}
-                sug_count++;           
-            }
-            fm.put("sug_form", sug_form);
-            fm.put("sug_confidence", sug_confidence);
+       try{
+        while(it.hasNext()){
+           StilusClient.result r = it.next();
+           gate.FeatureMap fm= gate.Factory.newFeatureMap();
+           if((!r.inip.isEmpty())&&(!r.endp.isEmpty())){
+        	ArrayList<String> suglist_form = new ArrayList<String>();
+            ArrayList<String> suglist_conf = new ArrayList<String>();
+        	fm.put("text", (r.text!=null ? r.text : ""));
+        	fm.put("type",(r.type!=null ? r.type : ""));
+        	fm.put("level",(r.level!=null ? r.level : ""));
+        	fm.put("rule", (r.rule!=null ? r.rule : ""));
+        	fm.put("msg", (r.msg!=null ? r.msg : ""));
+        	if(r.sug_list.size() > 0){
+        		Iterator<StilusClient.result.suggestion> it2 = r.sug_list.iterator();
+        		while(it2.hasNext()){
+        			StilusClient.result.suggestion s = it2.next();
+        			suglist_form.add(s.form);
+        			suglist_conf.add(s.confidence);
+        		}
+        	}
+        	if(!suglist_form.isEmpty())
+        		fm.put("suggestion_list_form", suglist_form);
+        	if(!suglist_conf.isEmpty())
+        		fm.put("suggestion_list_confidence", suglist_conf);  
+        	
+        	if(inputAnn != null){
+        		outputAnnSet.add((inputAnn.getStartNode().getOffset()+Long.parseLong(r.inip, 10)), (inputAnn.getStartNode().getOffset()+(Long.parseLong(r.endp, 10)+1)), "proofreading"+type, fm);
+        	}else{
+        		outputAnnSet.add(Long.parseLong(r.inip, 10), (Long.parseLong(r.endp, 10)+1), "proofreading"+type, fm);
+        	}
+           }
         }
-        if((!r.inip.isEmpty())&&(!r.endp.isEmpty())){
-            if(inputAnn != null){
-                outputAnnSet.add((inputAnn.getStartNode().getOffset()+Long.parseLong(r.inip, 10)), (inputAnn.getStartNode().getOffset()+(Long.parseLong(r.endp, 10)+1)), "proofreading"+type, fm);
-            }else{
-                outputAnnSet.add(Long.parseLong(r.inip, 10), (Long.parseLong(r.endp, 10)+1), "proofreading"+type, fm);
-            }
-        }
-    }
 
-    }catch (Exception ex){
+       }catch (Exception ex){
         Logger.getLogger(TextalyticsProofreading.class.getName()).log(Level.SEVERE, null, ex);
-}
+       }
+	}
    }
     @RunTime
     @Optional
@@ -320,7 +298,7 @@ public class TextalyticsProofreading  extends AbstractLanguageAnalyser
     }   
         
     @RunTime
-    @CreoleParameter(comment = "It specifies the language in which the text must be analyzed. The current supported values are the following:\n" +
+    @CreoleParameter(defaultValue = "en",comment = "It specifies the language in which the text must be analyzed. The current supported values are the following:\n" +
 "  \n" +
 "en: English  \n" +
 "es: Spanish  \n" +
@@ -332,12 +310,12 @@ public class TextalyticsProofreading  extends AbstractLanguageAnalyser
     }
     public String getlang()
     {
-	return lang;
+	return this.lang;
     }
 
     @RunTime
     @Optional
-    @CreoleParameter(comment = "Describes how it will behave when it finds sentences with many errors\n" +
+    @CreoleParameter(defaultValue = "2",comment = "Describes how it will behave when it finds sentences with many errors\n" +
 "\n" +
 "0: Check for all\n" +
 "1: Group and ignore\n" +
@@ -351,7 +329,7 @@ public class TextalyticsProofreading  extends AbstractLanguageAnalyser
     
     @RunTime
     @Optional
-    @CreoleParameter(comment = "This parameter will specify the list of active dictionaries that will be used in the topic extraction")    
+    @CreoleParameter(defaultValue = "chetsdp",comment = "This parameter will specify the list of active dictionaries that will be used in the topic extraction")    
     public void setdictionary(String dic){
         this.dictionary = dic;
     }
@@ -362,7 +340,7 @@ public class TextalyticsProofreading  extends AbstractLanguageAnalyser
     
     @RunTime
     @Optional
-    @CreoleParameter(comment = "Smart detection of prefixed words\n" +
+    @CreoleParameter(defaultValue = "true",comment = "Smart detection of prefixed words\n" +
 "\n" +
 "y: enabled (default)\n" +
 "n: disabled")    
@@ -376,7 +354,7 @@ public class TextalyticsProofreading  extends AbstractLanguageAnalyser
     
     @RunTime
     @Optional
-    @CreoleParameter(comment = "Smart handling of words written in italics or with quotation marks\n" +
+    @CreoleParameter(defaultValue = "true",comment = "Smart handling of words written in italics or with quotation marks\n" +
 "\n" +
 "y: enabled (default)\n" +
 "n: disabled")    
@@ -389,7 +367,7 @@ public class TextalyticsProofreading  extends AbstractLanguageAnalyser
 
     @RunTime
     @Optional
-    @CreoleParameter(comment = "Warn of too-long sentences\n" +
+    @CreoleParameter(defaultValue = "true",comment = "Warn of too-long sentences\n" +
 "\n" +
 "y: enabled (default)\n" +
 "n: disabled")    
@@ -402,7 +380,7 @@ public class TextalyticsProofreading  extends AbstractLanguageAnalyser
     
     @RunTime
     @Optional
-    @CreoleParameter(comment = "Smart detection of proper nouns\n" +
+    @CreoleParameter(defaultValue = "true",comment = "Smart detection of proper nouns\n" +
 "\n" +
 "y: enabled (default)\n" +
 "n: disabled")    
@@ -417,7 +395,7 @@ public class TextalyticsProofreading  extends AbstractLanguageAnalyser
     
     @RunTime
     @Optional
-    @CreoleParameter(comment = "Check tautology and language misuse\n" +
+    @CreoleParameter(defaultValue = "true",comment = "Check tautology and language misuse\n" +
 "\n" +
 "y: enabled (default)\n" +
 "n: disabled")    
@@ -431,7 +409,7 @@ public class TextalyticsProofreading  extends AbstractLanguageAnalyser
     
     @RunTime
     @Optional
-    @CreoleParameter(comment = "Check spacing\n" +
+    @CreoleParameter(defaultValue = "true",comment = "Check spacing\n" +
 "\n" +
 "y: enabled (default)\n" +
 "n: disabled")    
@@ -444,7 +422,7 @@ public class TextalyticsProofreading  extends AbstractLanguageAnalyser
     
     @RunTime
     @Optional
-    @CreoleParameter(comment = "Verify the opening and closing of pairs of signs\n" +
+    @CreoleParameter(defaultValue = "true",comment = "Verify the opening and closing of pairs of signs\n" +
 "\n" +
 "y: enabled (default)\n" +
 "n: disabled")    
@@ -457,7 +435,7 @@ public class TextalyticsProofreading  extends AbstractLanguageAnalyser
     
     @RunTime
     @Optional
-    @CreoleParameter(comment = "Check punctuation marks\n" +
+    @CreoleParameter(defaultValue = "true",comment = "Check punctuation marks\n" +
 "\n" +
 "y: enabled (default)\n" +
 "n: disabled")    
@@ -471,7 +449,7 @@ public class TextalyticsProofreading  extends AbstractLanguageAnalyser
     
     @RunTime
     @Optional
-    @CreoleParameter(comment = "Warn of foreign words to be avoided\n" +
+    @CreoleParameter(defaultValue = "true",comment = "Warn of foreign words to be avoided\n" +
 "\n" +
 "y: enabled (default)\n" +
 "n: disabled")    
@@ -485,7 +463,7 @@ public class TextalyticsProofreading  extends AbstractLanguageAnalyser
    
     @RunTime
     @Optional
-    @CreoleParameter(comment = "Warn of confusion between terms\n" +
+    @CreoleParameter(defaultValue = "true",comment = "Warn of confusion between terms\n" +
 "\n" +
 "y: enabled (default)\n" +
 "n: disabled")    
@@ -499,7 +477,7 @@ public class TextalyticsProofreading  extends AbstractLanguageAnalyser
     
     @RunTime
     @Optional
-    @CreoleParameter(comment = "Warn of percentage signs (%) not spaced (Spanish only)\n" +
+    @CreoleParameter(defaultValue = "true",comment = "Warn of percentage signs (%) not spaced (Spanish only)\n" +
 "\n" +
 "y: enabled (default)\n" +
 "n: disabled")    
@@ -513,7 +491,7 @@ public class TextalyticsProofreading  extends AbstractLanguageAnalyser
     
         @RunTime
     @Optional
-    @CreoleParameter(comment = "Warn of group consonant reduction (Spanish only)\n" +
+    @CreoleParameter(defaultValue = "true",comment = "Warn of group consonant reduction (Spanish only)\n" +
 "\n" +
 "y: enabled (default)\n" +
 "n: disabled")    
@@ -527,7 +505,7 @@ public class TextalyticsProofreading  extends AbstractLanguageAnalyser
   
     @RunTime
     @Optional
-    @CreoleParameter(comment = "Debug variable for the GATE plugin")
+    @CreoleParameter(defaultValue = "false",comment = "Debug variable for the GATE plugin")
     public void setdebug(Boolean verb){
         this.debug = verb;
     }    
@@ -551,5 +529,5 @@ public class TextalyticsProofreading  extends AbstractLanguageAnalyser
 	return annotationTypes;
     }  
   
-} // class PoSTaggingTextalytics
+} // class TextalyticsProofreading
 

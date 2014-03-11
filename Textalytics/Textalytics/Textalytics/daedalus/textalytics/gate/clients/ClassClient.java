@@ -54,7 +54,6 @@ public static List<category> collectInfo(Element response) throws InvalidOffsetE
                     cat.relevance = new String(value.getTextContent().getBytes(),"UTF-8");
             }
             else if ("term_list".equals(value_name)) {
-            	System.out.println("There are terms");
                 	NodeList terms = value.getChildNodes();
                     cat.term_list  = new ArrayList<term>(terms.getLength());
                     for(int k=0;k<terms.getLength();k++){

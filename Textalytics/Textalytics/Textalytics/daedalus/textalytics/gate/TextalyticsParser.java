@@ -62,12 +62,12 @@ import daedalus.textalytics.gate.param.TokenBean;
 public class TextalyticsParser  extends AbstractLanguageAnalyser
   implements ProcessingResource {
     
-     private String inputASname, outputASname, apiURL, key, lang="",ud="";
-     private Boolean unknownWords=false,relaxedTypography=true,debug=false;     
+     private String inputASname, outputASname, apiURL, key, lang,ud,outputType;
+     private Boolean unknownWords,relaxedTypography,debug;     
      private List<String> annotationTypes = new ArrayList<String>(); // list of input annotations from which string content will be submitted     
-     private String dictionary="";
+     private String dictionary;
      private DisambiguationLevel disambiguationLevel;
-     private static final int RETRY = 10; 
+     private static final int RETRY = 5; 
      
     public String textTransform(boolean bool){
     String ret = bool ? "y" : "n";
@@ -165,25 +165,22 @@ public class TextalyticsParser  extends AbstractLanguageAnalyser
                   times = 0;
               }              
           }else{
-              //if(debug)Out.println("inputASTypes size: "+inputASTypes.size());
-              for (String inputAnnExpr : annotationTypes) {
-                  //if(debug)Out.println("inputAnnExpr: "+inputAnnExpr);
+        	  for (String inputAnnExpr : annotationTypes) {
                   AnnotationSet filteredAS = ASutil.getFilteredAS(inputAnnSet,inputAnnExpr);
-                  //if(debug)Out.println("FilteredAS: "+gate.Utils.cleanStringFor(document, filteredAS));
                   Iterator<Annotation> itr = gate.Utils.inDocumentOrder(filteredAS).iterator();
                   while(itr.hasNext()){
                       Annotation ann = itr.next();
-                  try {
-                      text = content.getContent(ann.getStartNode().getOffset(), ann.getEndNode().getOffset()).toString();
-                  } catch (InvalidOffsetException ex) {
-                      Logger.getLogger(TextalyticsParser.class.getName()).log(Level.SEVERE, null, ex);
-                  }                      
-                      //type = "_"+ann.getType();
-                  boolean apiOK = false;
-                  int times = 0;
-                  while(times<RETRY && !apiOK ){
-                	  times++;
                       try {
+                    	  text = content.getContent(ann.getStartNode().getOffset(), ann.getEndNode().getOffset()).toString();
+                      } catch (InvalidOffsetException ex) {
+                    	  Logger.getLogger(TextalyticsParser.class.getName()).log(Level.SEVERE, null, ex);
+                      }                      
+                      
+                      boolean apiOK = false;
+                      int times = 0;
+                      while(times<RETRY && !apiOK ){
+                	   times++;
+                       try {
                           apiOK = processWithTextalytics(text,type,ann,outputAnnSet);
                           if(debug)Out.println("Nr of retry: "+times+". Text: "+text);
                       } catch (InvalidOffsetException ex) {
@@ -208,69 +205,36 @@ public class TextalyticsParser  extends AbstractLanguageAnalyser
    String api = this.getapiURL();
    String key = this.getkey();
    String txt = text;
-       
+   
    if(!txt.isEmpty() && !txt.equals("0")){
-            
-       String lang ="";
-       try{
-           if(!this.getlang().isEmpty())
-               lang = this.getlang();
-       }catch(Exception e){
-           Logger.getLogger(TextalyticsParser.class.getName()).log(Level.SEVERE, null, e);
-       }
-       
-       String dic = "";
-       try{
-           if(!this.getdictionary().isEmpty())
-               dic = this.getdictionary();
-       }catch(Exception e){
-           Logger.getLogger(TextalyticsParser.class.getName()).log(Level.SEVERE, null, e);
-       }
-       
-       Boolean uw = false;
-       try{
-           if(!this.getunknownWords().toString().isEmpty())
-               uw = this.getunknownWords();
-       }catch(Exception e){
-           Logger.getLogger(TextalyticsParser.class.getName()).log(Level.SEVERE, null, e);
-       }
-      Boolean rt = true;
-      try{
-          if(!this.getrelaxedTypography().toString().isEmpty())
-              rt = this.getrelaxedTypography();
-      }catch(Exception e){
-          Logger.getLogger(TextalyticsParser.class.getName()).log(Level.SEVERE, null, e);
-      }    
-      
-      String userD = "";
-      try{
-          if(!this.getud().isEmpty())
-              userD = this.getud();
-      }catch(Exception e){
-          Logger.getLogger(TextalyticsParser.class.getName()).log(Level.SEVERE, null, e);
-      }
-             
-      String dm = translateDM(this.getDisambiguationLevel());
-      
-      
-      Post post;
-      post = new Post (api);
-        post.addParameter("key", key);
-        post.addParameter("txt", txt);
-        post.addParameter("lang", lang);
+	   Post post;
+       post = new Post (api);
+       if(key!=null && !key.isEmpty())
+   	    post.addParameter("key", key);
+   	   else{
+   	       Logger.getLogger(TextalyticsTopics.class.getName()).severe("Key is empty");
+   	   	   return false; 
+   	   }
+       post.addParameter("txt", txt);
+       if(this.getlang()!=null && !this.getlang().isEmpty())
+        	post.addParameter("lang", this.getlang());
+       else{
+        	Logger.getLogger(TextalyticsTopics.class.getName()).severe("Lang is empty");
+        	return false;
+        }
         post.addParameter("of", "json");
-        post.addParameter("uw",textTransform(uw));
-        post.addParameter("rt",textTransform(rt));
+        if(this.getunknownWords()!=null)
+        	post.addParameter("uw",textTransform(this.getunknownWords()));
+        if(this.getrelaxedTypography()!=null)
+        	post.addParameter("rt",textTransform(this.getrelaxedTypography()));
         post.addParameter("tt","a");
 	    post.addParameter("st","y");
-        if(dic != "" && dic != null)
-            post.addParameter("dic", dic);
-        if(!(userD.isEmpty() || userD== "")){
-            post.addParameter("ud",userD);
-        }
-        if(!(dm.isEmpty() || dm.equals(""))){
-            post.addParameter("dm", dm);
-        }
+        if(this.getdictionary()!=null)
+            post.addParameter("dic", this.getdictionary());
+        if(this.getud()!=null)
+            post.addParameter("ud",this.getud());
+        if(this.getDisambiguationLevel()!=null)
+        	post.addParameter("dm", this.translateDM(this.getDisambiguationLevel()));
         post.addParameter("mode","sa");
         post.addParameter("verbose","y");
         
@@ -289,9 +253,9 @@ public class TextalyticsParser  extends AbstractLanguageAnalyser
         		inip = a.inip;
         		endp = a.endp;
         		if(inputAnn!=null)
-        			outputAnnSet.add(inputAnn.getStartNode().getOffset()+a.inip,inputAnn.getStartNode().getOffset()+a.endp,"token",a.fm.isEmpty() ? Factory.newFeatureMap() : a.fm);
+        			outputAnnSet.add(inputAnn.getStartNode().getOffset()+a.inip,inputAnn.getStartNode().getOffset()+a.endp,(!this.getoutputType().isEmpty() ? this.getoutputType() : "Token"),a.fm.isEmpty() ? Factory.newFeatureMap() : a.fm);
         		else
-        			outputAnnSet.add(a.inip,a.endp,"token",a.fm.isEmpty() ? Factory.newFeatureMap() : a.fm);
+        			outputAnnSet.add(a.inip,a.endp,(!this.getoutputType().isEmpty() ? this.getoutputType() : "Token"),a.fm.isEmpty() ? Factory.newFeatureMap() : a.fm);
         	}
         	}
         }catch(Exception e){
@@ -301,54 +265,13 @@ public class TextalyticsParser  extends AbstractLanguageAnalyser
         	else
         		System.out.println(inip+"-"+endp);
         }		
-        //if(debug)Out.println("Response:"+resp);
-        
-        /*DocumentBuilderFactory docBuilderFactory = DocumentBuilderFactory.newInstance();
-        DocumentBuilder docBuilder;
-        try {
-            docBuilder = docBuilderFactory.newDocumentBuilder();
-            org.w3c.dom.Document doc = docBuilder.parse(new ByteArrayInputStream(response));
-            doc.getDocumentElement().normalize();
-            Element response_node = doc.getDocumentElement();
-            NodeList statusL = response_node.getElementsByTagName("status");
-            org.w3c.dom.Node status = statusL.item(0);
-            NamedNodeMap attributes = status.getAttributes();
-            org.w3c.dom.Node code = attributes.item(0);
-            if(!code.getTextContent().equals("0")) {
-                 Logger.getLogger(TextalyticsParser.class.getName()).severe("API Error: "+code.getTextContent()+""+post.params.toString());
-                return false;
-            } else {
-                 if(debug)Logger.getLogger(TextalyticsParser.class.getName()).info("Analyzing: "+document.getName()+", Sentence: "+txt);
-                ParserClient.Recursive h = new ParserClient.Recursive();
-                List<ParserClient.Annot> annotations = new ArrayList<Annot>();
-                h = ParserClient.collectInfo(response_node,"token","/response/token_list/token","0");
-                annotations = h.outAS;
-                for (ParserClient.Annot at : annotations) {
-                    if(inputAnn != null){//Inter-sentence offsets are added here to the intra-sentence offsets returned by the API
-                        outputAnnSet.add(inputAnn.getStartNode().getOffset()+at.startOff, inputAnn.getStartNode().getOffset()+at.endOff, "parser"+type+"_"+at.Name, at.fm);
-                    }else{
-                        outputAnnSet.add(at.startOff, at.endOff, "parser"+type+"_"+at.Name, at.fm);                        
-                    }
-                }
-            }
-            
-        } catch (   ParserConfigurationException  ex) {
-            Logger.getLogger(TextalyticsParser.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (   IOException  ex) {
-          Logger.getLogger(TextalyticsParser.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (   SAXException  ex) {
-          Logger.getLogger(TextalyticsParser.class.getName()).log(Level.SEVERE, null, ex);
-        }
-         
-       return true;
-       */
    }
    return true;
    }
 
     @RunTime
     @Optional
-    @CreoleParameter(comment = "This feature adds a stage to all the possible modes where, much like a spellchecker, the engine tries to find a suitable analysis to the unknown words resulted from the initial analysis assignment. It is specially useful to decrease the impact typos have in text analyses.\n" +
+    @CreoleParameter(defaultValue = "false",comment = "This feature adds a stage to all the possible modes where, much like a spellchecker, the engine tries to find a suitable analysis to the unknown words resulted from the initial analysis assignment. It is specially useful to decrease the impact typos have in text analyses.\n" +
 "\n" +
 "y: enabled\n" +
 "n: disabled (default)")
@@ -359,7 +282,7 @@ public class TextalyticsParser  extends AbstractLanguageAnalyser
         return unknownWords;
     }
         
-        @RunTime
+    @RunTime
     @Optional
     @CreoleParameter(comment = "User Defined Dictionary")
     public void setud(String userD){
@@ -372,7 +295,7 @@ public class TextalyticsParser  extends AbstractLanguageAnalyser
     
     @RunTime
     @Optional
-    @CreoleParameter(comment = "This parameter indicates how reliable the text to analyze is (as far as spelling, typography, etc. are concerned), and influences how strict the engine will be when it comes to take these factors into account in the analysis.\n" +
+    @CreoleParameter(defaultValue = "true",comment = "This parameter indicates how reliable the text to analyze is (as far as spelling, typography, etc. are concerned), and influences how strict the engine will be when it comes to take these factors into account in the analysis.\n" +
 "\n" +
 "y: enabled (default)\n" +
 "n: disabled")
@@ -422,18 +345,18 @@ public class TextalyticsParser  extends AbstractLanguageAnalyser
     }
     public String getoutputASname()
     {
-	return outputASname;
+    	return outputASname;
     }
 
     @RunTime
     @CreoleParameter(comment = "URL of the API", defaultValue="http://textalytics.com/core/parser-1.2") 
     public void setapiURL(String apiURL)
     {
-	this.apiURL = apiURL;
+    	this.apiURL = apiURL;
     }
      public String getapiURL()
     {
-	return apiURL;
+    	 return apiURL;
     }   
     
 
@@ -450,20 +373,20 @@ public class TextalyticsParser  extends AbstractLanguageAnalyser
     
 
     @RunTime
-    @CreoleParameter(comment = "Language in which we want to perform the analysis") 
+    @CreoleParameter(defaultValue = "en",comment = "Language in which we want to perform the analysis") 
     public void setlang(String lang)
     {
 	this.lang = lang;
     }
     public String getlang()
     {
-	return lang;
+	return this.lang;
     }
 
     
     @RunTime
     @Optional
-    @CreoleParameter(comment = "Dictionaries to be used") 
+    @CreoleParameter(defaultValue = "chetsdp",comment = "Dictionaries to be used") 
     public void setdictionary(String dic)
     {
 	this.dictionary = dic;
@@ -487,12 +410,22 @@ public class TextalyticsParser  extends AbstractLanguageAnalyser
       
     @RunTime
     @Optional
-    @CreoleParameter(comment = "Debug variable for the GATE plugin")
+    @CreoleParameter(defaultValue = "false", comment = "Debug variable for the GATE plugin")
     public void setdebug(Boolean verb){
         this.debug = verb;
     }    
     public Boolean getdebug(){
         return debug;
     }   
+    
+    @RunTime
+    @CreoleParameter(defaultValue = "Token",comment = "Name of the output Type where annotations are stored")
+    public void setoutputType(String otype) {
+        this.outputType = otype;
+    }
+
+    public String getoutputType() {
+        return this.outputType;
+    }
       
 } // class PoSTaggingTextalytics

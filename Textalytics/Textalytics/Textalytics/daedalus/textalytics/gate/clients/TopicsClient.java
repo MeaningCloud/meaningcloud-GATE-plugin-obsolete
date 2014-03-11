@@ -61,82 +61,51 @@ public static List<Annot> transform(List<TopicsBean.Entity> entity_list,String n
                 }
 
                 if(!ent.form.isEmpty())
-                    fm.put("Form",ent.form);
+                    fm.put("Form",new String(ent.form.getBytes(),"utf-8"));
                 if(!ent.dictionary.isEmpty())
                      fm.put("Dictionary",new String(ent.dictionary.getBytes(),"UTF-8"));
                 if(!ent.id.isEmpty())
                     fm.put("ID",ent.id);
                 if(!ent.relevance.isEmpty())
                     fm.put("Relevance",ent.relevance);
+                
                 if(ent.sementity_list.size()>0){
-	                String sementity_class="",sementity_confidence="",sementity_fiction="",sementity_id="",sementity_type="";   
+	                ArrayList<String> sementity_class=new ArrayList<String>(),sementity_confidence=new ArrayList<String>(),sementity_fiction=new ArrayList<String>(),sementity_id=new ArrayList<String>(),sementity_type=new ArrayList<String>();   
     	            for(int i_it = 0;i_it<ent.sementity_list.size();i_it++){
-    	            	if(i_it>0){
-    	            		sementity_class+=";";
-    	            		sementity_confidence+=";";
-    	            		sementity_fiction+=";";
-    	            		sementity_id+=";";
-    	            		sementity_type+=";";
-    	            	}
-        	            if(!ent.sementity_list.get(i_it).sementity_class.isEmpty())
-        	            	sementity_class+=ent.sementity_list.get(i_it).sementity_class;
-                	    if(!ent.sementity_list.get(i_it).sementity_confidence.isEmpty())
-                	    	sementity_confidence+=ent.sementity_list.get(i_it).sementity_confidence;
-   	                 	if(!ent.sementity_list.get(i_it).sementity_fiction.isEmpty())
-   	                     	sementity_fiction+=ent.sementity_list.get(i_it).sementity_fiction;
-    	                if(!ent.sementity_list.get(i_it).sementity_id.isEmpty())
-        	                sementity_id+=ent.sementity_list.get(i_it).sementity_id;
-            	        if(!ent.sementity_list.get(i_it).sementity_type.isEmpty()){
-							sementity_type+=ent.sementity_list.get(i_it).sementity_type;
-                	        String semtype = ent.sementity_list.get(i_it).sementity_type;
-                	    }
+       	            	sementity_class.add(!ent.sementity_list.get(i_it).sementity_class.isEmpty() ? new String(ent.sementity_list.get(i_it).sementity_class.getBytes(),"utf-8") : "");
+                	    sementity_confidence.add(!ent.sementity_list.get(i_it).sementity_confidence.isEmpty() ? new String(ent.sementity_list.get(i_it).sementity_confidence.getBytes(),"utf-8") : "");
+   	                 	sementity_fiction.add(!ent.sementity_list.get(i_it).sementity_fiction.isEmpty() ? new String(ent.sementity_list.get(i_it).sementity_fiction.getBytes(),"utf-8") : "");
+    	                sementity_id.add(!ent.sementity_list.get(i_it).sementity_id.isEmpty() ? new String(ent.sementity_list.get(i_it).sementity_id.getBytes(),"utf-8") : "");
+            	        sementity_type.add(!ent.sementity_list.get(i_it).sementity_type.isEmpty() ? new String(ent.sementity_list.get(i_it).sementity_type.getBytes(),"utf-8") : "");
                 	}
-                	if(!sementity_type.isEmpty()){
-                		fm.put("sementity_class",sementity_class);
-                		fm.put("sementity_confidence",sementity_confidence);
-                		fm.put("sementity_fiction",sementity_fiction);  
-                		fm.put("sementity_id",sementity_id);
-    	            	fm.put("sementity_type",sementity_type);
-    	            }
+                	fm.put("sementity_class",sementity_class);
+                	fm.put("sementity_confidence",sementity_confidence);
+                	fm.put("sementity_fiction",sementity_fiction);  
+                	fm.put("sementity_id",sementity_id);
+    	            fm.put("sementity_type",sementity_type);
                 }
+                
                 if(ent.semld_list.size()>0){
-                String semld="",sourceDic="";
-                for(int i_it=0;i_it<ent.semld_list.size();i_it++){
-                	if(i_it>0){
-                		semld+=";";
-                		sourceDic+=";";
+                	ArrayList<String> semld=new ArrayList<String>(),sourceDic=new ArrayList<String>();
+                	for(int i_it=0;i_it<ent.semld_list.size();i_it++){
+                		sourceDic.add(!ent.semld_list.get(i_it).sourceDic.isEmpty() ? new String(ent.semld_list.get(i_it).sourceDic.getBytes(),"utf-8") : "");
+                		semld.add(!ent.semld_list.get(i_it).semld.isEmpty() ? new String(ent.semld_list.get(i_it).semld.getBytes(),"utf-8") : "");
+                		
                 	}
-                    if(!ent.semld_list.get(i_it).semld.isEmpty()){
-                        if(!ent.semld_list.get(i_it).sourceDic.isEmpty()){
-                            //fm.put("semld_"+ent.semld_list.get(i_it).sourceDic,ent.semld_list.get(i_it).semld);
-                            sourceDic+=ent.semld_list.get(i_it).sourceDic;
-                        }
-                        //fm.put("semld_"+(i_it+1),ent.semld_list.get(i_it).semld);
-                        semld+=ent.semld_list.get(i_it).semld;
-                    }
-                }
-                if(!semld.isEmpty()){
-                    fm.put("semld_source",sourceDic);
+                	fm.put("semld_source",sourceDic);
                 	fm.put("semld_value",semld);
                 }
-                }
+                
                 if(ent.standard_list.size()>0){
-                	String standard_value="",standard_key="";
+                	ArrayList<String> standard_value=new ArrayList<String>(),standard_key=new ArrayList<String>();
                 	for(int i_it=0;i_it<ent.standard_list.size();i_it++){
-                		if(i_it>0){
-                			standard_value+=";";
-                			standard_key+=";";
-                		}
-                		if(!ent.standard_list.get(i_it).value.isEmpty())
-                			standard_value+=ent.standard_list.get(i_it).value;
-                		if(!ent.standard_list.get(i_it).name.isEmpty())
-                			standard_key+=ent.standard_list.get(i_it).name;
+                		standard_value.add(!ent.standard_list.get(i_it).value.isEmpty() ? new String(ent.standard_list.get(i_it).value.getBytes(),"utf-8") : "");
+                		standard_key.add(!ent.standard_list.get(i_it).name.isEmpty() ? new String(ent.standard_list.get(i_it).name.getBytes(),"utf-8") : "");
                 	}
-                	if(!standard_value.isEmpty()){
-                		fm.put("standard_key",standard_key);
-                		fm.put("standard_value",standard_value);
-                	}
+               		fm.put("standard_key",standard_key);
+               		fm.put("standard_value",standard_value);
                 }
+                
                 if(ent.semgeo_list.size()>0){
                 	for(int i_it=0;i_it<ent.semgeo_list.size();i_it++){
                     	int size = ent.semgeo_list.get(i_it).semgeo_list.size();
@@ -153,36 +122,32 @@ public static List<Annot> transform(List<TopicsBean.Entity> entity_list,String n
                     	}
                		}
                 }
+                
                 if(ent.semtheme_list.size()>0){
-                	String semtheme_id="",semtheme_type="";
+                	ArrayList<String> semtheme_id=new ArrayList<String>(),semtheme_type=new ArrayList<String>();
                 	for(int i_it=0;i_it<ent.semtheme_list.size();i_it++){
-                		if(i_it>0){
-                			semtheme_id+=";";
-                			semtheme_type+=";";
-                		}
-                		if(!ent.semtheme_list.get(i_it).id.isEmpty())
-                			//fm.put("semtheme_id_"+(i_it+1),ent.semtheme_list.get(i_it).id);
-                			semtheme_id+=ent.semtheme_list.get(i_it).id;
-                		if(!ent.semtheme_list.get(i_it).type.isEmpty())
-                			//fm.put("semtheme_type_"+(i_it+1),ent.semtheme_list.get(i_it).type);
-                			semtheme_type+=ent.semtheme_list.get(i_it).type;
+                		semtheme_id.add(!ent.semtheme_list.get(i_it).id.isEmpty() ? new String(ent.semtheme_list.get(i_it).id.getBytes(),"utf-8") : "");
+                		semtheme_type.add(!ent.semtheme_list.get(i_it).type.isEmpty() ? new String(ent.semtheme_list.get(i_it).type.getBytes(),"utf-8") : "");
                 	}
                 	fm.put("semtheme_id", semtheme_id);
                 	fm.put("semtheme_type", semtheme_type);
                 }
+                
                 if(ent.variant_list.size()>0){
-                	String variant="";
+                	ArrayList<String> variant = new ArrayList<String>();
+                	ArrayList<ArrayList<Long>> offsets = new ArrayList<ArrayList<Long>>();
                 	for(int i_it=0;i_it<ent.variant_list.size();i_it++){
-                		if(i_it>0){
-                			variant+=";";
-                		}
-                		//if(!ent.variant_list.get(i_it).form.isEmpty())
-                			variant+=ent.variant_list.get(i_it).form;
+                		ArrayList<Long> offset = new ArrayList<Long>();
+                		variant.add(!ent.variant_list.get(i_it).form.isEmpty() ? new String(ent.variant_list.get(i_it).form.getBytes(),"utf-8") : "");
+                		offset.add(Long.parseLong(ent.variant_list.get(i_it).inip));offset.add(Long.parseLong(ent.variant_list.get(i_it).endp+1));
+                		offsets.add(offset);
                 	}
-                	fm.put("variants", variant);
+                	fm.put("variant_form", variant);
+                	fm.put("variant_offset", offsets);
                 }
          
             }
+            
             Annot annotat = new Annot();
             for(int k_it = 0;k_it<count;k_it++){
                 annotat = new Annot();
@@ -204,8 +169,6 @@ public static class Annot{
     public gate.FeatureMap fm= gate.Factory.newFeatureMap();
     
 }
-
-
 
 public static Recursive collectInfo(Element response, String nameNode, String ud) throws InvalidOffsetException, UnsupportedEncodingException{
     
@@ -526,25 +489,25 @@ public static List<Annot> collectShort(Element response, String nameNode)throws 
                 if(!type.isEmpty())
                     fm.put("type",type);
                 if(!subject_form.isEmpty())
-                    fm.put("subject.form",subject_form);
+                    fm.put("subject_form",subject_form);
                 if(!subject_lemmas.isEmpty())
-                    fm.put("subject.lemmas",subject_lemmas);
+                    fm.put("subject_lemmas",subject_lemmas);
                 if(!subject_sensesID.isEmpty())
-                    fm.put("subject.sensesID",subject_sensesID);
+                    fm.put("subject_sensesID",subject_sensesID);
                 if(!subject_semantic_lemma.isEmpty())
-                    fm.put("subject.semantic.lemma",subject_semantic_lemma);
+                    fm.put("subject_semantic_lemma",subject_semantic_lemma);
                 if(!verb_form.isEmpty())                    
-                    fm.put("verb.form",verb_form);
+                    fm.put("verb_form",verb_form);
                 if(!verb_lemmas.isEmpty())
-                    fm.put("verb.lemmas",verb_lemmas);
+                    fm.put("verb_lemmas",verb_lemmas);
                 if(!verb_sensesID.isEmpty())
-                    fm.put("verb.sensesID",verb_sensesID);
+                    fm.put("verb_sensesID",verb_sensesID);
                 if(!verb_semanticLemma.isEmpty())
-                    fm.put("verb.semanticLemma",verb_semanticLemma);
+                    fm.put("verb_semanticLemma",verb_semanticLemma);
                 if(!complement_form.isEmpty())
-                    fm.put("complement.form",complement_form);
+                    fm.put("complement_form",complement_form);
                 if(!complement_type.isEmpty())
-                    fm.put("complement.type",complement_type);
+                    fm.put("complement_type",complement_type);
                 if(!degree.isEmpty())
                     fm.put("degree",degree);
                 Annot annot = new Annot();

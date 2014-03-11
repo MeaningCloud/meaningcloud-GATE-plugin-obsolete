@@ -46,10 +46,10 @@ import daedalus.textalytics.gate.param.Serialized_resp;
                 helpURL="http://textalytics.com/core/sentiment-info")
 public class TextalyticsSentiment  extends AbstractLanguageAnalyser
   implements ProcessingResource { 
-     private String inputASname, outputASname, apiURL, key, model="",entities="",concepts="";
-     private boolean debug=false;     
+     private String inputASname, outputASname, apiURL, key, model,entities,concepts;
+     private boolean debug;     
      private List<String> annotationTypes = new ArrayList<String>(); // list of input annotations from which string content will be submitted     
-     private static final int RETRY = 10; 
+     private static final int RETRY = 5; 
      
     public String textTransform(boolean bool){
     String ret = bool ? "y" : "n";
@@ -185,13 +185,23 @@ public class TextalyticsSentiment  extends AbstractLanguageAnalyser
       
       Post post;
       post = new Post (api);
+      if(this.getkey()!=null && !this.getkey().isEmpty())
         post.addParameter("key", key);
+      else{
+    	  Logger.getLogger(TextalyticsSentiment.class.getName()).severe("Key is unset");
+    	  return false;
+      }
         post.addParameter("txt", txt);
+      if(this.getmodel()!=null && !this.getmodel().isEmpty())  
         post.addParameter("model", this.getmodel());
+      else{
+    	  Logger.getLogger(TextalyticsSentiment.class.getName()).severe("Model is unset");
+    	  return false; 
+      }
         post.addParameter("of", "json");
-        if(!this.getentities().isEmpty())
+        if(this.getentities()!=null)
         	post.addParameter("entities",this.getentities());
-        if(!this.getConcepts().isEmpty())
+        if(this.getConcepts()!=null)
         	post.addParameter("concepts",this.getConcepts());
         
         if(debug)Logger.getLogger(TextalyticsSentiment.class.getName()).info(""+post.params+"");
@@ -203,8 +213,7 @@ public class TextalyticsSentiment  extends AbstractLanguageAnalyser
         SentimentClient sClient = new SentimentClient();
         Serialized_resp sr = sClient.getResponse(resp);
         if(sr.s.code == 0){
-        	document.getFeatures().putAll(sr.doc_fm);
-            for (Serialized_resp.Annot at : sr.annot_list) {
+        	for (Serialized_resp.Annot at : sr.annot_list) {
             	if(inputAnn != null){//Inter-sentence offsets are added here to the intra-sentence offsets returned by the API
             		outputAnnSet.add(inputAnn.getStartNode().getOffset()+at.inip, inputAnn.getStartNode().getOffset()+at.endp, "sentiment"+type+"_segment", at.fm);
             	}else{
@@ -235,7 +244,8 @@ public class TextalyticsSentiment  extends AbstractLanguageAnalyser
     @RunTime
     @Optional
     @CreoleParameter(comment = "Filter content by this expression. It allows format: \n"+
-            "Type.FeatureName  \n"+
+    		"Type,  \n"+
+    		"Type.FeatureName  \n"+
             "or  \n"+
             "Type.FeatureName==FeatureValue  \n")
     public void setannotationTypes(List<String> iat)
@@ -285,7 +295,7 @@ public class TextalyticsSentiment  extends AbstractLanguageAnalyser
     
 
     @RunTime
-    @CreoleParameter(comment = "Sentiment model chosen. If no model is specified, the most adequate one will be detected automatically, based on the language of the text.\n"
+    @CreoleParameter(defaultValue = "en-general",comment = "Sentiment model chosen. If no model is specified, the most adequate one will be detected automatically, based on the language of the text.\n"
     		+ "The current available models are the following:\n"
     		+ "\tes-general: Generic domain (Spanish)\n"
     		+ "\ten-general: Generic domain (English)\n"
@@ -302,7 +312,7 @@ public class TextalyticsSentiment  extends AbstractLanguageAnalyser
         
     @RunTime
     @Optional
-    @CreoleParameter(comment = "Debug variable for the GATE plugin")
+    @CreoleParameter(defaultValue = "false",comment = "Debug variable for the GATE plugin")
     public void setdebug(Boolean verb){
         this.debug = verb;
     }    

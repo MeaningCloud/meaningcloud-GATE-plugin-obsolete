@@ -37,18 +37,18 @@ import daedalus.textalytics.gate.clients.LangClient;
 import daedalus.textalytics.gate.param.ASutil;
 
 /**
- * This class is the implementation of the resource POSTAGGINGTEXTALYTICS.
+ * This class is the implementation of the resource TEXTALYTICSLANG.
  */
 @CreoleResource(name = "Textalytics Language Identification", comment = "Textalytics Language Identification", helpURL = "http://textalytics.com/core/lang-info")
 public class TextalyticsLang extends AbstractLanguageAnalyser implements
   ProcessingResource {
-  private String apiURL = "", key = "";
+  private String apiURL, key;
 
   private String inputASname, outputASname;
 
   private List<String> annotationTypes = new ArrayList<String>();
 
-  private boolean debug = false;
+  private boolean debug;
 
   public void execute() throws ExecutionException {
 
@@ -137,7 +137,12 @@ public class TextalyticsLang extends AbstractLanguageAnalyser implements
       Post post;
       try {
         post = new Post(api);
-        post.addParameter("key", key);
+        if(key!=null && !key.isEmpty())
+        	post.addParameter("key", key);
+        else{
+        	Logger.getLogger(TextalyticsTopics.class.getName()).severe("Key is not set");
+        	return;
+        }
         post.addParameter("txt", txt);
         post.addParameter("of", "xml");
 
@@ -204,15 +209,10 @@ public class TextalyticsLang extends AbstractLanguageAnalyser implements
     throws InvalidOffsetException, UnsupportedEncodingException {
 	  if(lang_list.size()>0){
 		  Iterator<String> it = lang_list.iterator();
-		  int cat_count = 0;
 		  FeatureMap fm = Factory.newFeatureMap();
 		  List<String> lang = new ArrayList<String>();
 		  while(it.hasNext()) {
-			  //if(cat_count == 0){
-				  lang.add(new String(it.next().getBytes(),"utf-8"));
-			  /*}else{
-				  lang += ";"+new String(it.next().getBytes(),"utf-8");
-			  }*/
+			  lang.add(new String(it.next().getBytes(),"utf-8"));
 		  }
 		  fm.put("lang", lang);
 		  if(inputAnn != null) {
@@ -269,7 +269,7 @@ public class TextalyticsLang extends AbstractLanguageAnalyser implements
 
   @RunTime
   @Optional
-  @CreoleParameter(comment = "Debug variable for the GATE plugin")
+  @CreoleParameter(defaultValue = "false",comment = "Debug variable for the GATE plugin")
   public void setDebug(Boolean verb) {
     this.debug = verb;
   }

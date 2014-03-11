@@ -163,49 +163,30 @@ public class TokenBean {
 	    	}
 	    	
 	    	public FeatureMap annotate(FeatureMap fm) throws UnsupportedEncodingException{
+	    		ArrayList<String> checkinfo_tag = (fm.containsKey("Analysis_checkinfo_tag") ? (ArrayList<String>) fm.get("Analysis_checkinfo_tag") : new ArrayList<String>());
+	    		ArrayList<String> checkinfo_check_extra_info = (fm.containsKey("Analysis_checkinfo_check_extra_info") ? (ArrayList<String>) fm.get("Analysis_checkinfo_check_extra_info") : new ArrayList<String>());
+	    		ArrayList<ArrayList<String>> checkinfo_form_list  = (fm.containsKey("Analysis_checkinfo_forms") ? (ArrayList<ArrayList<String>>) fm.get("Analysis_checkinfo_forms") : new ArrayList<ArrayList<String>>());
+	    			    		
 	    		if(this.tag!=null)
-				if(fm.containsKey("Analysis_checkinfo_tag")){
-					String tmp = (String) fm.get("Analysis_checkinfo_tag");
-					fm.put("Analysis_checkinfo_tag", tmp+";"+(new String(tag.getBytes(),"utf-8")));
-				}else{
-					fm.put("Analysis_checkinfo_tag", (new String(tag.getBytes(),"utf-8")));
-				}
+	    			checkinfo_tag.add(new String(tag.getBytes(),"utf-8"));
+	    		
 	    		if(this.check_extra_info!=null)
-				if(fm.containsKey("Analysis_checkinfo_check_extra_info")){
-					String tmp = (String) fm.get("Analysis_checkinfo_check_extra_info");
-					fm.put("Analysis_checkinfo_check_extra_info", tmp+";"+(new String(check_extra_info.getBytes(),"utf-8")));
-				}else{
-					fm.put("Analysis_checkinfo_check_extra_info",(new String(check_extra_info.getBytes(),"utf-8")));
-				}
-				
+	    			checkinfo_check_extra_info.add(new String(this.check_extra_info.getBytes(),"utf-8"));
+    			
 	    		if(this.form_list!=null){
-				String form  = "";
-				if(fm.containsKey("Analysis_checkinfo_forms")){
-					int cnt = 0;
-					String tmp = fm.get("Analysis_checkinfo_forms").toString();
-					for(Form s : form_list){
-						if(cnt==0){
-							form += s.form;
-						}else{
-							form+="|"+s.form;
-						}
-						cnt++;	
-					}
-					fm.put("Analysis_checkinfo_forms", tmp+";"+form);
-				}else{
-					int cnt = 0;
-					for(Form s : form_list){
-						if(cnt==0){
-							form += s.form;
-						}else{
-							form+="|"+s.form;
-						}
-						cnt++;	
-					}
-					fm.put("Analysis_checkinfo_forms", form);
-				}
+	    			if(this.form_list.length>0){
+	    				ArrayList<String> forms  = new ArrayList<String>();
+	    				for(Form s : form_list){
+	    					forms.add(new String(s.form.getBytes(),"utf-8"));
+	    				}
+	    				checkinfo_form_list.add(forms);
+	    			}
 	    		}
-	    		    		
+	    		
+	    		fm.put("Analysis_checkinfo_tag",checkinfo_tag); 	
+	    		fm.put("Analysis_checkinfo_check_extra_info",checkinfo_check_extra_info); 	
+	    		fm.put("Analysis_checkinfo_forms",checkinfo_form_list); 	
+	    		
 				return fm;
 			}
 	    }
@@ -217,13 +198,11 @@ public class TokenBean {
 	    			ret+="\nSense [\n\tid="+sense_id.toString()+"\n\t]";
 	    		return ret;
 	    	}
-	    	public FeatureMap annotate(FeatureMap fm){
-	    		if(fm.containsKey("Analysis_senseIDs")){
-					String tmp = (String) fm.get("Analysis_senseID_form");
-					fm.put("Analysis_senseID_form", tmp+";"+sense_id);
-				}else{
-					fm.put("Analysis_senseID_form", sense_id);
-				}
+	    	public FeatureMap annotate(FeatureMap fm) throws UnsupportedEncodingException{
+	    		ArrayList<String> senseIds = (fm.containsKey("Analysis_senseIDs") ? (ArrayList<String>) fm.get("Analysis_senseIDs") : new ArrayList<String>());
+	    		if(this.sense_id!=null)
+	    			senseIds.add(new String(this.sense_id.getBytes(),"utf-8"));
+	    		fm.put("Analysis_senseID_form", senseIds);
 	    		return fm;
 	    	}
 	    }
@@ -263,83 +242,53 @@ public class TokenBean {
 	    }
 	    
 	    public FeatureMap annotate(FeatureMap fm) throws UnsupportedEncodingException{
-	    	if(origin!=null)
-			if(fm.containsKey("Analysis_origin")){
-				String tmp = (String) fm.get("Analysis_origin");
-				fm.put("Analysis_origin", tmp+";"+new String(origin.getBytes(),"utf-8"));
-			}else{
-				fm.put("Analysis_origin", new String(origin.getBytes(),"utf-8"));
-			}
-	    	if(variety_dictionary!=null)
-			if(fm.containsKey("Analysis_variety_dictionary")){
-				String tmp = (String) fm.get("Analysis_variety_dictionary");
-				fm.put("Analysis_variety_dictionary", tmp+";"+new String(variety_dictionary.getBytes(),"utf-8"));
-			}else{
-				fm.put("Analysis_variety_dictionary", new String(variety_dictionary.getBytes(),"utf-8"));
-			}
-	    	if(thematic_dictionary!=null)
-			if(fm.containsKey("Analysis_thematic_dictionary")){
-				String tmp = (String) fm.get("Analysis_thematic_dictionary");
-				fm.put("Analysis_thematic_dictionary", tmp+";"+new String(thematic_dictionary.getBytes(),"utf-8"));
-			}else{
-				fm.put("Analysis_thematic_dictionary", new String(thematic_dictionary.getBytes(),"utf-8"));
-			}
+	    	ArrayList<String> origins = (fm.containsKey("Analysis_origin") ? (ArrayList<String>) fm.get("Analysis_origin") : new ArrayList<String>());
+	    	ArrayList<String> var_dictionaries = (fm.containsKey("Analysis_variety_dictionary") ? (ArrayList<String>) fm.get("Analysis_variety_dictionary") : new ArrayList<String>());
+	    	ArrayList<String> them_dictionaries = (fm.containsKey("Analysis_thematic_dictionary") ? (ArrayList<String>) fm.get("Analysis_thematic_dictionary") : new ArrayList<String>());
+	    	ArrayList<String> tags = (fm.containsKey("Analysis_tag") ? (ArrayList<String>) fm.get("Analysis_tag") : new ArrayList<String>());
+	    	ArrayList<String> lemmas = (fm.containsKey("Analysis_lemma") ? (ArrayList<String>) fm.get("Analysis_lemma") : new ArrayList<String>());
+	    	ArrayList<String> original_forms = (fm.containsKey("Analysis_original_form") ? (ArrayList<String>) fm.get("Analysis_original_form") : new ArrayList<String>());
+	    	ArrayList<String> tags_info = (fm.containsKey("Analysis_tag_info") ? (ArrayList<String>) fm.get("Analysis_tag_info") : new ArrayList<String>());
+	    	ArrayList<String> var_dictionaries_info = (fm.containsKey("Analysis_variety_dictionary_info") ? (ArrayList<String>) fm.get("Analysis_variety_dictionary_info") : new ArrayList<String>());
+	    	ArrayList<String> them_dictionaries_info = (fm.containsKey("Analysis_thematic_dictionary_info") ? (ArrayList<String>) fm.get("Analysis_thematic_dictionary_info") : new ArrayList<String>());
+	    	ArrayList<String> remissions = (fm.containsKey("Analysis_remission") ? (ArrayList<String>) fm.get("Analysis_remission") : new ArrayList<String>());
+
+	    	if(this.origin!=null)
+	    		origins.add(new String(origin.getBytes(),"utf-8"));
+			if(this.variety_dictionary!=null)
+	    		var_dictionaries.add(new String(variety_dictionary.getBytes(),"utf-8"));
+	    	if(this.thematic_dictionary!=null)
+	    		them_dictionaries.add(new String(thematic_dictionary.getBytes(),"utf-8"));
 	    	if(this.tag!=null)
-			if(fm.containsKey("Analysis_tag")){
-				String tmp = (String) fm.get("Analysis_tag");
-				fm.put("Analysis_tag", tmp+";"+new String(tag.getBytes(),"utf-8"));
-			}else{
-				fm.put("Analysis_tag", new String(tag.getBytes(),"utf-8"));
-			}
+	    		tags.add(new String(tag.getBytes(),"utf-8"));
 	    	if(this.lemma!=null)
-			if(fm.containsKey("Analysis_lemma")){
-				String tmp = (String) fm.get("Analysis_lemma");
-				fm.put("Analysis_lemma", tmp+";"+new String(lemma.getBytes(),"utf-8"));
-			}else{
-				fm.put("Analysis_lemma", new String(lemma.getBytes(),"utf-8"));
-			}
+	    		lemmas.add(new String(lemma.getBytes(),"utf-8"));
 	    	if(this.original_form!=null)
-			if(fm.containsKey("Analysis_original_form")){
-				String tmp = (String) fm.get("Analysis_original_form");
-				fm.put("Analysis_original_form", tmp+";"+new String(original_form.getBytes(),"utf-8"));
-			}else{
-				fm.put("Analysis_original_form", new String(original_form.getBytes(),"utf-8"));
-			}
+	    		original_forms.add(new String(original_form.getBytes(),"utf-8"));
 	    	if(this.tag_info!=null)
-			if(fm.containsKey("Analysis_tag_info")){
-				String tmp = (String) fm.get("Analysis_tag_info");
-				fm.put("Analysis_tag_info", tmp+";"+new String(tag_info.getBytes(),"utf-8"));
-			}else{
-				fm.put("Analysis_tag_info", new String(tag_info.getBytes(),"utf-8"));
-			}
+	    		tags_info.add(new String(tag_info.getBytes(),"utf-8"));
 	    	if(this.variety_dictionary_info!=null)
-			if(fm.containsKey("Analysis_variety_dictionary_info")){
-				String tmp = (String) fm.get("Analysis_variety_dictionary_info");
-				fm.put("Analysis_variety_dictionary_info", tmp+";"+new String(variety_dictionary_info.getBytes(),"utf-8"));
-			}else{
-				fm.put("Analysis_variety_dictionary_info", new String(variety_dictionary_info.getBytes(),"utf-8"));
-			}
+	    		var_dictionaries_info.add(new String(variety_dictionary_info.getBytes(),"utf-8"));
 	    	if(this.thematic_dictionary_info!=null)
-			if(fm.containsKey("Analysis_thematic_dictionary_info")){
-				String tmp = (String) fm.get("Analysis_thematic_dictionary_info");
-				fm.put("Analysis_thematic_dictionary_info", tmp+";"+new String(thematic_dictionary_info.getBytes(),"utf-8"));
-			}else{
-				fm.put("Analysis_thematic_dictionary_info", new String(thematic_dictionary_info.getBytes(),"utf-8"));
-			}
+	    		them_dictionaries_info.add(new String(thematic_dictionary_info.getBytes(),"utf-8"));
 	    	if(this.remission!=null)
-			if(fm.containsKey("Analysis_remission")){
-				String tmp = (String) fm.get("Analysis_remission");
-				fm.put("Analysis_remission", tmp+";"+new String(remission.getBytes(),"utf-8"));
-			}else{
-				fm.put("Analysis_remission", new String(remission.getBytes(),"utf-8"));
-			}
-			//System.out.println("Size1: "+fm.size());
+	    		remissions.add(new String(remission.getBytes(),"utf-8"));
 			if(this.check_info!=null)
 				fm=check_info.annotate(fm);
-			if(sense_id_list!=null)
+			if(this.sense_id_list!=null)
 				for(SenseID s : sense_id_list)
 					fm=s.annotate(fm);
-			//System.out.println("Size2: "+fm.size());
+			
+			fm.put("Analysis_origin",origins);		
+			fm.put("Analysis_variety_dictionary",var_dictionaries);		
+			fm.put("Analysis_thematic_dictionary",them_dictionaries);		
+			fm.put("Analysis_tag",tags);	
+			fm.put("Analysis_lemma",lemmas);
+			fm.put("Analysis_original_form",original_forms);
+			fm.put("Analysis_tag_info",tags_info);
+			fm.put("Analysis_variety_dictionary_info",var_dictionaries_info);
+			fm.put("Analysis_thematic_dictionary_info",them_dictionaries_info);
+			fm.put("Analysis_remission",remissions);
 			
 			return fm;
 		}
@@ -357,20 +306,17 @@ public class TokenBean {
 			return ret;
 		}
 		public FeatureMap annotate(FeatureMap fm) throws UnsupportedEncodingException{
+			ArrayList<String> ids = (fm.containsKey("Senses_id") ? (ArrayList<String>) fm.get("Senses_id") : new ArrayList<String>());
+			ArrayList<String> infos = (fm.containsKey("Senses_info") ? (ArrayList<String>) fm.get("Senses_info") : new ArrayList<String>());
+
 			if(this.id!=null)
-				if(fm.containsKey("Senses_id")){
-					String tmp = (String) fm.get("Senses_id");
-					fm.put("Senses_id", tmp+";"+new String(this.id.getBytes(),"utf-8"));
-				}else{
-					fm.put("Senses_id", new String(this.id.getBytes(),"utf-8"));
-				}
+				ids.add(new String(this.id.getBytes(),"utf-8"));
 			if(this.info!=null)
-				if(fm.containsKey("Senses_info")){
-					String tmp = (String) fm.get("Senses_info");
-					fm.put("Senses_info", tmp+";"+new String(this.info.getBytes(),"utf-8"));
-				}else{
-					fm.put("Senses_info", new String(this.info.getBytes(),"utf-8"));
-				}
+				infos.add(new String(this.info.getBytes(),"utf-8"));
+			
+			fm.put("Senses_id", ids);
+			fm.put("Senses_info", infos);
+			
 			return fm;
 		}
 	}
@@ -403,17 +349,10 @@ public class TokenBean {
 	    			if(head!=null)
 	    				at.fm.put("quote_level", new String(head.getBytes(),"utf-8"));
 	    			if(syntactic_tree_relation_list!=null){
-	    				String syntree_ids="",syntree_types="";
-	    				int cnt = 0;
+	    				ArrayList<String> syntree_ids=new ArrayList<String>(),syntree_types=new ArrayList<String>();
 	    				for(Token.SyntTreeRelation s : syntactic_tree_relation_list){
-	    					if(cnt==0){
-	    						syntree_ids+=s.id;
-	    						syntree_types+=s.type;
-	    					}else{
-	    						syntree_ids+=";"+s.id;
-	    						syntree_types+=";"+s.type;
-	    					}
-	    					cnt++;
+	    						syntree_ids.add(s.id);
+	    						syntree_types.add(s.type);
 	    				}
 	    				at.fm.put("syntactic_tree_relation_id", syntree_ids);
 	    				at.fm.put("syntactic_tree_relation_type", syntree_types);

@@ -58,12 +58,12 @@ import daedalus.textalytics.gate.param.DisambiguationLevel;
 public class TextalyticsTopics  extends AbstractLanguageAnalyser
   implements ProcessingResource, Serializable {
 
-     private String inputASname, outputASname, apiURL="", key, lang="en", topicTypes="a",timeref;
+     private String inputASname, outputASname, apiURL, key, lang, topicTypes,timeref;
      private List<String> annotationTypes = new ArrayList<String>(); // list of input annotations from which string content will be submitted
      private Boolean unknownWords=false,relaxedTypography=true,subTopics=false, caseSensitive=false,debug=false;
-     private String dictionary="chetsdpCA";//, userDictionary="";
+     private String dictionary;//, userDictionary="";
      private DisambiguationLevel disambiguationLevel;
-     private String context="";
+     private String context;
      private List<String> udDictionaries= new ArrayList<String>();
      private static final int RETRY = 5; 
    
@@ -196,53 +196,47 @@ public class TextalyticsTopics  extends AbstractLanguageAnalyser
 
     public boolean processWithTextalytics(String text,String type,Annotation inputAnn,AnnotationSet outputAnnSet, String ud){
        String api = this.getapiURL();
+       type = type!=null ? type : "";
       
        if(!text.isEmpty() && !text.equals("0")){
-       //AnnotationSet outputAnnSet = (outputASname == null || outputASname.trim().length() == 0) ? document.getAnnotations() : document.getAnnotations(outputASname);
-       String key = this.getkey();
-       String txt = text;
-       String lang = this.getlang();
-       String tt = this.gettopicTypes();
-       String dm = translateDM(this.getDisambiguationLevel());
-       
-       String dic = "";
-       dic = this.getdictionary();//ToDo: lang as enum, and switch default dic if not set by the end-user
-       
-       Boolean uw  = this.getunknownWords();
-       Boolean rt = this.getrelaxedTypography();
-       Boolean st = this.getsubTopics();
-       Boolean cs = this.getcaseSensitive();
-       String timeref = this.timeref == null ? "" : this.gettimeref();
-       
+     
        Post post;
       
          try {
             post = new Post (api);
-            post.addParameter("key", key);
-            post.addParameter("txt", txt);
-            post.addParameter("lang", lang);
-            post.addParameter("tt",tt);
+            if(this.getkey()!=null && !this.getkey().isEmpty())
+            	post.addParameter("key", this.getkey());
+            else{
+            	Logger.getLogger(TextalyticsTopics.class.getName()).severe("Key is unset");
+            	return false;
+            }
+            post.addParameter("txt", text);
+            if(this.getlang()!=null)
+            	post.addParameter("lang", lang);
+            else{
+            	Logger.getLogger(TextalyticsTopics.class.getName()).severe("Lang is unset");
+            	return false;
+            }
+            post.addParameter("tt",this.gettopicTypes());
             post.addParameter("of", "xml");
-            post.addParameter("uw",textTransform(uw));
-            post.addParameter("rt",textTransform(rt));
-            post.addParameter("st",textTransform(st));
-            post.addParameter("cs",textTransform(cs));
-            post.addParameter("ud", ud);
-            post.addParameter("dm", dm);
-            if((!this.getcontext().isEmpty())&&(this.getcontext() != ""))
+            post.addParameter("uw",textTransform(this.getunknownWords()));
+            post.addParameter("rt",textTransform(this.getrelaxedTypography()));
+            post.addParameter("st",textTransform(this.getsubTopics()));
+            post.addParameter("cs",textTransform(this.getcaseSensitive()));
+            if(ud!=null)
+            	post.addParameter("ud", ud);
+            post.addParameter("dm", this.translateDM(this.getDisambiguationLevel()));
+            if(this.getcontext()!=null)
                 post.addParameter("cont",this.getcontext());
-            if(dic != "" && dic != null)
-                post.addParameter("dic", dic);
-            if(timeref != "" && timeref != null)
-                post.addParameter("timeref", timeref);
+            if(this.getdictionary() != null)
+                post.addParameter("dic", this.getdictionary());
+            if(this.gettimeref()!=null)
+                post.addParameter("timeref", this.gettimeref());
             
-            DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
-            Date date = new Date();
-
             if(debug)Logger.getLogger(TextalyticsTopics.class.getName()).info(""+post.params+"");
             
             byte[] resp = post.getResponse().getBytes("UTF-8");
-            String response = new String(resp);
+            //String response = new String(resp);
 
             // Show topics
             
@@ -414,6 +408,7 @@ public class TextalyticsTopics  extends AbstractLanguageAnalyser
     public List<String> getannotationTypes() {
         return annotationTypes;
     }
+    
        
     @Optional
     @RunTime
@@ -451,7 +446,7 @@ public class TextalyticsTopics  extends AbstractLanguageAnalyser
 
     @RunTime
     @Optional
-    @CreoleParameter(comment = "This feature adds a stage to the topic extraction in which the engine, much like a spellchecker, tries to find a suitable analysis to the unknown words resulted from the initial analysis assignment. It is specially useful to decrease the impact typos have in text analyses.\n" +
+    @CreoleParameter(defaultValue = "false",comment = "This feature adds a stage to the topic extraction in which the engine, much like a spellchecker, tries to find a suitable analysis to the unknown words resulted from the initial analysis assignment. It is specially useful to decrease the impact typos have in text analyses.\n" +
 "\n" +
 "y: enabled\n" +
 "n: disabled (default)")  
@@ -465,7 +460,7 @@ public class TextalyticsTopics  extends AbstractLanguageAnalyser
     
     @RunTime
     @Optional
-    @CreoleParameter(comment = "This paramater indicates how reliable the text (as far as spelling, typography, etc. are concerned) to analyze is, and influences how strict the engine will be when it comes to take these factors into account in the topic extraction.\n" +
+    @CreoleParameter(defaultValue = "true",comment = "This paramater indicates how reliable the text (as far as spelling, typography, etc. are concerned) to analyze is, and influences how strict the engine will be when it comes to take these factors into account in the topic extraction.\n" +
 "\n" +
 "y: enabled (default)\n" +
 "n: disabled")
@@ -479,7 +474,7 @@ public class TextalyticsTopics  extends AbstractLanguageAnalyser
 
     @RunTime
     @Optional
-    @CreoleParameter(comment = "Indicates if the concept extraction must be case sensitive.")
+    @CreoleParameter(defaultValue = "true",comment = "Indicates if the concept extraction must be case sensitive.")
 
     public void setcaseSensitive(Boolean cs){
         this.caseSensitive = cs;
@@ -537,7 +532,7 @@ public class TextalyticsTopics  extends AbstractLanguageAnalyser
     }   
 
     @RunTime
-    @CreoleParameter(comment = "It specifies the language in which the text must be analyzed.")
+    @CreoleParameter(defaultValue = "en",comment = "It specifies the language in which the text must be analyzed.")
     public void setlang(String lang){
 	this.lang = lang;
     }
@@ -547,7 +542,7 @@ public class TextalyticsTopics  extends AbstractLanguageAnalyser
 
     @RunTime
     @Optional
-    @CreoleParameter(comment = "Topic Types to detect")
+    @CreoleParameter(defaultValue = "a",comment = "Topic Types to detect")
     public void settopicTypes(String tt){
 	this.topicTypes = tt;
     }
@@ -567,7 +562,7 @@ public class TextalyticsTopics  extends AbstractLanguageAnalyser
 
     @RunTime
     @Optional
-    @CreoleParameter(comment = "Dictionary")
+    @CreoleParameter(defaultValue = "chetsdp",comment = "Dictionary")
     public void setdictionary(String dic){
 	this.dictionary = dic;
     }
@@ -577,7 +572,7 @@ public class TextalyticsTopics  extends AbstractLanguageAnalyser
     
     @RunTime
     @Optional
-    @CreoleParameter(comment = "Debug variable for the GATE plugin")
+    @CreoleParameter(defaultValue = "false",comment = "Debug variable for the GATE plugin")
     public void setdebug(Boolean verb){
         this.debug = verb;
     }    

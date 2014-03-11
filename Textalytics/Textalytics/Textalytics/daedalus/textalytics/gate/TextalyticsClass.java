@@ -54,12 +54,12 @@ public class TextalyticsClass  extends AbstractLanguageAnalyser
   implements ProcessingResource {
      private String inputASname, outputASname;
      private List<String> annotationTypes = new ArrayList<String>();
-     private String apiURL="", key="", title="";
-     private Boolean verbose=false,debug=false;
-     private String model="",categories="";
+     private String apiURL, key, title;
+     private Boolean verbose,debug;
+     private String model,categories;
      
 public static class category{
-    public String code="",label="",abs_relevance="",relevance="";
+    public String code,label,abs_relevance,relevance;
     public static class term {
         public String form="",abs_relevance="";
     }
@@ -140,30 +140,27 @@ public void execute() throws ExecutionException
     String api = this.getapiURL();
     String key = this.getkey();
     String txt = text;
-    String mod = "";
-    String cat = "";
        
     if(!txt.isEmpty() && !txt.equals("0")){   
        if(debug)Out.println("Text: "+txt);
        
-       if(!this.getmodel().isEmpty()){
-           mod = this.getmodel();
-       }
-       if(!this.getcategories().isEmpty()){
-           cat = this.getcategories();
-       }
-
        Post post;
          try {
             post = new Post (api);
-            post.addParameter("key", key);
+            if(key!=null && !key.isEmpty())
+            	post.addParameter("key", key);
+            else{
+            	Logger.getLogger(TextalyticsTopics.class.getName()).severe("Key not set");
+            	return;
+            }
             post.addParameter("txt", txt);
             post.addParameter("of", "xml");           
             post.addParameter("verbose",textTransform(this.verbose));
-            post.addParameter("model", mod);
-            if(!this.getcategories().isEmpty())
-                post.addParameter("categories",cat);
-            if(!this.gettitle().isEmpty())
+            if(this.getmodel()!=null)
+            	post.addParameter("model", this.getmodel());
+            if(this.getcategories()!=null)
+                post.addParameter("categories",this.getcategories());
+            if(this.gettitle()!=null)
                 post.addParameter("title", this.gettitle());
 
             
@@ -218,70 +215,39 @@ public void execute() throws ExecutionException
   public void setDocFeatures(List<TextalyticsClass.category> category_list,String type, Annotation inputAnn/*,AnnotationSet outputAnnSet*/) throws InvalidOffsetException, UnsupportedEncodingException{
       if(category_list.size()>0){
 	  Iterator<category> it = category_list.iterator();
-      int cat_count = 0;
       FeatureMap fm = Factory.newFeatureMap();
-      String category_code = "";
-      String category_label = "";
-      String category_relevance = "";
-      String category_abs_relevance = "";
-      String category_term_form = "";
-      String category_term_abs_relevance = "";
+      ArrayList<String> cat_code = new ArrayList<String>();
+      ArrayList<String> cat_label = new ArrayList<String>();
+      ArrayList<String> cat_relevance = new ArrayList<String>();
+      ArrayList<String> cat_abs_relevance = new ArrayList<String>();
+      ArrayList<ArrayList<String>> cat_term_forms = new ArrayList<ArrayList<String>>();
+      ArrayList<ArrayList<String>> cat_term_abs_relevance = new ArrayList<ArrayList<String>>();
+
       while(it.hasNext()){
     	  TextalyticsClass.category cat = it.next();
-          if(cat_count == 0){
-        	  category_code += new String(cat.code.getBytes(),"utf-8");
-        	  category_label += cat.label;//new String(cat.label.getBytes(),"utf-8");
-        	  category_relevance += new String(cat.relevance.getBytes(),"utf-8");
-        	  category_abs_relevance += new String(cat.abs_relevance.getBytes(),"utf-8");
+        	  cat_code.add((cat.code!=null ? cat.code : ""));
+        	  cat_label.add((cat.label!=null ? cat.label :""));
+        	  cat_relevance.add((cat.relevance!=null ? cat.relevance : ""));
+        	  cat_abs_relevance.add((cat.abs_relevance!=null ? cat.abs_relevance : ""));
         	  if(cat.term_list.size()>0){
-        		  //System.out.println("terms available"+gate.Utils.cleanStringFor(document, inputAnn));
+        		  ArrayList<String> forms = new ArrayList<String>();
+        		  ArrayList<String> relevances = new ArrayList<String>();
         		  Iterator<TextalyticsClass.category.term> it2 = cat.term_list.iterator();
-        		  int term_count = 0;
               		while(it2.hasNext()){
               			TextalyticsClass.category.term t = it2.next();
-              			if(term_count == 0){
-              				category_term_form += t.form.isEmpty() ? " " : new String(t.form.getBytes(),"utf-8"); 
-              				category_term_abs_relevance += t.abs_relevance.isEmpty() ? " " : new String(t.abs_relevance.getBytes(),"utf-8");
-              			}else{
-              				category_term_form += "|"+new String(t.form.getBytes(),"utf-8"); 
-              				category_term_abs_relevance += "|"+new String(t.abs_relevance.getBytes(),"utf-8");
-              			}
-              			term_count++;
+              				forms.add(t.form.isEmpty() ? " " : t.form); 
+              				relevances.add(t.abs_relevance.isEmpty() ? " " : t.abs_relevance);
               		}
+              		cat_term_forms.add(forms);
+              		cat_term_abs_relevance.add(relevances);
         	  }
-          }else{
-        	  category_code += ";"+new String(cat.code.getBytes(),"utf-8");
-        	  category_label += ";"+cat.label;//new String(cat.label.getBytes(),"utf-8");
-        	  category_relevance += ";"+new String(cat.relevance.getBytes(),"utf-8");
-        	  category_abs_relevance += ";"+new String(cat.abs_relevance.getBytes(),"utf-8");
-        	  if(cat.term_list.size()>0){
-        		//System.out.println("terms available"+gate.Utils.cleanStringFor(document, inputAnn));
-        		Iterator<TextalyticsClass.category.term> it2 = cat.term_list.iterator();
-        		int term_count = 0;
-        		while(it2.hasNext()){
-                  TextalyticsClass.category.term t = it2.next();
-                  if(term_count == 0){
-                	  category_term_form += ";"+(t.form.isEmpty() ? " " : new String(t.form.getBytes(),"utf-8")); 
-                	  category_term_abs_relevance += ";"+(t.abs_relevance.isEmpty() ? " " : new String(t.abs_relevance.getBytes(),"utf-8"));
-                  }else{
-                	  category_term_form += "|"+new String(t.form.getBytes(),"utf-8"); 
-                	  category_term_abs_relevance += "|"+new String(t.abs_relevance.getBytes(),"utf-8");
-                  }
-                  term_count++;
-        		}
-        	  }else{
-        		  category_term_form += ";";
-        		  category_term_abs_relevance += ";";
-        	  }
-          }          
-          cat_count++;
       }
-      fm.put("category_code", category_code);
-      fm.put("category_label", category_label);
-      fm.put("category_relevance", category_relevance);
-      fm.put("category_abs_relevance", category_abs_relevance);
-      fm.put("category_term_form", category_term_form);
-      fm.put("category_term_abs_relevance", category_term_abs_relevance);
+      fm.put("category_code", cat_code);
+      fm.put("category_label", cat_label);
+      fm.put("category_relevance", cat_relevance);
+      fm.put("category_abs_relevance", cat_abs_relevance);
+      fm.put("category_term_form", cat_term_forms);
+      fm.put("category_term_abs_relevance", cat_term_abs_relevance);
       if(inputAnn != null) {  
       	FeatureMap fm2 = inputAnn.getFeatures();
       	fm2.putAll(fm);
@@ -315,7 +281,7 @@ public void execute() throws ExecutionException
     }
     
     @RunTime
-    @CreoleParameter(comment = "Classification model to use. It will define into which categories the text may be classified.")
+    @CreoleParameter(defaultValue = "IPTC_en",comment = "Classification model to use. It will define into which categories the text may be classified.")
     public void setmodel(String m)
     {
 	this.model = m;
@@ -378,7 +344,7 @@ public void execute() throws ExecutionException
    
     @RunTime
     @Optional
-    @CreoleParameter(comment = "Verbose mode. Shows additional information about the classification.")
+    @CreoleParameter(defaultValue = "false",comment = "Verbose mode. Shows additional information about the classification.")
     public void setverbose(Boolean verb){
         this.verbose = verb;
     }
@@ -388,7 +354,7 @@ public void execute() throws ExecutionException
     
     @RunTime
     @Optional
-    @CreoleParameter(comment = "Debug variable for the GATE plugin")
+    @CreoleParameter(defaultValue = "false",comment = "Debug variable for the GATE plugin")
     public void setdebug(Boolean verb){
         this.debug = verb;
     }    
