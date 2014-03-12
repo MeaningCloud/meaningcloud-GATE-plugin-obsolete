@@ -2,7 +2,10 @@
   <urlList class="gate.util.persistence.CollectionPersistence">
     <localList>
       <gate.util.persistence.PersistenceManager-URLHolder>
-        <urlString>$relpath$../Textalytics/</urlString>
+        <urlString>$relpath$./</urlString>
+      </gate.util.persistence.PersistenceManager-URLHolder>
+      <gate.util.persistence.PersistenceManager-URLHolder>
+        <urlString>$gatehome$plugins/ANNIE/</urlString>
       </gate.util.persistence.PersistenceManager-URLHolder>
     </localList>
     <collectionType>java.util.ArrayList</collectionType>
@@ -10,6 +13,55 @@
   <application class="gate.util.persistence.ConditionalSerialAnalyserControllerPersistence">
     <strategiesList class="gate.util.persistence.CollectionPersistence">
       <localList>
+        <gate.util.persistence.AnalyserRunningStrategyPersistence>
+          <runMode>1</runMode>
+          <pr class="gate.util.persistence.PRPersistence">
+            <runtimeParams class="gate.util.persistence.MapPersistence">
+              <mapType>gate.util.SimpleFeatureMapImpl</mapType>
+              <localMap>
+                <entry>
+                  <string>setsToKeep</string>
+                  <gate.util.persistence.CollectionPersistence>
+                    <localList>
+                      <string>Key</string>
+                    </localList>
+                    <collectionType>java.util.ArrayList</collectionType>
+                  </gate.util.persistence.CollectionPersistence>
+                </entry>
+                <entry>
+                  <string>document</string>
+                  <null/>
+                </entry>
+                <entry>
+                  <string>annotationTypes</string>
+                  <null/>
+                </entry>
+                <entry>
+                  <string>corpus</string>
+                  <null/>
+                </entry>
+                <entry>
+                  <string>setsToRemove</string>
+                  <null/>
+                </entry>
+                <entry>
+                  <string>keepOriginalMarkupsAS</string>
+                  <boolean>true</boolean>
+                </entry>
+              </localMap>
+            </runtimeParams>
+            <resourceType>gate.creole.annotdelete.AnnotationDeletePR</resourceType>
+            <resourceName>Document Reset PR</resourceName>
+            <initParams class="gate.util.persistence.MapPersistence">
+              <mapType>gate.util.SimpleFeatureMapImpl</mapType>
+              <localMap/>
+            </initParams>
+            <features class="gate.util.persistence.MapPersistence">
+              <mapType>gate.util.SimpleFeatureMapImpl</mapType>
+              <localMap/>
+            </features>
+          </pr>
+        </gate.util.persistence.AnalyserRunningStrategyPersistence>
         <gate.util.persistence.AnalyserRunningStrategyPersistence>
           <runMode>1</runMode>
           <featureName></featureName>
@@ -31,6 +83,13 @@
                   <null/>
                 </entry>
                 <entry>
+                  <string>annotationTypes</string>
+                  <gate.util.persistence.CollectionPersistence>
+                    <localList/>
+                    <collectionType>java.util.ArrayList</collectionType>
+                  </gate.util.persistence.CollectionPersistence>
+                </entry>
+                <entry>
                   <string>inputASName</string>
                   <null/>
                 </entry>
@@ -43,15 +102,8 @@
                   <boolean>false</boolean>
                 </entry>
                 <entry>
-                  <string>annotationTypes</string>
-                  <gate.util.persistence.CollectionPersistence>
-                    <localList/>
-                    <collectionType>java.util.ArrayList</collectionType>
-                  </gate.util.persistence.CollectionPersistence>
-                </entry>
-                <entry>
                   <string>key</string>
-                  <string></string>
+                  <null/>
                 </entry>
               </localMap>
             </runtimeParams>
@@ -76,44 +128,8 @@
               <mapType>gate.util.SimpleFeatureMapImpl</mapType>
               <localMap>
                 <entry>
-                  <string>apiURL</string>
-                  <string>http://textalytics.com/core/class-1.1</string>
-                </entry>
-                <entry>
                   <string>outputASname</string>
                   <string>Textalytics</string>
-                </entry>
-                <entry>
-                  <string>model</string>
-                  <string></string>
-                </entry>
-                <entry>
-                  <string>title</string>
-                  <string></string>
-                </entry>
-                <entry>
-                  <string>document</string>
-                  <null/>
-                </entry>
-                <entry>
-                  <string>corpus</string>
-                  <null/>
-                </entry>
-                <entry>
-                  <string>inputASname</string>
-                  <null/>
-                </entry>
-                <entry>
-                  <string>verbose</string>
-                  <boolean>false</boolean>
-                </entry>
-                <entry>
-                  <string>categories</string>
-                  <string></string>
-                </entry>
-                <entry>
-                  <string>debug</string>
-                  <boolean>false</boolean>
                 </entry>
                 <entry>
                   <string>annotationTypes</string>
@@ -123,36 +139,24 @@
                   </gate.util.persistence.CollectionPersistence>
                 </entry>
                 <entry>
-                  <string>key</string>
-                  <string></string>
+                  <string>disambiguationLevel</string>
+                  <daedalus.textalytics.gate.param.DisambiguationLevel>strong_disambiguation</daedalus.textalytics.gate.param.DisambiguationLevel>
                 </entry>
-              </localMap>
-            </runtimeParams>
-            <resourceType>daedalus.textalytics.gate.TextalyticsClass</resourceType>
-            <resourceName>Textalytics Text Classification</resourceName>
-            <initParams class="gate.util.persistence.MapPersistence">
-              <mapType>gate.util.SimpleFeatureMapImpl</mapType>
-              <localMap/>
-            </initParams>
-            <features class="gate.util.persistence.MapPersistence">
-              <mapType>gate.util.SimpleFeatureMapImpl</mapType>
-              <localMap/>
-            </features>
-          </pr>
-        </gate.util.persistence.AnalyserRunningStrategyPersistence>
-        <gate.util.persistence.AnalyserRunningStrategyPersistence>
-          <runMode>1</runMode>
-          <pr class="gate.util.persistence.PRPersistence">
-            <runtimeParams class="gate.util.persistence.MapPersistence">
-              <mapType>gate.util.SimpleFeatureMapImpl</mapType>
-              <localMap>
+                <entry>
+                  <string>dictionary</string>
+                  <string>chetsdp</string>
+                </entry>
+                <entry>
+                  <string>debug</string>
+                  <boolean>false</boolean>
+                </entry>
+                <entry>
+                  <string>lang</string>
+                  <string>en</string>
+                </entry>
                 <entry>
                   <string>apiURL</string>
                   <string>http://textalytics.com/core/parser-1.2</string>
-                </entry>
-                <entry>
-                  <string>outputASname</string>
-                  <string>Textalytics</string>
                 </entry>
                 <entry>
                   <string>document</string>
@@ -175,31 +179,12 @@
                   <boolean>true</boolean>
                 </entry>
                 <entry>
-                  <string>disambiguationLevel</string>
-                  <daedalus.textalytics.gate.param.DisambiguationLevel>strong_disambiguation</daedalus.textalytics.gate.param.DisambiguationLevel>
+                  <string>outputType</string>
+                  <string>Token</string>
                 </entry>
                 <entry>
                   <string>ud</string>
-                  <string></string>
-                </entry>
-                <entry>
-                  <string>dictionary</string>
-                  <string></string>
-                </entry>
-                <entry>
-                  <string>debug</string>
-                  <boolean>false</boolean>
-                </entry>
-                <entry>
-                  <string>annotationTypes</string>
-                  <gate.util.persistence.CollectionPersistence>
-                    <localList/>
-                    <collectionType>java.util.ArrayList</collectionType>
-                  </gate.util.persistence.CollectionPersistence>
-                </entry>
-                <entry>
-                  <string>lang</string>
-                  <string></string>
+                  <null/>
                 </entry>
                 <entry>
                   <string>key</string>
@@ -221,6 +206,77 @@
         </gate.util.persistence.AnalyserRunningStrategyPersistence>
         <gate.util.persistence.AnalyserRunningStrategyPersistence>
           <runMode>1</runMode>
+          <featureName></featureName>
+          <featureValue></featureValue>
+          <pr class="gate.util.persistence.PRPersistence">
+            <runtimeParams class="gate.util.persistence.MapPersistence">
+              <mapType>gate.util.SimpleFeatureMapImpl</mapType>
+              <localMap>
+                <entry>
+                  <string>apiURL</string>
+                  <string>http://textalytics.com/core/sentiment-1.1</string>
+                </entry>
+                <entry>
+                  <string>outputASname</string>
+                  <string>Textalytics</string>
+                </entry>
+                <entry>
+                  <string>model</string>
+                  <string>en-general</string>
+                </entry>
+                <entry>
+                  <string>document</string>
+                  <null/>
+                </entry>
+                <entry>
+                  <string>annotationTypes</string>
+                  <gate.util.persistence.CollectionPersistence>
+                    <localList/>
+                    <collectionType>java.util.ArrayList</collectionType>
+                  </gate.util.persistence.CollectionPersistence>
+                </entry>
+                <entry>
+                  <string>corpus</string>
+                  <null/>
+                </entry>
+                <entry>
+                  <string>inputASname</string>
+                  <null/>
+                </entry>
+                <entry>
+                  <string>debug</string>
+                  <boolean>false</boolean>
+                </entry>
+                <entry>
+                  <string>entities</string>
+                  <null/>
+                </entry>
+                <entry>
+                  <string>concepts</string>
+                  <null/>
+                </entry>
+                <entry>
+                  <string>key</string>
+                  <null/>
+                </entry>
+              </localMap>
+            </runtimeParams>
+            <resourceType>daedalus.textalytics.gate.TextalyticsSentiment</resourceType>
+            <resourceName>Textalytics Sentiment Analysis</resourceName>
+            <initParams class="gate.util.persistence.MapPersistence">
+              <mapType>gate.util.SimpleFeatureMapImpl</mapType>
+              <localMap/>
+            </initParams>
+            <features class="gate.util.persistence.MapPersistence">
+              <mapType>gate.util.SimpleFeatureMapImpl</mapType>
+              <localMap/>
+            </features>
+          </pr>
+        </gate.util.persistence.AnalyserRunningStrategyPersistence>
+        <gate.util.persistence.AnalyserRunningStrategyPersistence>
+          <runMode>1</runMode>
+          <featureName></featureName>
+          <featureValue></featureValue>
           <pr class="gate.util.persistence.PRPersistence">
             <runtimeParams class="gate.util.persistence.MapPersistence">
               <mapType>gate.util.SimpleFeatureMapImpl</mapType>
@@ -234,6 +290,13 @@
                   <boolean>true</boolean>
                 </entry>
                 <entry>
+                  <string>annotationTypes</string>
+                  <gate.util.persistence.CollectionPersistence>
+                    <localList/>
+                    <collectionType>java.util.ArrayList</collectionType>
+                  </gate.util.persistence.CollectionPersistence>
+                </entry>
+                <entry>
                   <string>percentage</string>
                   <boolean>true</boolean>
                 </entry>
@@ -242,16 +305,16 @@
                   <boolean>true</boolean>
                 </entry>
                 <entry>
+                  <string>spacing</string>
+                  <boolean>true</boolean>
+                </entry>
+                <entry>
                   <string>dictionary</string>
-                  <string></string>
+                  <string>chetsdp</string>
                 </entry>
                 <entry>
                   <string>debug</string>
                   <boolean>false</boolean>
-                </entry>
-                <entry>
-                  <string>spacing</string>
-                  <boolean>true</boolean>
                 </entry>
                 <entry>
                   <string>properNouns</string>
@@ -302,15 +365,8 @@
                   <boolean>true</boolean>
                 </entry>
                 <entry>
-                  <string>annotationTypes</string>
-                  <gate.util.persistence.CollectionPersistence>
-                    <localList/>
-                    <collectionType>java.util.ArrayList</collectionType>
-                  </gate.util.persistence.CollectionPersistence>
-                </entry>
-                <entry>
                   <string>key</string>
-                  <string></string>
+                  <null/>
                 </entry>
                 <entry>
                   <string>confusion</string>
@@ -336,6 +392,81 @@
         </gate.util.persistence.AnalyserRunningStrategyPersistence>
         <gate.util.persistence.AnalyserRunningStrategyPersistence>
           <runMode>1</runMode>
+          <featureName></featureName>
+          <featureValue></featureValue>
+          <pr class="gate.util.persistence.PRPersistence">
+            <runtimeParams class="gate.util.persistence.MapPersistence">
+              <mapType>gate.util.SimpleFeatureMapImpl</mapType>
+              <localMap>
+                <entry>
+                  <string>apiURL</string>
+                  <string>http://textalytics.com/core/class-1.1</string>
+                </entry>
+                <entry>
+                  <string>outputASname</string>
+                  <string>Textalytics</string>
+                </entry>
+                <entry>
+                  <string>title</string>
+                  <null/>
+                </entry>
+                <entry>
+                  <string>model</string>
+                  <string>IPTC_en</string>
+                </entry>
+                <entry>
+                  <string>document</string>
+                  <null/>
+                </entry>
+                <entry>
+                  <string>annotationTypes</string>
+                  <gate.util.persistence.CollectionPersistence>
+                    <localList/>
+                    <collectionType>java.util.ArrayList</collectionType>
+                  </gate.util.persistence.CollectionPersistence>
+                </entry>
+                <entry>
+                  <string>corpus</string>
+                  <null/>
+                </entry>
+                <entry>
+                  <string>inputASname</string>
+                  <null/>
+                </entry>
+                <entry>
+                  <string>verbose</string>
+                  <boolean>false</boolean>
+                </entry>
+                <entry>
+                  <string>categories</string>
+                  <null/>
+                </entry>
+                <entry>
+                  <string>debug</string>
+                  <boolean>false</boolean>
+                </entry>
+                <entry>
+                  <string>key</string>
+                  <null/>
+                </entry>
+              </localMap>
+            </runtimeParams>
+            <resourceType>daedalus.textalytics.gate.TextalyticsClass</resourceType>
+            <resourceName>Textalytics Text Classification</resourceName>
+            <initParams class="gate.util.persistence.MapPersistence">
+              <mapType>gate.util.SimpleFeatureMapImpl</mapType>
+              <localMap/>
+            </initParams>
+            <features class="gate.util.persistence.MapPersistence">
+              <mapType>gate.util.SimpleFeatureMapImpl</mapType>
+              <localMap/>
+            </features>
+          </pr>
+        </gate.util.persistence.AnalyserRunningStrategyPersistence>
+        <gate.util.persistence.AnalyserRunningStrategyPersistence>
+          <runMode>1</runMode>
+          <featureName></featureName>
+          <featureValue></featureValue>
           <pr class="gate.util.persistence.PRPersistence">
             <runtimeParams class="gate.util.persistence.MapPersistence">
               <mapType>gate.util.SimpleFeatureMapImpl</mapType>
@@ -343,6 +474,13 @@
                 <entry>
                   <string>outputASname</string>
                   <string>Textalytics</string>
+                </entry>
+                <entry>
+                  <string>annotationTypes</string>
+                  <gate.util.persistence.CollectionPersistence>
+                    <localList/>
+                    <collectionType>java.util.ArrayList</collectionType>
+                  </gate.util.persistence.CollectionPersistence>
                 </entry>
                 <entry>
                   <string>udDictionaries</string>
@@ -353,7 +491,7 @@
                 </entry>
                 <entry>
                   <string>caseSensitive</string>
-                  <boolean>false</boolean>
+                  <boolean>true</boolean>
                 </entry>
                 <entry>
                   <string>subTopics</string>
@@ -365,7 +503,7 @@
                 </entry>
                 <entry>
                   <string>dictionary</string>
-                  <string>chetsdpCA</string>
+                  <string>chetsdp</string>
                 </entry>
                 <entry>
                   <string>debug</string>
@@ -405,18 +543,11 @@
                 </entry>
                 <entry>
                   <string>context</string>
-                  <string></string>
+                  <null/>
                 </entry>
                 <entry>
                   <string>relaxedTypography</string>
                   <boolean>true</boolean>
-                </entry>
-                <entry>
-                  <string>annotationTypes</string>
-                  <gate.util.persistence.CollectionPersistence>
-                    <localList/>
-                    <collectionType>java.util.ArrayList</collectionType>
-                  </gate.util.persistence.CollectionPersistence>
                 </entry>
                 <entry>
                   <string>key</string>
@@ -426,73 +557,6 @@
             </runtimeParams>
             <resourceType>daedalus.textalytics.gate.TextalyticsTopics</resourceType>
             <resourceName>Textalytics Topics Extraction</resourceName>
-            <initParams class="gate.util.persistence.MapPersistence">
-              <mapType>gate.util.SimpleFeatureMapImpl</mapType>
-              <localMap/>
-            </initParams>
-            <features class="gate.util.persistence.MapPersistence">
-              <mapType>gate.util.SimpleFeatureMapImpl</mapType>
-              <localMap/>
-            </features>
-          </pr>
-        </gate.util.persistence.AnalyserRunningStrategyPersistence>
-        <gate.util.persistence.AnalyserRunningStrategyPersistence>
-          <runMode>1</runMode>
-          <pr class="gate.util.persistence.PRPersistence">
-            <runtimeParams class="gate.util.persistence.MapPersistence">
-              <mapType>gate.util.SimpleFeatureMapImpl</mapType>
-              <localMap>
-                <entry>
-                  <string>apiURL</string>
-                  <string>http://textalytics.com/core/sentiment-1.1</string>
-                </entry>
-                <entry>
-                  <string>outputASname</string>
-                  <string>Textalytics</string>
-                </entry>
-                <entry>
-                  <string>model</string>
-                  <string></string>
-                </entry>
-                <entry>
-                  <string>document</string>
-                  <null/>
-                </entry>
-                <entry>
-                  <string>corpus</string>
-                  <null/>
-                </entry>
-                <entry>
-                  <string>inputASname</string>
-                  <null/>
-                </entry>
-                <entry>
-                  <string>debug</string>
-                  <boolean>false</boolean>
-                </entry>
-                <entry>
-                  <string>annotationTypes</string>
-                  <gate.util.persistence.CollectionPersistence>
-                    <localList/>
-                    <collectionType>java.util.ArrayList</collectionType>
-                  </gate.util.persistence.CollectionPersistence>
-                </entry>
-                <entry>
-                  <string>entities</string>
-                  <string></string>
-                </entry>
-                <entry>
-                  <string>concepts</string>
-                  <string></string>
-                </entry>
-                <entry>
-                  <string>key</string>
-                  <null/>
-                </entry>
-              </localMap>
-            </runtimeParams>
-            <resourceType>daedalus.textalytics.gate.TextalyticsSentiment</resourceType>
-            <resourceName>Textalytics Sentiment Analysis</resourceName>
             <initParams class="gate.util.persistence.MapPersistence">
               <mapType>gate.util.SimpleFeatureMapImpl</mapType>
               <localMap/>
@@ -514,6 +578,7 @@
         <gate.util.persistence.PRPersistence reference="../../../strategiesList/localList/gate.util.persistence.AnalyserRunningStrategyPersistence[4]/pr"/>
         <gate.util.persistence.PRPersistence reference="../../../strategiesList/localList/gate.util.persistence.AnalyserRunningStrategyPersistence[5]/pr"/>
         <gate.util.persistence.PRPersistence reference="../../../strategiesList/localList/gate.util.persistence.AnalyserRunningStrategyPersistence[6]/pr"/>
+        <gate.util.persistence.PRPersistence reference="../../../strategiesList/localList/gate.util.persistence.AnalyserRunningStrategyPersistence[7]/pr"/>
       </localList>
       <collectionType>java.util.ArrayList</collectionType>
     </prList>
