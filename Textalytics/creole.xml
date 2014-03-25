@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+<!-- creole.xml Textalytics2GATE -->
+<!--  ADRIAN, 25/7/2013 -->
+
+<!--
+This file just references the JAR file that contains the compiled resource.
+Configuration is contained in the @CreoleResource annotation on 
+Textalytics2GATE.daedalus.textalytics.gate classes
+-->
+<CREOLE-DIRECTORY>
+      <JAR SCAN="true">Textalytics.jar</JAR>
+	  <JAR>lib/gson-2.2.4.jar</JAR>
+</CREOLE-DIRECTORY>
