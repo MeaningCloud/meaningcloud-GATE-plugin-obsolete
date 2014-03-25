@@ -219,23 +219,18 @@ public static Recursive collectInfo(Element response, String nameNode, String ud
              for(int li_it=0;li_it<typeLi.getLength();li_it++){
 				Node sem_node = typeLi.item(li_it);
 				String name_aux = sem_node.getNodeName();
-				switch (name_aux) {
-					case "type":
+				//switch (name_aux) {
+					if(name_aux.equals("type"))
 						sem.sementity_type = new String(sem_node.getTextContent().getBytes(),"UTF-8");
-						break;
-					case "class":
+					else if(name_aux.equals("class"))
 						sem.sementity_class = new String(sem_node.getTextContent().getBytes(),"UTF-8");
-                        break;
-                    case "fiction":
+					else if(name_aux.equals("fiction"))
                         sem.sementity_fiction = new String(sem_node.getTextContent().getBytes(),"UTF-8");
-                        break;
-                    case "confidence":
+					else if(name_aux.equals("confidence"))
                         sem.sementity_confidence = new String(sem_node.getTextContent().getBytes(),"UTF-8");
-                        break;
-                    case "id":
+					else if(name_aux.equals("id"))
                         sem.sementity_id = new String(sem_node.getTextContent().getBytes(),"UTF-8");
-                        break;
-                }
+                //}
               }
               ent.sementity_list.add(sem);
             }
