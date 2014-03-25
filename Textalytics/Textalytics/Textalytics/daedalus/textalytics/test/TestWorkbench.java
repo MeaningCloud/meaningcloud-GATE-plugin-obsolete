@@ -21,7 +21,7 @@ public class TestWorkbench {
 		
 		Post post;
 	    post = new Post ("http://textalytics.com/core/parser-1.2");
-	    post.addParameter("key", "daedalus1298");
+	    post.addParameter("key", "");
 	    post.addParameter("txt", str);
 	    post.addParameter("lang", "es");
 	    post.addParameter("of", "json");
