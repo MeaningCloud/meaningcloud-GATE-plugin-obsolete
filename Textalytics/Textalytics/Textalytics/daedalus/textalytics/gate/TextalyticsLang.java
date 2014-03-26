@@ -218,9 +218,11 @@ public class TextalyticsLang extends AbstractLanguageAnalyser implements
 		  }
 		  fm.put("lang", lang);
 		  if(inputAnn != null) {
+			  Logger.getLogger(TextalyticsClass.class.getName()).info("The text you have processed is written in "+fm.get("lang")+". The annotation was created as a new Feature of your inputAS");
 			  FeatureMap fm2 = inputAnn.getFeatures();
 			  fm2.putAll(fm);
 		  } else {
+			  Logger.getLogger(TextalyticsClass.class.getName()).info("The text you have processed is written in "+fm.get("lang")+". The annotation was created as a Document Feature");
 			  FeatureMap fm2 = document.getFeatures();
 			  fm2.putAll(fm);
 		  }

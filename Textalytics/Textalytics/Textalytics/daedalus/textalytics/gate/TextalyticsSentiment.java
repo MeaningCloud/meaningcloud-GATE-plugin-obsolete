@@ -233,6 +233,7 @@ public class TextalyticsSentiment  extends AbstractLanguageAnalyser
         SentimentClient sClient = new SentimentClient();
         Serialized_resp sr = sClient.getResponse(resp);
         if(sr.s.code == 0){
+        	if(sr.annot_list.size()>0){
         	for (Serialized_resp.Annot at : sr.annot_list) {
             	if(inputAnn != null){//Inter-sentence offsets are added here to the intra-sentence offsets returned by the API
             		outputAnnSet.add(inputAnn.getStartNode().getOffset()+at.inip, inputAnn.getStartNode().getOffset()+at.endp, "sentiment"+type+"_segment", at.fm);
@@ -240,8 +241,11 @@ public class TextalyticsSentiment  extends AbstractLanguageAnalyser
             		outputAnnSet.add(at.inip, at.endp, "sentiment"+type+"_segment", at.fm);
             	}
             }
+        	}else{
+        		Logger.getLogger(TextalyticsSentiment.class.getName()).info("According to the Textalytics model you chose, the text you have processed does not contain any sentiment or opinion (no keywords relevant for sentiment analysis have been found).");
+        	}
         }else{
-        	Logger.getLogger(TextalyticsSentiment.class.getName()).info("API Error"+sr.s.toString()+"\n"+post.params.toString());
+        	Logger.getLogger(TextalyticsSentiment.class.getName()).severe("API Error"+sr.s.toString()+"\n"+post.params.toString());
         }        
         }
    return true;
