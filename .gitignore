@@ -1,7 +1,9 @@
 tmp
+bin
 classes
 dist
 nogit
-.project 
 .settings
+.classpath
+.project
 /Textalytics/Textalytics/data/*

@@ -22,7 +22,7 @@
 	
 	<property name="src.dir" location="src" />
 	<property name="resources.dir" location="src/main/resources" />
-	<property name="classes.dir" location="classes" />
+	<property name="classes.dir" location="bin" />
 	<property name="dist.dir" location="dist" />
 	<property name="jar.location" location="${dist.dir}/${plugin.name}-${plugin.version}.jar" />
 
