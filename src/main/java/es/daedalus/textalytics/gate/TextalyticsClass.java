@@ -258,6 +258,8 @@ public void execute() throws ExecutionException
       	FeatureMap fm2 = document.getFeatures();
       	fm2.putAll(fm);
       }
+      }else{
+    	  Logger.getLogger(TextalyticsClass.class.getName()).info("According to Textalytics, the text you have processed does not belong to any of the classes defined in the classification model you chose.");
       }
   } 
 
