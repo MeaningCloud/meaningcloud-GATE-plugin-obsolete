@@ -24,7 +24,8 @@
 	<property name="resources.dir" location="src/main/resources" />
 	<property name="classes.dir" location="bin" />
 	<property name="dist.dir" location="dist" />
-	<property name="jar.location" location="${dist.dir}/${plugin.name}-${plugin.version}.jar" />
+	<property name="package.dir" location="${dist.dir}/${plugin.name}-${plugin.version}" />
+	<property name="jar.location" location="${package.dir}/${plugin.name}-${plugin.version}.jar" />
 
 	<property name="doc.dir" location="doc" />
 	<property name="javadoc.dir" location="${doc.dir}/javadoc" />
@@ -107,10 +108,10 @@
          distro.prepare: remove intermediate files that shouldn't be in the
                          distribution
   -->
-	<target name="build" depends="jar">
-		<copy file="${resources.dir}/creole.xml" tofile="${dist.dir}/creole.xml"  />
-		<copy file="${resources.dir}/Textalytics.xgapp" tofile="${dist.dir}/Textalytics.xgapp"  />
-		<copy todir="${dist.dir}/lib">
+	<target name="build" depends="jar"> 
+		<copy file="${resources.dir}/creole.xml" tofile="${package.dir}/creole.xml"  />
+		<copy file="${resources.dir}/Textalytics.xgapp" tofile="${package.dir}/Textalytics.xgapp"  />
+		<copy todir="${package.dir}/lib">
 			<fileset dir="lib">
 				<include name="**/*" />
 			</fileset>
