@@ -1,4 +1,7 @@
 tmp
-class
+classes
+dist
 nogit
+.project 
+.settings
 /Textalytics/Textalytics/data/*
