@@ -14,7 +14,7 @@ This Plugin allows to use easily the functionality provided by [Textalytics Sema
   * _Sentiment Analysis (v1.1)_
 
 ## How to use it
-If you just want to use the plugin as it is, go to our [Download section](https://textalytics.com/) and get the last version of the plugin. Load it as the other plugins in GATE.
+If you just want to use the plugin as it is, go to our [Download section](https://textalytics.com/files/download/GATE/Textalytics) and get the last version of the plugin. Load it as the other plugins in GATE.
 
 If you want to contribute or modify the plugin for personal use, fork the project. We are really appreciate contributions! You can create your own project using ant with the build file we provide, but before doing this, modify the gate-home parameter so that it points to your specific location.
 
