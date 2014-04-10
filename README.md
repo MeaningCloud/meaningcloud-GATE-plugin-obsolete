@@ -4,7 +4,7 @@
 
 
 ## Description
-This Plugin allows to use easily the functionality provided by [Textalytics Semantic Publishing API](https://textalytics.com/api-text-analysis-semantic-publishing). The following APIs are covered so far:
+This Plugin allows to use easily the functionality provided by [Textalytics Core API](https://textalytics.com/core). The following APIs are covered so far:
 
   * _Language Identification (v1.1)_
   * _Text Classification (v1.1)_
