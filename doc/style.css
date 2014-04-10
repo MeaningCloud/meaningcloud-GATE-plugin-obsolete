@@ -1,108 +1,37 @@
-body,html {
-	font-family: 'Arimo', Helvetica, sans-serif;
-	margin:0;
-	padding:0;
-	width:1200px;
+body{
+	clear:both;
+	width:98%;
+	font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
 }
 
-#header{
-}
-
-#container,#header{
-	margin: 25px 25px 25px 25px;
-}
-
-.download{
-	font-size:200%;
-	margin-right:20px;
+#logo{
+	max-width:40%;
+	float:left;
 	clear:none;
 }
-.download:link{
-	color:#FF0000;
-	text-decoration:none;
-}
-.download:visited{
-	color:#990000;
-	text-decoration:none;
-}
-.download:hover{
-	color:#FF9900;
-	text-decoration:underline;
+
+#title{
+	width:55%;
+	height:125px;
+	clear:none;
+	vertical-align:center;
+	margin-left:auto;
+	margin-right:auto;
 }
 
-
-/*MENU*/
-
-nav ul {
-	background: #efefef; 
-	background: linear-gradient(top, #efefef 0%, #bbbbbb 100%);  
-	background: -moz-linear-gradient(top, #efefef 0%, #bbbbbb 100%); 
-	background: -webkit-linear-gradient(top, #efefef 0%,#bbbbbb 100%); 
-	box-shadow: 0px 0px 9px rgba(0,0,0,0.15);
-	border-radius: 10px;  
-	list-style: none;
-	position: relative;
-	display: inline-table;
-	padding-right: 52px;
-}
-nav ul li:hover > ul {
-	display: block;
+.content{
+	width:75%;
+	float:right;
 }
 
-nav ul:after {
-	content: ""; clear: both; display: block;
+.bs-docs-sidebar{
+	width:15%;
+	clear:none;
+	float:left;
+	position:fixed;
+	top:150px;
 }
 
-nav ul li {
-	float: left;
-}
-nav ul li:hover {
-	background: #4b545f;
-	background: linear-gradient(top, #4f5964 0%, #5f6975 40%);
-	background: -moz-linear-gradient(top, #4f5964 0%, #5f6975 40%);
-	background: -webkit-linear-gradient(top, #4f5964 0%,#5f6975 40%);
-}
-nav ul li:hover a {
-	color: #fff;
-}
-	
-nav ul li a {
-	display: block; padding: 10px 10px;
-	color: #757575; text-decoration: none;
-}
-
-nav ul ul li {
-	float: none; 
-	border-top: 1px solid #6b727c;
-	border-bottom: 1px solid #575f6a;
-	position: relative;
-}
-nav ul ul {
-	display:none;
-	background: #5f6975; border-radius: 0px; padding: 0;
-	position: absolute; top: 100%;
-}
-
-
-nav ul ul li a {
-	padding: 15px 40px;
-	color: #fff;
-}
-
-nav ul ul li a:hover {
-	background: #4b545f;
-}
-
-.footer {
-	background-color: #A7C98D;
-	background-image: linear-gradient(to top, #bbbbbb, #efefef);
-	border-top: 1px solid #D4D4D4;
-	border-radius: 10px; 
-	margin-top: 30px;
-	padding-bottom: 30px;
+footer{
 	clear:both;
-}
-
-.footer .offset{
-	margin-left:50px;
 }
