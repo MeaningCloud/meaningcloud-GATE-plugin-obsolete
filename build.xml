@@ -5,22 +5,25 @@
 	<property file="build.properties" />
 	<property name="plugin.name" value="Textalytics"/>
 	<property name="plugin.version" value="1.0"/>
-
+	<property name="version" value="1.6" />
+	
 	<!-- Make environment variables available -->
 	<property environment="env" />
 
 	<!-- If environment variable GATE_HOME is set, use it for
        gate.home (unless it was already set in build.properties -->
+	
+    <!--	<property name="gate.home" location="path-to-gate-installation-folder" /> -->
 	<condition property="gate.home" value="${env.GATE_HOME}">
 		<isset property="env.GATE_HOME"/>
 	</condition>
 
-	<property name="gate.home" location="/home/zdepablo/GATE_Developer_7.1/" />
 
 	<property name="gate.lib" location="${gate.home}/lib" />
 	<property name="gate.jar" location="${gate.home}/bin/gate.jar" />
 	
-	<property name="src.dir" location="src" />
+	
+	<property name="src.dir" location="src/main/java" />
 	<property name="resources.dir" location="src/main/resources" />
 	<property name="classes.dir" location="bin" />
 	<property name="dist.dir" location="dist" />
@@ -55,10 +58,10 @@
 		<javac classpathref="compile.classpath"
            srcdir="${src.dir}"
            destdir="${classes.dir}"
-           debug="true"
+           debug="false"
            debuglevel="lines,source"
-           source="1.7"
-           target="1.7" />
+           source="${version}"
+           target="${version}" />
 	</target>
 
 	<!-- Build JavaDoc documentation -->
@@ -71,7 +74,7 @@
              classpathref="compile.classpath"
              encoding="UTF-8"
              windowtitle="${plugin.name} JavaDoc"
-             source="1.7">
+             source="${version}">
 			<sourcepath>
 				<pathelement location="${src.dir}" />
 			</sourcepath>
@@ -109,6 +112,7 @@
                          distribution
   -->
 	<target name="build" depends="jar"> 
+		<copy file="README.md" tofile="${package.dir}/README.md"  />
 		<copy file="${resources.dir}/creole.xml" tofile="${package.dir}/creole.xml"  />
 		<copy file="${resources.dir}/Textalytics.xgapp" tofile="${package.dir}/Textalytics.xgapp"  />
 		<copy todir="${package.dir}/lib">
