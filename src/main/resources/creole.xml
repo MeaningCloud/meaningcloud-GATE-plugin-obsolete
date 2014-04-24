@@ -4,10 +4,14 @@
 
 <!--
 This file just references the JAR file that contains the compiled resource.
-Configuration is contained in the @CreoleResource annotation on 
-Textalytics2GATE.daedalus.textalytics.gate classes
+Configuration is contained in the @CreoleResource 
 -->
-<CREOLE-DIRECTORY>
-      <JAR SCAN="true">Textalytics-1.0.jar</JAR>
-	  <JAR>lib/gson-2.2.4.jar</JAR>
+<CREOLE-DIRECTORY
+	ID="es.daedalus.textalytics.gate.Textalytics"
+  VERSION="1.0"
+  DESCRIPTION="Textalytics Plugin for the GATE Platform"
+	HELPURL="http://www.textalytics.com"
+>
+	  <JAR SCAN="true">Textalytics-1.0.jar</JAR>
+		<JAR>lib/gson-2.2.4.jar</JAR>
 </CREOLE-DIRECTORY>
