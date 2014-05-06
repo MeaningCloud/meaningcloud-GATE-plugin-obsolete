@@ -1,0 +1,6 @@
+#!/bin/bash
+mkdir -p doc
+cp -r img ./doc/img/
+cp style.css ./doc
+php gate-plugin.php > ./doc/index.html
+
