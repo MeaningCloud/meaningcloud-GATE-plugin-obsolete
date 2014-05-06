@@ -1,4 +1,4 @@
 <?xml version="1.0"?>
 <UpdateSite>
-	<CreolePlugin url="Textalytics/" downloadURL="https://textalytics.com/files/download/GATE/Textalytics/Textalytics.zip" />
+	<CreolePlugin url="Textalytics-1.0/" />
 </UpdateSite>
