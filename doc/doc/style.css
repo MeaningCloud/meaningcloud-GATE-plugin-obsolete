@@ -1,0 +1,37 @@
+body{
+	clear:both;
+	width:98%;
+	font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+}
+
+#logo{
+	max-width:40%;
+	float:left;
+	clear:none;
+}
+
+#title{
+	width:55%;
+	height:125px;
+	clear:none;
+	vertical-align:center;
+	margin-left:auto;
+	margin-right:auto;
+}
+
+.content{
+	width:75%;
+	float:right;
+}
+
+.bs-docs-sidebar{
+	width:15%;
+	clear:none;
+	float:left;
+	position:fixed;
+	top:150px;
+}
+
+footer{
+	clear:both;
+}
