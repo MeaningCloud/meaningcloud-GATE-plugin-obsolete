@@ -29,7 +29,7 @@ include('header.html');
       <!-- APIs
       ========================================= -->
       <section id="gt-apis">
-				<h1>Textalytics API</h1>
+				<h2>Textalytics API</h2>
         <?php include 'gate-lang.html' ?> 
         <?php include 'gate-class.html' ?> 
         <?php include 'gate-topics.html' ?> 

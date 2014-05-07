@@ -1,5 +1,5 @@
 
-<h1>General Parameters</h1>
+<h2>General Parameters</h2>
 	<table class="table table-striped table-bordered params">
 	<thead>
         <tr>
@@ -16,11 +16,10 @@
     <tr>
     		<th class="name">inputASTypes</th>
         <td>
-			<p>This parameter is defined as a way to filter which annotations you want to process</p> 
-      <p>It allows expressions following the pattern: <code>AnnotationType.FeatureName==FeatureValue</code>. Not every element in the pattern must appear.
-      For example you may want to specify just <code>Type</code> or <code>Type.FeatureName</code>.
-      Only those Annotations that match the pattern will be used as input for the application.</p>
-      <p><strong>Hint:</strong> Consider that this option will take longer time to run because it will process individually the annotations matching the input.</p>
+			<p>This parameter is defined as a way to filter which annotations you want to process.</p> 
+      <p>It allows expressions that follow the pattern <code>AnnotationType.FeatureName==FeatureValue</code>. Not every element in the pattern has to appear.
+      For example, you may want to specify just <code>Type</code> or <code>Type.FeatureName</code>. Only those annotations that match the pattern will be used as input for the application.</p>
+      <p><strong>Hint:</strong> Take into account that this option will take longer to run because it will process individually the annotations matching the input.</p>
     </td>
       </tr>
     <tr>
@@ -30,9 +29,9 @@
       <tr>
     		<th class="name">outputASName</th>
         <td>
-					<p>Name given for the group of <code>Annotations</code> that this <code>Processing Resource</code> will produce</p>
+					<p>Name given to the group of <code>Annotations</code> that this <code>Processing Resource</code> will produce.</p>
 					<p>New <code>Annotations</code> will be created in the <code>AnnotationSet</code> defined by <code>outputASname</code>.</p>
-  The <code>Annotations</code> created follow the structure of the <a href="http://textalytics.com/core/">API specification</a>.
+             The <code>Annotations</code> created follow the structure of the <a href="http://textalytics.com/core/">API specification</a>.
   Sometimes you may find nested objects in the specification. Those objects are flattened using ";" as 1st level separator and "|" as 2nd level separator.</td>
       </tr>
     </tbody>
