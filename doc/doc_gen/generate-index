@@ -1,5 +1,0 @@
-#!/bin/bash
-
-
-php gate-plugin.php > ../index.html
-

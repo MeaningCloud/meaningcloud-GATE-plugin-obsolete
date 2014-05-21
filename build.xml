@@ -28,7 +28,7 @@
 	<property name="classes.dir" location="bin" />
 	<property name="dist.dir" location="dist" />
 	<property name="package.dir" location="${dist.dir}/${plugin.name}-${plugin.version}" />
-	<property name="jar.location" location="${package.dir}/${plugin.name}-${plugin.version}.jar" />
+	<property name="jar.location" location="${dist.dir}/${plugin.name}-${plugin.version}.jar" />
 
 	<property name="doc.dir" location="doc" />
 	<property name="javadoc.dir" location="${doc.dir}/javadoc" />
@@ -112,15 +112,17 @@
                          distribution
   -->
 	<target name="build" depends="jar"> 
-		<copy file="README.md" tofile="${package.dir}/README.md"  />
-		<copy file="${resources.dir}/creole.xml" tofile="${package.dir}/creole.xml"  />
-		<copy file="${resources.dir}/Textalytics.xgapp" tofile="${package.dir}/Textalytics.xgapp"  />
-		<copy todir="${package.dir}/lib">
-			<fileset dir="lib">
-				<include name="**/*" />
-			</fileset>
-		</copy>
+	   <zip destfile="${package.dir}/creole.zip">
+		<zipfileset file="README.md" prefix="${plugin.name}-${plugin.version}"/>
+		<zipfileset file="${resources.dir}/creole.xml" prefix="${plugin.name}-${plugin.version}" />
+		<zipfileset file="${resources.dir}/Textalytics.xgapp" prefix="${plugin.name}-${plugin.version}" />
+		<zipfileset file="${jar.location}"  prefix="${plugin.name}-${plugin.version}" />
+		<zipfileset dir="lib" prefix="${plugin.name}-${plugin.version}/lib" />
+	   </zip>
+           <copy file="${resources.dir}/creole.xml" tofile="${package.dir}/creole.xml"  />
+
 	</target>
+
 	<target name="test" />
 	<target name="distro.prepare" depends="clean.classes" />
 </project>
