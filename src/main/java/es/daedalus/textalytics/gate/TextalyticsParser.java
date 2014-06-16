@@ -256,7 +256,7 @@ public class TextalyticsParser  extends AbstractLanguageAnalyser
         if(this.getDisambiguationLevel()!=null)
         	post.addParameter("dm", this.translateDM(this.getDisambiguationLevel()));
         if(this.getmode()!=null){
-        	if(this.getmode()=="sa" || this.getmode()=="ma"){
+        	if(this.getmode().equals("sa") || this.getmode().equals("ma")){
 						post.addParameter("mode",this.getmode());
 					}else{
 						Logger.getLogger(TextalyticsTopics.class.getName()).info("not a valid mode");
