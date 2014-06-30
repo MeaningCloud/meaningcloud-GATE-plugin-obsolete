@@ -242,6 +242,7 @@ public class TextalyticsParser  extends AbstractLanguageAnalyser
         	Logger.getLogger(TextalyticsTopics.class.getName()).severe("Lang is empty");
         	return false;
         }
+				post.addParameter("src","gate_1.0_parser");
         post.addParameter("of", "json");
         if(this.getunknownWords()!=null)
         	post.addParameter("uw",textTransform(this.getunknownWords()));

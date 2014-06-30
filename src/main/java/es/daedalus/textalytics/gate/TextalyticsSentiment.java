@@ -205,6 +205,7 @@ public class TextalyticsSentiment  extends AbstractLanguageAnalyser
       
       Post post;
       post = new Post (api);
+			post.addParameter("src","gate_1.0_sentiment");
       if(this.getkey()!=null && !this.getkey().isEmpty())
         post.addParameter("key", key);
       else{
