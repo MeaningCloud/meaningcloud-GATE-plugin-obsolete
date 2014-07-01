@@ -14,7 +14,7 @@ This Plugin allows to easily use the functionality provided by [Textalytics Core
   * _Sentiment Analysis (v1.1)_
 
 ## How to use it
-If you just want to use the plugin as it is, go to our [Download section](https://textalytics.com/files/download/GATE/Textalytics) and get the last version of the plugin. Load it as the other plugins in GATE.
+If you just want to use the plugin as it is, go to our [Site](https://textalytics.com/files/download/GATE/Textalyticshttp://textalytics.com/GATE-plugin-text-analytics) and follow the installation instructions.
 
 If you want to contribute or modify the plugin for personal use, fork the project. We really appreciate contributions, so pull requests are also very welcome! You can create your own project using ant with the build file we provide, but before doing this, if you didn't define the GATE-HOME environment variable, uncomment it from the build.xml and make it point your specific location.
 
