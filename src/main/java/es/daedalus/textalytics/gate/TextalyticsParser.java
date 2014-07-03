@@ -65,7 +65,7 @@ public class TextalyticsParser  extends AbstractLanguageAnalyser
      private String inputASname, outputASname, apiURL, key, lang,ud,outputType;
      private Boolean unknownWords,relaxedTypography,debug;     
      private List<String> annotationTypes = new ArrayList<String>(); // list of input annotations from which string content will be submitted     
-     private String dictionary;
+     private String dictionary,mode;
      private DisambiguationLevel disambiguationLevel;
      private static final int RETRY = 5; 
      
@@ -242,6 +242,7 @@ public class TextalyticsParser  extends AbstractLanguageAnalyser
         	Logger.getLogger(TextalyticsTopics.class.getName()).severe("Lang is empty");
         	return false;
         }
+				post.addParameter("src","gate_1.0_parser");
         post.addParameter("of", "json");
         if(this.getunknownWords()!=null)
         	post.addParameter("uw",textTransform(this.getunknownWords()));
@@ -255,7 +256,14 @@ public class TextalyticsParser  extends AbstractLanguageAnalyser
             post.addParameter("ud",this.getud());
         if(this.getDisambiguationLevel()!=null)
         	post.addParameter("dm", this.translateDM(this.getDisambiguationLevel()));
-        post.addParameter("mode","sa");
+        if(this.getmode()!=null){
+        	if(this.getmode().equals("sa") || this.getmode().equals("ma")){
+						post.addParameter("mode",this.getmode());
+					}else{
+						Logger.getLogger(TextalyticsTopics.class.getName()).info("not a valid mode");
+						return false;
+					}
+				}
         post.addParameter("verbose","y");
         
         if(debug)Logger.getLogger(TextalyticsTopics.class.getName()).info(""+post.params+"");
@@ -446,6 +454,16 @@ public class TextalyticsParser  extends AbstractLanguageAnalyser
 
     public String getoutputType() {
         return this.outputType;
+    }
+    
+		@RunTime
+    @CreoleParameter(defaultValue = "sa",comment = "Mode of annotation. Available ma and sa")
+    public void setmode(String mode) {
+        this.mode = mode;
+    }
+
+    public String getmode() {
+        return this.mode;
     }
       
 } // class PoSTaggingTextalytics
