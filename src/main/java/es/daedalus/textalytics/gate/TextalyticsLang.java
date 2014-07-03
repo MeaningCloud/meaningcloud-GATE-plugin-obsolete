@@ -145,7 +145,7 @@ public class TextalyticsLang extends AbstractLanguageAnalyser implements
         	Logger.getLogger(TextalyticsTopics.class.getName()).severe("Key is not set");
         	return;
         }
-				post.addParameter("src","gate_1.0_lang");
+				post.addParameter("src","gate_1.0");
         post.addParameter("txt", txt);
         post.addParameter("of", "xml");
 

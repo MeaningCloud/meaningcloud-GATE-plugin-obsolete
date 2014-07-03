@@ -218,7 +218,7 @@ public class TextalyticsTopics  extends AbstractLanguageAnalyser
       
          try {
             post = new Post (api);
-						post.addParameter("src","gate_1.0_topics");
+						post.addParameter("src","gate_1.0");
             if(this.getkey()!=null && !this.getkey().isEmpty())
             	post.addParameter("key", this.getkey());
             else{
