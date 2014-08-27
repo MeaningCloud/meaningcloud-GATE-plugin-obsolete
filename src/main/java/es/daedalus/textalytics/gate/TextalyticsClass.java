@@ -156,7 +156,7 @@ public void execute() throws ExecutionException
             	Logger.getLogger(TextalyticsTopics.class.getName()).severe("Key not set");
             	return;
             }
-						post.addParameter("src","gate_1.0_class");
+						post.addParameter("src","gate_1.0");
             post.addParameter("txt", txt);
             post.addParameter("of", "xml");           
             post.addParameter("verbose",textTransform(this.verbose));

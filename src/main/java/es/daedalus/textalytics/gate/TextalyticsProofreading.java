@@ -131,7 +131,7 @@ public class TextalyticsProofreading  extends AbstractLanguageAnalyser
           
           Post post;
           post = new Post (api);
-					post.addParameter("src","gate_1.0_stilus");
+					post.addParameter("src","gate_1.0");
           if(key!=null && !key.isEmpty())
         	  post.addParameter("key", key);
           else{
