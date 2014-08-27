@@ -248,7 +248,7 @@ public class TextalyticsParser  extends AbstractLanguageAnalyser
         	post.addParameter("uw",textTransform(this.getunknownWords()));
         if(this.getrelaxedTypography()!=null)
         	post.addParameter("rt",textTransform(this.getrelaxedTypography()));
-        post.addParameter("tt","a");
+        	post.addParameter("tt","");
 	    post.addParameter("st","y");
         if(this.getdictionary()!=null)
             post.addParameter("dic", this.getdictionary());
