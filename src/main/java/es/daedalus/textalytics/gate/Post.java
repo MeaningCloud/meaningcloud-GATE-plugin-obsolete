@@ -13,6 +13,8 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLEncoder;
 import java.net.HttpURLConnection;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
  
 public class Post {
@@ -37,6 +39,7 @@ public class Post {
     String response = ""; 
     HttpURLConnection conn = (HttpURLConnection) url.openConnection();
     conn.setDoOutput(true);
+    conn.setConnectTimeout(TIMEOUT_VALUE);
     conn.setReadTimeout(TIMEOUT_VALUE);
     conn.setInstanceFollowRedirects(false);
     conn.setRequestProperty("Accept-Charset", "utf-8");
@@ -45,19 +48,24 @@ public class Post {
     conn.setRequestMethod("POST");
     conn.setUseCaches(false);
     conn.setRequestProperty("Content-Length", "" + Integer.toString(params.getBytes().length));  
-    //System.out.println("Content-Length: "+ Integer.toString(params.getBytes().length));
     try {
       OutputStreamWriter wr = new OutputStreamWriter(conn.getOutputStream());
       wr.write(params);
       wr.flush();
-    } catch (Exception e) {
-      System.out.println("Error: " + e.getMessage());
-    }
 
-    BufferedReader rd = new BufferedReader(new InputStreamReader(conn.getInputStream()));
-    String line;
-    while ((line = rd.readLine()) != null) {
-      response += line;
+			if(conn.getResponseCode() != HttpURLConnection.HTTP_OK){
+        Logger.getLogger(Post.class.getName()).log(Level.SEVERE, "HTTP Code: "+conn.getResponseCode());
+        if(conn.getResponseCode() == HttpURLConnection.HTTP_GATEWAY_TIMEOUT)
+          Logger.getLogger(Post.class.getName()).log(Level.SEVERE, "Exceded Connection: "+conn.getConnectTimeout()+" or Read: "+conn.getReadTimeout()+" time");
+      }
+
+    	BufferedReader rd = new BufferedReader(new InputStreamReader(conn.getInputStream()));
+			String line;
+    	while ((line = rd.readLine()) != null) {
+      	response += line;
+    	}
+    } catch (Exception e) {
+      Logger.getLogger(Post.class.getName()).log(Level.SEVERE, "Error: " + e.getMessage());
     }
     return response;
    }
