@@ -87,10 +87,12 @@ public static List<Annot> transform(List<TopicsBean.Entity> entity_list,String n
                 
                 if(ent.semld_list.size()>0){
                 	ArrayList<String> semld=new ArrayList<String>(),sourceDic=new ArrayList<String>();
-                	for(int i_it=0;i_it<ent.semld_list.size();i_it++){
-                		sourceDic.add(!ent.semld_list.get(i_it).sourceDic.isEmpty() ? new String(ent.semld_list.get(i_it).sourceDic.getBytes(),"utf-8") : "");
-                		semld.add(!ent.semld_list.get(i_it).semld.isEmpty() ? new String(ent.semld_list.get(i_it).semld.getBytes(),"utf-8") : "");
-                		
+                	Iterator iter = ent.semld_list.iterator();
+                	while(iter.hasNext()){
+                		TopicsBean.Entity.semld smld = (es.daedalus.textalytics.gate.param.TopicsBean.Entity.semld) iter.next();
+                		sourceDic.add(!smld.sourceDic.isEmpty() ? new String(smld.sourceDic.getBytes(),"utf-8") : "");
+                		semld.add(!smld.semld.isEmpty() ? new String(smld.semld.getBytes(),"utf-8") : "");
+                		System.out.println("["+smld.sourceDic+"]:"+smld.semld);
                 	}
                 	fm.put("semld_source",sourceDic);
                 	fm.put("semld_value",semld);
@@ -270,15 +272,17 @@ public static Recursive collectInfo(Element response, String nameNode, String ud
               for(int semld_li = 0;semld_li<semldLi.getLength();semld_li++){
                   Node aux = semldLi.item(semld_li);
                   String name_aux = aux.getNodeName();
-                  TopicsBean.Entity.semld s = new TopicsBean.Entity.semld();
                   if(name_aux.equals("semld")){
-                      NodeList dics = null;
+                      //NodeList dics = null;
                       if((aux.hasChildNodes()) && (aux.getFirstChild().getNodeName()!="#cdata-section")){
-                          dics = aux.getChildNodes();
+                          NodeList dics = aux.getChildNodes();
                           for(int dics_it=0;dics_it<dics.getLength();dics_it++){
+                        	  TopicsBean.Entity.semld s = new TopicsBean.Entity.semld();
                               Node dic = dics.item(dics_it);
+                              System.out.println(dic.getNodeName()+"->"+dic.getTextContent());
+                              s.sourceDic = new String(dic.getNodeName().getBytes(),"UTF-8");
                               s.semld = new String(dic.getTextContent().getBytes(),"UTF-8");
-                              if(dictionaries.containsKey(new String(dic.getNodeName().getBytes(),"UTF-8"))){
+                              /*if(dictionaries.containsKey(new String(dic.getNodeName().getBytes(),"UTF-8"))){
                                   String dict = new String(dic.getNodeName().getBytes(),"UTF-8");
                                   dict+="_"+count;
                                   s.sourceDic = dict;
@@ -286,15 +290,18 @@ public static Recursive collectInfo(Element response, String nameNode, String ud
                               }else{
                                   dictionaries.put(new String(dic.getNodeName().getBytes(),"UTF-8"), new String(dic.getNodeName().getBytes(),"UTF-8"));
                                   s.sourceDic = new String(dic.getNodeName().getBytes(),"UTF-8");
-                              }
+                              }*/
                               ent.semld_list.add(s);
                           }                                
                       }else{
-                      s.semld = new String(aux.getTextContent().getBytes(),"UTF-8");
-                      ent.semld_list.add(s);
+                    	  TopicsBean.Entity.semld s = new TopicsBean.Entity.semld();
+                    	  s.semld = new String(aux.getTextContent().getBytes(),"UTF-8");
+                    	  s.sourceDic="";
+                    	  ent.semld_list.add(s);
                       }
                   }
               }
+              System.out.println(ent.semld_list.size()+"elements in the semld list");
             }
             else if ("semrefer_list".equals(name)) {
               NodeList semreferLi = n.getChildNodes();
