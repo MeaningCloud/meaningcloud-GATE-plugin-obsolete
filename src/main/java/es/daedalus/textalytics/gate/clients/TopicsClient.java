@@ -92,7 +92,6 @@ public static List<Annot> transform(List<TopicsBean.Entity> entity_list,String n
                 		TopicsBean.Entity.semld smld = (es.daedalus.textalytics.gate.param.TopicsBean.Entity.semld) iter.next();
                 		sourceDic.add(!smld.sourceDic.isEmpty() ? new String(smld.sourceDic.getBytes(),"utf-8") : "");
                 		semld.add(!smld.semld.isEmpty() ? new String(smld.semld.getBytes(),"utf-8") : "");
-                		System.out.println("["+smld.sourceDic+"]:"+smld.semld);
                 	}
                 	fm.put("semld_source",sourceDic);
                 	fm.put("semld_value",semld);
@@ -279,7 +278,6 @@ public static Recursive collectInfo(Element response, String nameNode, String ud
                           for(int dics_it=0;dics_it<dics.getLength();dics_it++){
                         	  TopicsBean.Entity.semld s = new TopicsBean.Entity.semld();
                               Node dic = dics.item(dics_it);
-                              System.out.println(dic.getNodeName()+"->"+dic.getTextContent());
                               s.sourceDic = new String(dic.getNodeName().getBytes(),"UTF-8");
                               s.semld = new String(dic.getTextContent().getBytes(),"UTF-8");
                               /*if(dictionaries.containsKey(new String(dic.getNodeName().getBytes(),"UTF-8"))){
@@ -301,7 +299,6 @@ public static Recursive collectInfo(Element response, String nameNode, String ud
                       }
                   }
               }
-              System.out.println(ent.semld_list.size()+"elements in the semld list");
             }
             else if ("semrefer_list".equals(name)) {
               NodeList semreferLi = n.getChildNodes();
