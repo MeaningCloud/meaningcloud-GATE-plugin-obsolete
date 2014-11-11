@@ -259,9 +259,9 @@ public class TextalyticsParser  extends AbstractLanguageAnalyser
         }catch(Exception e){
         	Logger.getLogger(TextalyticsTopics.class.getName()).severe(e.toString());
         	if(inputAnn!=null)
-        		System.out.println((inputAnn.getStartNode().getOffset()+inip)+"-"+(inputAnn.getStartNode().getOffset()+endp));
+        		System.err.println((inputAnn.getStartNode().getOffset()+inip)+"-"+(inputAnn.getStartNode().getOffset()+endp));
         	else
-        		System.out.println(inip+"-"+endp);
+        		System.err.println(inip+"-"+endp);
         }		
    }
    return true;
