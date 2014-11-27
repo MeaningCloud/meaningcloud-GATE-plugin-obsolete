@@ -4,71 +4,85 @@ import gate.Factory;
 import gate.FeatureMap;
 
 import java.io.UnsupportedEncodingException;
+import java.lang.reflect.Field;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class SentimentBean {
 	public class Entityform{
-		String entity;
+		String text, id, type;
 		@Override public String toString() {
-			StringBuilder sb = new StringBuilder();
-			sb.append("Entity:");
-			sb.append(entity+"\n");
-			return sb.toString();
+			HashMap<String,Object> map = new HashMap();
+			if(text!=null)
+				map.put("text",text);
+			if(type!=null)
+				map.put("type",type);
+			if(text!=null)
+				map.put("id",id);
+			return map.toString();
 		}
 	}
 	public class Conceptform{
-		String concept;
+		String text, id, type;
 		@Override public String toString() {
-			StringBuilder sb = new StringBuilder();
-			sb.append("Entity:");
-			sb.append(concept+"\n");
-			return sb.toString();
+			HashMap<String,Object> map = new HashMap();
+			if(text!=null)
+				map.put("text",text);
+			if(type!=null)
+				map.put("type",type);
+			if(text!=null)
+				map.put("id",id);
+			return map.toString();
 		}
 	}
 	public class Entity{
-		String text;
+		String text,type,id;
 		Double score;
 		String score_tag;
 		Double sd;
 		String sd_tag;
 		@Override public String toString() {
-		      StringBuilder sb = new StringBuilder();
-		      sb.append( "Entity:[\n" );
-		      sb.append("\t text\n");
-		      sb.append("\t"+text+"\n");
-		      if(score_tag!=null){
-		    	  sb.append("\t score_tag\n");
-		          sb.append("\t"+score_tag+"\n");
-		      }
-		      if(score_tag!=null){
-		          sb.append("\t sd_tag\n");
-		          sb.append("\t"+sd_tag+"\n");
-		      }
-		      sb.append("]");
-		      return sb.toString();
+		      HashMap<String, Object> map = new HashMap();
+		      if(text!=null)
+		    	  map.put("text",text);
+		      if(type!=null)
+		    	  map.put("type",type);
+		      if(id!=null)
+		    	  map.put("id",id);
+		      if(score!=null)
+		    	  map.put("score",score);
+		      if(score_tag!=null)
+		    	  map.put("score_tag",score_tag);
+		      if(sd!=null)
+		    	  map.put("sd",sd);
+		      if(sd_tag!=null)
+		    	  map.put("sd_tag",sd_tag);
+		      return map.toString();
 		  }
 	}
 	public class Concept{
-		String text;
+		String text,type,id;
 		Double score;
 		String score_tag;
 		Double sd;
 		String sd_tag;
 		@Override public String toString() {
-		      StringBuilder sb = new StringBuilder();
-		      sb.append( "Entity:[\n" );
-		      sb.append("\t text\n");
-		      sb.append("\t"+text+"\n");
-		      if(!score_tag.isEmpty()){
-		    	  sb.append("\t score_tag\n");
-		          sb.append("\t"+score_tag+"\n");
-		      }
-		      if(!sd_tag.isEmpty()){
-		          sb.append("\t sd_tag\n");
-		          sb.append("\t"+sd_tag+"\n");
-		      }
-		      sb.append("]");
-		      return sb.toString();
+			HashMap<String, Object> map = new HashMap();
+		      if(text!=null)
+		    	  map.put("text",text);
+		      if(type!=null)
+		    	  map.put("type",type);
+		      if(id!=null)
+		    	  map.put("id",id);
+		      if(score!=null)
+		    	  map.put("score",score);
+		      if(score_tag!=null)
+		    	  map.put("score_tag",score_tag);
+		      if(sd!=null)
+		    	  map.put("sd",sd);
+		      if(sd_tag!=null)
+		    	  map.put("sd_tag",sd_tag);
+		      return map.toString();
 		  }
 	}
 
@@ -193,16 +207,20 @@ public class SentimentBean {
 				doc_fm.put("irony", new String(irony.getBytes(),"utf-8"));
 			int cnt = 0;
 			if(entity_list!=null){
-				ArrayList<String> entity_text=new ArrayList<String>(),entity_score_tag=new ArrayList<String>(),entity_sd_tag=new ArrayList<String>();
+				ArrayList<String> entity_text=new ArrayList<String>(),entity_type=new ArrayList<String>(),entity_id=new ArrayList<String>(),entity_score_tag=new ArrayList<String>(),entity_sd_tag=new ArrayList<String>();
 				ArrayList</*Double*/String> entity_score=new ArrayList<String>(),entity_sd=new ArrayList<String>();
 				for(Entity e :entity_list){
 					entity_text.add(e.text!=null ? new String(e.text.getBytes(),"UTF-8") :"");
+					entity_type.add(e.type!=null ? new String(e.type.getBytes(),"UTF-8") :"");
+					entity_id.add(e.id!=null ? new String(e.id.getBytes(),"UTF-8") :"");
 					entity_score.add(e.score!=null ? e.score.toString() : "");
 					entity_score_tag.add(e.score_tag!=null ? new String(e.score_tag.getBytes(),"UTF-8") : "");
 					entity_sd.add(e.sd != null ? e.sd.toString() : "");
 					entity_sd_tag.add(e.sd_tag!= null ? new String(e.sd_tag.getBytes(),"UTF-8"): "");
 				}
 				doc_fm.put("entity_text", entity_text);
+				doc_fm.put("entity_type", entity_type);
+				doc_fm.put("entity_id", entity_id);
 				doc_fm.put("entity_score", entity_score);
 				doc_fm.put("entity_score_tag", entity_score_tag);
 				doc_fm.put("entity_sd", entity_sd);
@@ -210,15 +228,19 @@ public class SentimentBean {
 			}
 			cnt = 0;
 			if(concept_list!=null){
-				ArrayList<String> concept_text=new ArrayList<String>(),concept_score=new ArrayList<String>(),concept_score_tag=new ArrayList<String>(),concept_sd=new ArrayList<String>(),concept_sd_tag=new ArrayList<String>();
+				ArrayList<String> concept_text=new ArrayList<String>(),concept_type=new ArrayList<String>(),concept_id=new ArrayList<String>(),concept_score=new ArrayList<String>(),concept_score_tag=new ArrayList<String>(),concept_sd=new ArrayList<String>(),concept_sd_tag=new ArrayList<String>();
 				for(Concept c :concept_list){
 					concept_text.add(c.text!=null ? new String(c.text.getBytes(),"UTF-8") :"");
+					concept_type.add(c.type!=null ? new String(c.type.getBytes(),"UTF-8") :"");
+					concept_id.add(c.id!=null ? new String(c.id.getBytes(),"UTF-8") :"");
 					concept_score.add(c.score!=null ? Double.toString(c.score) : "");
 					concept_score_tag.add(c.score_tag!=null ? new String(c.score_tag.getBytes(),"UTF-8"):"");
 					concept_sd.add(c.sd!=null ? Double.toString(c.sd) :"");
 					concept_sd_tag.add(c.sd_tag!=null ? new String(c.sd_tag.getBytes(),"UTF-8"): "");
 				}
 				doc_fm.put("concept_text", concept_text);
+				doc_fm.put("concept_type", concept_type);
+				doc_fm.put("concept_id", concept_id);
 				doc_fm.put("concept_score", concept_score);
 				doc_fm.put("concept_score_tag", concept_score_tag);
 				doc_fm.put("concept_sd", concept_sd);
@@ -246,38 +268,55 @@ public class SentimentBean {
 						at.fm.put("irony", s.irony.isEmpty()?"":new String(s.irony.getBytes(),"UTF-8"));
 					if(s.keyword_list!=null){
 						ArrayList<String> keyword_text=new ArrayList<String>(),keyword_score=new ArrayList<String>(),keyword_score_tag=new ArrayList<String>();
-						ArrayList<ArrayList<String>> keyword_entities=new ArrayList<ArrayList<String>>(),keyword_concepts=new ArrayList<ArrayList<String>>();
+						ArrayList<ArrayList<String>> keyword_entity_text=new ArrayList<ArrayList<String>>(),keyword_entity_type=new ArrayList<ArrayList<String>>(),keyword_entity_id=new ArrayList<ArrayList<String>>(),keyword_concept_text=new ArrayList<ArrayList<String>>(),keyword_concept_type=new ArrayList<ArrayList<String>>(),keyword_concept_id=new ArrayList<ArrayList<String>>();
 						for(Keyword k : s.keyword_list){
 							keyword_text.add(k.text != null ? new String(k.text.getBytes(),"UTF-8"):"");
 							keyword_score.add(k.score_tag != null ? Double.toString(k.score):"");
 							keyword_score_tag.add(k.score_tag!=null ? new String(k.score_tag.getBytes(),"UTF-8"): "");
 
 							if(k.entity_list!=null){
-								ArrayList<String> entities = new ArrayList<String>();
+								ArrayList<String> entity_text = new ArrayList<String>(),entity_type = new ArrayList<String>(),entity_id = new ArrayList<String>();
 								for(Entityform e:k.entity_list){
-									entities.add(e.entity!= null ? new String(e.entity.getBytes(),"UTF-8"):"");
+									if(e.text!=null)
+										entity_text.add(e.text!= null ? new String(e.text.getBytes(),"UTF-8"):"");
+									if(e.type!=null)
+										entity_type.add(e.type!= null ? new String(e.type.getBytes(),"UTF-8"):"");
+									if(e.id!=null)
+										entity_id.add(e.id!= null ? new String(e.id.getBytes(),"UTF-8"):"");
 								}
-								keyword_entities.add(entities);
+								keyword_entity_text.add(entity_text);
+								keyword_entity_type.add(entity_type);
+								keyword_entity_id.add(entity_id);
 							}
 							if(k.concept_list!=null){
-								ArrayList<String> concepts = new ArrayList<String>();
+								ArrayList<String> concept_text = new ArrayList<String>(),concept_type = new ArrayList<String>(),concept_id = new ArrayList<String>();
 								for(Conceptform e:k.concept_list){
-									if(e.concept!=null)
-										concepts.add(e.concept!=null ? new String(e.concept.getBytes(),"UTF-8"): "");
+									if(e.text!=null)
+										concept_text.add(e.text!=null ? new String(e.text.getBytes(),"UTF-8"): "");
+									if(e.type!=null)
+										concept_type.add(e.type!=null ? new String(e.type.getBytes(),"UTF-8"): "");
+									if(e.id!=null)
+										concept_id.add(e.id!=null ? new String(e.id.getBytes(),"UTF-8"): "");
 								}
-								keyword_concepts.add(concepts);
+								keyword_concept_text.add(concept_text);
+								keyword_concept_type.add(concept_type);
+								keyword_concept_id.add(concept_id);
 							}
 						}
 						at.fm.put("keyword_text",keyword_text);
 						at.fm.put("keyword_score",keyword_score);
 						at.fm.put("keyword_score_tag",keyword_score_tag);
-						at.fm.put("keyword_entities",keyword_entities);
-						at.fm.put("keyword_concepts",keyword_concepts);
+						at.fm.put("keyword_entity_text",keyword_entity_text);
+						at.fm.put("keyword_entity_type",keyword_entity_type);
+						at.fm.put("keyword_entity_id",keyword_entity_id);
+						at.fm.put("keyword_concept_text",keyword_concept_text);
+						at.fm.put("keyword_concept_type",keyword_concept_type);
+						at.fm.put("keyword_concept_id",keyword_concept_id);
 					}
 					sr.annot_list.add(at);
-					}
 				}
-				return sr;
+			}
+			return sr;
 		}
 		
 	}

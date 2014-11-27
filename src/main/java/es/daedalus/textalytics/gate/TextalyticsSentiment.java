@@ -114,36 +114,7 @@ public class TextalyticsSentiment  extends AbstractLanguageAnalyser
                        Logger.getLogger(TextalyticsSentiment.class.getName()).log(Level.SEVERE, null, ex);
                    }
                }
-               times = 0;
-              /*Iterator<Annotation> inputIt = gate.Utils.inDocumentOrder(inputAnnSet).iterator();
-              
-              while(inputIt.hasNext()){
-                  Annotation ann = inputIt.next();
-                  try {
-                      text = content.getContent(ann.getStartNode().getOffset(), ann.getEndNode().getOffset()).toString();
-                  } catch (InvalidOffsetException ex) {
-                      Logger.getLogger(TextalyticsSentiment.class.getName()).log(Level.SEVERE, null, ex);
-                  }
-                  //type = "_"+ann.getType();
-                  boolean apiOK = false;
-                  int times = 0;
-                  while(times<RETRY && !apiOK ){
-                      try {
-                          apiOK = processWithTextalytics(text,type,ann,outputAnnSet);
-                          if(debug)Out.println("Nr of retry: "+times+". Text: "+text);
-                          times++;
-                      } catch (InvalidOffsetException ex) {
-                          Logger.getLogger(TextalyticsSentiment.class.getName()).log(Level.SEVERE, null, ex);
-                      } catch (XPathExpressionException ex) {
-                          Logger.getLogger(TextalyticsSentiment.class.getName()).log(Level.SEVERE, null, ex);
-                      } catch (UnsupportedEncodingException ex) {
-                          Logger.getLogger(TextalyticsSentiment.class.getName()).log(Level.SEVERE, null, ex);
-                      } catch (IOException ex) {
-                          Logger.getLogger(TextalyticsSentiment.class.getName()).log(Level.SEVERE, null, ex);
-                      }
-                  }
-                  times = 0;
-              } */             
+               times = 0;             
           }else{
               if(debug)Out.println("annotationTypes size: "+annotationTypes.size());
               for (String inputAnnExpr : annotationTypes) {
@@ -296,7 +267,7 @@ public class TextalyticsSentiment  extends AbstractLanguageAnalyser
     }
 
     @RunTime
-    @CreoleParameter(comment = "URL of the API", defaultValue="http://textalytics.com/core/sentiment-1.1") 
+    @CreoleParameter(comment = "URL of the API", defaultValue="http://textalytics.com/core/sentiment-1.2") 
     public void setapiURL(String apiURL)
     {
 	this.apiURL = apiURL;
