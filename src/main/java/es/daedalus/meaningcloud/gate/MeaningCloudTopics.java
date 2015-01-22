@@ -49,7 +49,7 @@ import es.daedalus.meaningcloud.gate.param.DisambiguationLevel;
 /**
  * This class is the implementation of the resource TOPICSMeaningCloud.
  */
-@CreoleResource(name = "MeaningCloud Topics Extraction", comment = "MeaningCloud Topics Extraction", helpURL = "http://api.meaningcloud.com/topics-info")
+@CreoleResource(name = "MeaningCloud Topics Extraction", comment = "MeaningCloud Topics Extraction", helpURL = "http://api.meaningcloud.com/topics-info", icon = "favicon.ico")
 public class MeaningCloudTopics extends AbstractLanguageAnalyser implements
 		ProcessingResource, Serializable {
 
