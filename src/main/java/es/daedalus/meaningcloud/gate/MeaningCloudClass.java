@@ -43,7 +43,7 @@ import es.daedalus.meaningcloud.gate.param.ASutil;
 /**
  * This class is the implementation of the resource MeaningCloud.
  */
-@CreoleResource(name = "MeaningCloud Text Classification", comment = "MeaningCloud Text Classification", helpURL = "http://api.meaningcloud.com/class-1.1-info", icon="favicon.ico")
+@CreoleResource(name = "MeaningCloud Text Classification", comment = "MeaningCloud Text Classification", helpURL = "http://www.meaningcloud.com/developer/text-classification/doc/1.1", icon = "favicon.ico")
 public class MeaningCloudClass extends AbstractLanguageAnalyser implements
 		ProcessingResource {
 	private String inputASname, outputASname;
