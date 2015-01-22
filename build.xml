@@ -1,9 +1,9 @@
-<project name="Textalytics" basedir="." default="all" >
+<project name="MeaningCloud" basedir="." default="all" >
 	<!-- Prevent Ant from warning about includeantruntime not being set -->
 	<property name="build.sysclasspath" value="ignore" />
 
 	<property file="build.properties" />
-	<property name="plugin.name" value="Textalytics"/>
+	<property name="plugin.name" value="MeaningCloud"/>
 	<property name="plugin.version" value="1.0"/>
 	<property name="version" value="1.6" />
 	
@@ -115,7 +115,7 @@
 	   <zip destfile="${package.dir}/creole.zip">
 		<zipfileset file="README.md" prefix="${plugin.name}-${plugin.version}"/>
 		<zipfileset file="${resources.dir}/creole.xml" prefix="${plugin.name}-${plugin.version}" />
-		<zipfileset file="${resources.dir}/Textalytics.xgapp" prefix="${plugin.name}-${plugin.version}" />
+		<zipfileset file="${resources.dir}/MeaningCloud.xgapp" prefix="${plugin.name}-${plugin.version}" />
 		<zipfileset file="${jar.location}"  prefix="${plugin.name}-${plugin.version}" />
 		<zipfileset dir="lib" prefix="${plugin.name}-${plugin.version}/lib" />
 	   </zip>
