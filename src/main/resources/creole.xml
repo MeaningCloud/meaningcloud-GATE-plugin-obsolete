@@ -10,7 +10,7 @@ Configuration is contained in the @CreoleResource
 	ID="es.daedalus.meaningcloud.gate.MeaningCloud"
   VERSION="1.0"
   DESCRIPTION="MeaningCloud Plugin for the GATE Platform"
-	HELPURL="http://www.meaningcloud.com"
+	HELPURL="http://www.meaningcloud.com/developer/gate-plugin"
 >
 	  <JAR SCAN="true">MeaningCloud-1.0.jar</JAR>
 		<JAR>lib/gson-2.2.4.jar</JAR>
