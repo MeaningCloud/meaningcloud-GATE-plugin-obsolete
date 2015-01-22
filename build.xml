@@ -30,11 +30,8 @@
 	<property name="package.dir" location="${dist.dir}/${plugin.name}-${plugin.version}" />
 	<property name="jar.location" location="${dist.dir}/${plugin.name}-${plugin.version}.jar" />
 
-	<property name="doc.dir" location="doc" />
-	<property name="javadoc.dir" location="${doc.dir}/javadoc" />
-
-
 	
+
 	<!-- Path to compile - includes gate.jar and GATE/lib/*.jar -->
 	<path id="compile.classpath">
 		<pathelement location="${gate.jar}" />
@@ -64,25 +61,7 @@
            target="${version}" />
 	</target>
 
-	<!-- Build JavaDoc documentation -->
-	<target name="doc.prepare">
-		<mkdir dir="${javadoc.dir}" />
-	</target>
-
-	<target name="javadoc" depends="doc.prepare">
-		<javadoc destdir="${javadoc.dir}" packagenames="*"
-             classpathref="compile.classpath"
-             encoding="UTF-8"
-             windowtitle="${plugin.name} JavaDoc"
-             source="${version}">
-			<sourcepath>
-				<pathelement location="${src.dir}" />
-			</sourcepath>
-			<link href="http://docs.oracle.com/javase/6/docs/api/" />
-			<link href="http://gate.ac.uk/gate/doc/javadoc/" />
-		</javadoc>
-	</target>
-
+	
 
 	<!-- create the JAR file -->
 	<target name="jar" depends="compile" >
@@ -102,8 +81,8 @@
 		<delete dir="${dist.dir}" />
 	</target>
 
-	<!-- Build everything - the code and JavaDoc -->
-	<target name="all" depends="jar, javadoc" />
+	<!-- Build everything -->
+	<target name="all" depends="jar" />
 
 	<!-- Targets used by the main GATE build file:
          build: build the plugin - just calls "jar" target
