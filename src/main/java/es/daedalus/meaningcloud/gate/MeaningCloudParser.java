@@ -56,7 +56,7 @@ import es.daedalus.meaningcloud.gate.param.TokenBean;
 /**
  * This class is the implementation of the resource MeaningCloud Parser.
  */
-@CreoleResource(name = "MeaningCloud Lemmatization, PoS and Parsing", comment = "MeaningCloud Lemmatization, PoS and Parsing", helpURL = "http://api.meaningcloud.com/parser-info",icon = "favicon.ico")
+@CreoleResource(name = "MeaningCloud Lemmatization, PoS and Parsing", comment = "MeaningCloud Lemmatization, PoS and Parsing", helpURL = "http://api.meaningcloud.com/parser-info",icon = "/MeaningCloud.png")
 public class MeaningCloudParser extends AbstractLanguageAnalyser implements
 		ProcessingResource {
 

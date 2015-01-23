@@ -41,7 +41,7 @@ import es.daedalus.meaningcloud.gate.param.Serialized_resp;
 /**
  * This class is the implementation of the resource MeaningCloud Sentiment Analysis.
  */
-@CreoleResource(name = "MeaningCloud Sentiment Analysis", comment = "MeaningCloud Sentiment Analysis", helpURL = "http://www.meaningcloud.com/developer/sentiment-analysis/doc/1.2", icon = "favicon.ico")
+@CreoleResource(name = "MeaningCloud Sentiment Analysis", comment = "MeaningCloud Sentiment Analysis", helpURL = "http://www.meaningcloud.com/developer/sentiment-analysis/doc/1.2", icon = "/MeaningCloud.png")
 public class MeaningCloudSentiment extends AbstractLanguageAnalyser implements
 		ProcessingResource {
 	private String inputASname, outputASname, apiURL, key, model, entities,

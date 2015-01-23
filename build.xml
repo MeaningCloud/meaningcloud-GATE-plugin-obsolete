@@ -68,7 +68,11 @@
 		<mkdir dir="${classes.dir}" />
 		<jar destfile="${jar.location}"
          update="false"
-         basedir="${classes.dir}" />
+         basedir="${classes.dir}" >
+			<fileset dir="${resources.dir}"> 
+				<include name="**" />
+			</fileset>
+		</jar>
 	</target>
 
 	<!-- remove the generated .class files -->
@@ -94,7 +98,7 @@
 	   <zip destfile="${package.dir}/creole.zip">
 		<zipfileset file="README.md" prefix="${plugin.name}-${plugin.version}"/>
 		<zipfileset file="${resources.dir}/creole.xml" prefix="${plugin.name}-${plugin.version}" />
-		<zipfileset file="${resources.dir}/favicon.ico" prefix="${plugin.name}-${plugin.version}" />
+		<zipfileset file="${resources.dir}/MeaningCloud.png" prefix="${plugin.name}-${plugin.version}" />
 		<zipfileset file="${resources.dir}/MeaningCloud.xgapp" prefix="${plugin.name}-${plugin.version}" />
 		<zipfileset file="${jar.location}"  prefix="${plugin.name}-${plugin.version}" />
 		<zipfileset dir="lib" prefix="${plugin.name}-${plugin.version}/lib" />

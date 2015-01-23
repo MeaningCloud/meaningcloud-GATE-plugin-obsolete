@@ -11,6 +11,7 @@ Configuration is contained in the @CreoleResource
   VERSION="1.0"
   DESCRIPTION="MeaningCloud Plugin for the GATE Platform"
 	HELPURL="http://www.meaningcloud.com/developer/gate-plugin"
+	ICON="/MeaningCloud.png"
 >
 	  <JAR SCAN="true">MeaningCloud-1.0.jar</JAR>
 		<JAR>lib/gson-2.2.4.jar</JAR>
