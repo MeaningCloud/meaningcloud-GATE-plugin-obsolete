@@ -70,7 +70,8 @@
          update="false"
          basedir="${classes.dir}" >
 			<fileset dir="${resources.dir}"> 
-				<include name="**" />
+				<include name="creole.xml" />
+				<include name="MeaningCloud.png" />
 			</fileset>
 		</jar>
 	</target>
