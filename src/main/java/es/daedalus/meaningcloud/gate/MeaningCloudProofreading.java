@@ -141,7 +141,7 @@ public class MeaningCloudProofreading extends AbstractLanguageAnalyser implement
 
 				Post post;
 				post = new Post(api);
-				post.addParameter("src", "gate_1.0");
+				post.addParameter("src", "gate_2.0");
 				if (key != null && !key.isEmpty())
 					post.addParameter("key", key);
 				else {

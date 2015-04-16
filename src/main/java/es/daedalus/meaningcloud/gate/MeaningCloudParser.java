@@ -249,7 +249,7 @@ public class MeaningCloudParser extends AbstractLanguageAnalyser implements
 						"Lang is empty");
 				return false;
 			}
-			post.addParameter("src", "gate_1.0_parser");
+			post.addParameter("src", "gate_2.0");
 			post.addParameter("of", "json");
 			if (this.getunknownWords() != null)
 				post.addParameter("uw", textTransform(this.getunknownWords()));

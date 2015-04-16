@@ -218,7 +218,7 @@ public class MeaningCloudSentiment extends AbstractLanguageAnalyser implements
 
 			Post post;
 			post = new Post(api);
-			post.addParameter("src", "gate_1.0");
+			post.addParameter("src", "gate_2.0");
 			if (this.getkey() != null && !this.getkey().isEmpty())
 				post.addParameter("key", key);
 			else {
