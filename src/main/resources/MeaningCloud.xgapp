@@ -268,7 +268,7 @@
               </entry>
               <entry>
                 <string>apiURL</string>
-                <string>http://api.meaningcloud.com/stilus-1.1</string>
+                <string>http://api.meaningcloud.com/stilus-1.2</string>
               </entry>
               <entry>
                 <string>percentage</string>

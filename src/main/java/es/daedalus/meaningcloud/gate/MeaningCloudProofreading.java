@@ -42,7 +42,7 @@ import es.daedalus.meaningcloud.gate.param.ASutil;
 /**
  * This class is the implementation of the resource MeaningCloud proofreading.
  */
-@CreoleResource(name = "MeaningCloud Spell, Grammar and Style Proofreading", comment = "MeaningCloud Spell, Grammar and Style Proofreading", helpURL = "http://api.meaningcloud.com/stilus-info", icon = "/MeaningCloud.png")
+@CreoleResource(name = "MeaningCloud Spell, Grammar and Style Proofreading", comment = "MeaningCloud Spell, Grammar and Style Proofreading", helpURL = "http://www.meaningcloud.com/developer/text-proofreading/doc/1.2", icon = "/MeaningCloud.png")
 public class MeaningCloudProofreading extends AbstractLanguageAnalyser implements
 		ProcessingResource {
 
@@ -326,7 +326,7 @@ public class MeaningCloudProofreading extends AbstractLanguageAnalyser implement
 	}
 
 	@RunTime
-	@CreoleParameter(comment = "URL Of the API to query", defaultValue = "http://api.meaningcloud.com/stilus-1.1")
+	@CreoleParameter(comment = "URL Of the API to query", defaultValue = "http://api.meaningcloud.com/stilus-1.2")
 	public void setapiURL(String apiURL) {
 		this.apiURL = apiURL;
 	}
