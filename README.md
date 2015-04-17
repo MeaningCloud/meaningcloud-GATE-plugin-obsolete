@@ -6,7 +6,7 @@
 This Plugin allows to easily use the functionality provided by [MeaningCloud API](https://meaningcloud.com). The following APIs are covered so far:
 
   * _[Language Identification](https://www.meaningcloud.com/developer/language-identification) (v1.1)_
-  * _[Text Classification]https://www.meaningcloud.com/developer/text-classification (v1.1)_
+  * _[Text Classification](https://www.meaningcloud.com/developer/text-classification) (v1.1)_
   * _[Lemmatization, PoS and Parsing](https://www.meaningcloud.com/developer/lemmatization-pos-parsing) (v1.2)_
   * _[Topics Extraction](https://www.meaningcloud.com/developer/topics-extraction) (v1.2)_
   * _[Text Proofreading](https://www.meaningcloud.com/developer/text-proofreading) (v1.2)_
