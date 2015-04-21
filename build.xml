@@ -29,7 +29,6 @@
 	<property name="dist.dir" location="dist" />
 	<property name="package.dir" location="${dist.dir}/${plugin.name}-${plugin.version}" />
 	<property name="jar.location" location="${dist.dir}/${plugin.name}-${plugin.version}.jar" />
-
 	
 
 	<!-- Path to compile - includes gate.jar and GATE/lib/*.jar -->
