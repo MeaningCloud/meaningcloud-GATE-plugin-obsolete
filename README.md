@@ -10,7 +10,7 @@ This Plugin allows to easily use the functionality provided by [MeaningCloud API
   * _[Lemmatization, PoS and Parsing](https://www.meaningcloud.com/developer/lemmatization-pos-parsing) (v1.2)_
   * _[Topics Extraction](https://www.meaningcloud.com/developer/topics-extraction) (v1.2)_
   * _[Text Proofreading](https://www.meaningcloud.com/developer/text-proofreading) (v1.2)_
-  * _[Sentiment Analysis](https://www.meaningcloud.com/developer/sentiment-analysis) (v1.2)_
+  * _[Sentiment Analysis](https://www.meaningcloud.com/developer/sentiment-analysis) (v2.0)_
 
 ## How to use it
 If you just want to use the plugin as it is, go to our [Site](https://www.meaningcloud.com/developer/gate-plugin) and follow the installation instructions.

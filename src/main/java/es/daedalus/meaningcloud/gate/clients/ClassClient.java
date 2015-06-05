@@ -4,8 +4,6 @@
  */
 package es.daedalus.meaningcloud.gate.clients;
 
-import gate.util.InvalidOffsetException;
-
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.List;
@@ -14,11 +12,9 @@ import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
-import es.daedalus.meaningcloud.gate.MeaningCloudClass;
 import es.daedalus.meaningcloud.gate.MeaningCloudClass.category;
 import es.daedalus.meaningcloud.gate.MeaningCloudClass.category.term;
-
-import com.google.gson.Gson;
+import gate.util.InvalidOffsetException;
 
 /**
  *

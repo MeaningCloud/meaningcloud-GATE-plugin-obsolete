@@ -4,8 +4,6 @@
  */
 package es.daedalus.meaningcloud.gate.clients;
 
-import gate.util.InvalidOffsetException;
-
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -18,6 +16,7 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
 import es.daedalus.meaningcloud.gate.param.TopicsBean;
+import gate.util.InvalidOffsetException;
 
 /**
  *

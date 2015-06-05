@@ -8,6 +8,9 @@ package es.daedalus.meaningcloud.gate;
  *
  * @author ADRIAN
  */
+import es.daedalus.meaningcloud.gate.clients.TopicsClient;
+import es.daedalus.meaningcloud.gate.param.ASutil;
+import es.daedalus.meaningcloud.gate.param.DisambiguationLevel;
 import gate.Annotation;
 import gate.AnnotationSet;
 import gate.DocumentContent;
@@ -41,10 +44,6 @@ import org.w3c.dom.Element;
 import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
-
-import es.daedalus.meaningcloud.gate.clients.TopicsClient;
-import es.daedalus.meaningcloud.gate.param.ASutil;
-import es.daedalus.meaningcloud.gate.param.DisambiguationLevel;
 
 /**
  * This class is the implementation of the resource TOPICSMeaningCloud.
@@ -266,7 +265,7 @@ public class MeaningCloudTopics extends AbstractLanguageAnalyser implements
 
 			try {
 				post = new PostApache(api);
-				post.addParameter("src", "gate_2.0");
+				post.addParameter("src", "gate_2.1");
 				if (this.getkey() != null && !this.getkey().isEmpty())
 					post.addParameter("key", this.getkey());
 				else {

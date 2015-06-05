@@ -4,6 +4,8 @@
  */
 package es.daedalus.meaningcloud.gate;
 
+import es.daedalus.meaningcloud.gate.clients.ClassClient;
+import es.daedalus.meaningcloud.gate.param.ASutil;
 import gate.Annotation;
 import gate.AnnotationSet;
 import gate.DocumentContent;
@@ -36,9 +38,6 @@ import org.w3c.dom.Element;
 import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
-
-import es.daedalus.meaningcloud.gate.clients.ClassClient;
-import es.daedalus.meaningcloud.gate.param.ASutil;
 
 /**
  * This class is the implementation of the resource MeaningCloud.
@@ -164,7 +163,7 @@ public class MeaningCloudClass extends AbstractLanguageAnalyser implements
 							"Key not set");
 					return;
 				}
-				post.addParameter("src", "gate_2.0");
+				post.addParameter("src", "gate_2.1");
 				post.addParameter("txt", txt);
 				post.addParameter("of", "xml");
 				post.addParameter("verbose", textTransform(this.verbose));

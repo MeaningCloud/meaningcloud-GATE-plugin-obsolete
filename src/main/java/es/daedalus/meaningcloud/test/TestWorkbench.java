@@ -1,18 +1,12 @@
 package es.daedalus.meaningcloud.test;
 
-import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileReader;
 import java.io.IOException;
-import java.util.logging.Logger;
 
 import org.apache.commons.io.FileUtils;
 
 import es.daedalus.meaningcloud.gate.Post;
-import es.daedalus.meaningcloud.gate.MeaningCloudTopics;
 import es.daedalus.meaningcloud.gate.clients.ParserClient;
-import es.daedalus.meaningcloud.gate.clients.SentimentClient;
-import es.daedalus.meaningcloud.gate.param.SentimentBean;
 import es.daedalus.meaningcloud.gate.param.TokenBean;
 
 public class TestWorkbench {

@@ -9,6 +9,10 @@ package es.daedalus.meaningcloud.gate;
  * @author ADRIAN
  */
 
+import es.daedalus.meaningcloud.gate.clients.ParserClient;
+import es.daedalus.meaningcloud.gate.param.ASutil;
+import es.daedalus.meaningcloud.gate.param.DisambiguationLevel;
+import es.daedalus.meaningcloud.gate.param.Serialized_resp;
 import gate.Annotation;
 import gate.AnnotationSet;
 import gate.DocumentContent;
@@ -23,10 +27,6 @@ import gate.creole.metadata.RunTime;
 import gate.util.InvalidOffsetException;
 import gate.util.Out;
 
-import java.io.BufferedWriter;
-import java.io.ByteArrayInputStream;
-import java.io.File;
-import java.io.FileWriter;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.MalformedURLException;
@@ -36,22 +36,7 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
-import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.xpath.XPathExpressionException;
-
-import org.w3c.dom.Element;
-import org.w3c.dom.NamedNodeMap;
-import org.w3c.dom.NodeList;
-import org.xml.sax.SAXException;
-
-import es.daedalus.meaningcloud.gate.clients.ParserClient;
-import es.daedalus.meaningcloud.gate.clients.ParserClient.Annot;
-import es.daedalus.meaningcloud.gate.param.ASutil;
-import es.daedalus.meaningcloud.gate.param.DisambiguationLevel;
-import es.daedalus.meaningcloud.gate.param.Serialized_resp;
-import es.daedalus.meaningcloud.gate.param.TokenBean;
 
 /**
  * This class is the implementation of the resource MeaningCloud Parser.
@@ -61,8 +46,8 @@ public class MeaningCloudParser extends AbstractLanguageAnalyser implements
 		ProcessingResource {
 
 	private String inputASname, outputASname, apiURL, key, lang, ud,
-			outputType;
-	private Boolean unknownWords, relaxedTypography, debug;
+			outputType, relaxedTypography;
+	private Boolean unknownWords, debug;
 	private List<String> annotationTypes = new ArrayList<String>(); // list of
 																	// input
 																	// annotations
@@ -249,13 +234,12 @@ public class MeaningCloudParser extends AbstractLanguageAnalyser implements
 						"Lang is empty");
 				return false;
 			}
-			post.addParameter("src", "gate_2.0");
+			post.addParameter("src", "gate_2.1");
 			post.addParameter("of", "json");
 			if (this.getunknownWords() != null)
 				post.addParameter("uw", textTransform(this.getunknownWords()));
 			if (this.getrelaxedTypography() != null)
-				post.addParameter("rt",
-						textTransform(this.getrelaxedTypography()));
+				post.addParameter("rt",this.getrelaxedTypography());
 			post.addParameter("tt", "");
 			post.addParameter("st", "y");
 			if (this.getdictionary() != null)
@@ -353,12 +337,12 @@ public class MeaningCloudParser extends AbstractLanguageAnalyser implements
 	@RunTime
 	@Optional
 	@CreoleParameter(defaultValue = "true", comment = "This parameter indicates how reliable the text to analyze is (as far as spelling, typography, etc. are concerned), and influences how strict the engine will be when it comes to take these factors into account in the analysis.\n"
-			+ "\n" + "y: enabled (default)\n" + "n: disabled")
-	public void setrelaxedTypography(Boolean rt) {
+			+ "\n" + "y: enabled (default)\n" + "n: disabled\n" + "u: enabled for user dictionary")
+	public void setrelaxedTypography(String rt) {
 		this.relaxedTypography = rt;
 	}
 
-	public Boolean getrelaxedTypography() {
+	public String getrelaxedTypography() {
 		return relaxedTypography;
 	}
 

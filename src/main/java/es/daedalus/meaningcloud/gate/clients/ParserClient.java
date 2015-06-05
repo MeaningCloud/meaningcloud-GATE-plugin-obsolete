@@ -4,8 +4,6 @@
  */
 package es.daedalus.meaningcloud.gate.clients;
 
-import gate.util.InvalidOffsetException;
-
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.List;
@@ -24,10 +22,9 @@ import org.w3c.dom.NodeList;
 
 import com.google.gson.Gson;
 
-import es.daedalus.meaningcloud.gate.MeaningCloudParser;
-import es.daedalus.meaningcloud.gate.param.SentimentBean;
 import es.daedalus.meaningcloud.gate.param.Serialized_resp;
 import es.daedalus.meaningcloud.gate.param.TokenBean;
+import gate.util.InvalidOffsetException;
 
 /**
  *

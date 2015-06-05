@@ -9,6 +9,9 @@ package es.daedalus.meaningcloud.gate;
  * @author ADRIAN
  */
 
+import es.daedalus.meaningcloud.gate.clients.SentimentClient;
+import es.daedalus.meaningcloud.gate.param.ASutil;
+import es.daedalus.meaningcloud.gate.param.Serialized_resp;
 import gate.Annotation;
 import gate.AnnotationSet;
 import gate.DocumentContent;
@@ -33,19 +36,13 @@ import java.util.logging.Logger;
 
 import javax.xml.xpath.XPathExpressionException;
 
-import es.daedalus.meaningcloud.gate.clients.SentimentClient;
-import es.daedalus.meaningcloud.gate.param.ASutil;
-import es.daedalus.meaningcloud.gate.param.SentimentBean;
-import es.daedalus.meaningcloud.gate.param.Serialized_resp;
-
 /**
  * This class is the implementation of the resource MeaningCloud Sentiment Analysis.
  */
-@CreoleResource(name = "MeaningCloud Sentiment Analysis", comment = "MeaningCloud Sentiment Analysis", helpURL = "http://www.meaningcloud.com/developer/sentiment-analysis/doc/1.2", icon = "/MeaningCloud.png")
+@CreoleResource(name = "MeaningCloud Sentiment Analysis", comment = "MeaningCloud Sentiment Analysis", helpURL = "http://www.meaningcloud.com/developer/sentiment-analysis/doc/2.0", icon = "/MeaningCloud.png")
 public class MeaningCloudSentiment extends AbstractLanguageAnalyser implements
 		ProcessingResource {
-	private String inputASname, outputASname, apiURL, key, model, entities,
-			concepts;
+	private String inputASname, outputASname, apiURL, key, model, verbose, egp, tt, rt, uw, dm, sdg, cont, cs, ud;
 	private boolean debug;
 	private List<String> annotationTypes = new ArrayList<String>(); // list of
 																	// input
@@ -218,7 +215,7 @@ public class MeaningCloudSentiment extends AbstractLanguageAnalyser implements
 
 			Post post;
 			post = new Post(api);
-			post.addParameter("src", "gate_2.0");
+			post.addParameter("src", "gate_2.1");
 			if (this.getkey() != null && !this.getkey().isEmpty())
 				post.addParameter("key", key);
 			else {
@@ -235,11 +232,27 @@ public class MeaningCloudSentiment extends AbstractLanguageAnalyser implements
 				return false;
 			}
 			post.addParameter("of", "json");
-			if (this.getentities() != null)
-				post.addParameter("entities", this.getentities());
-			if (this.getConcepts() != null)
-				post.addParameter("concepts", this.getConcepts());
-
+			if(this.getVerbose() != null && !this.getVerbose().isEmpty())
+				post.addParameter("verbose", this.getVerbose());
+			if(this.getEgp() != null && !this.getEgp().isEmpty())
+				post.addParameter("egp", this.getEgp());
+			if(this.getTt() != null && !this.getTt().isEmpty())
+				post.addParameter("tt", this.getTt());
+			if(this.getRt() != null && !this.getRt().isEmpty())
+				post.addParameter("rt", this.getRt());
+			if(this.getUw() != null && !this.getUw().isEmpty())
+				post.addParameter("uw", this.getUw());
+			if(this.getDm() != null && !this.getDm().isEmpty())
+				post.addParameter("dm", this.getDm());
+			if(this.getSdg() != null && !this.getSdg().isEmpty())
+				post.addParameter("sdg", this.getSdg());
+			if(this.getCont() != null && !this.getCont().isEmpty())
+				post.addParameter("cont", this.getCont());
+			if(this.getCs() != null && !this.getCs().isEmpty())
+				post.addParameter("cs", this.getCs());
+			if(this.getUd() != null && !this.getUd().isEmpty())
+				post.addParameter("ud", this.getUd());
+			
 			if (debug)
 				Logger.getLogger(MeaningCloudSentiment.class.getName()).info(
 						"" + post.params + "");
@@ -318,7 +331,7 @@ public class MeaningCloudSentiment extends AbstractLanguageAnalyser implements
 	}
 
 	@RunTime
-	@CreoleParameter(comment = "URL of the API", defaultValue = "http://api.meaningcloud.com/sentiment-1.2")
+	@CreoleParameter(comment = "URL of the API", defaultValue = "http://api.meaningcloud.com/sentiment-2.0")
 	public void setapiURL(String apiURL) {
 		this.apiURL = apiURL;
 	}
@@ -338,11 +351,12 @@ public class MeaningCloudSentiment extends AbstractLanguageAnalyser implements
 	}
 
 	@RunTime
-	@CreoleParameter(defaultValue = "en-general", comment = "Sentiment model chosen. If no model is specified, the most adequate one will be detected automatically, based on the language of the text.\n"
+	@CreoleParameter(defaultValue = "general_en", comment = "Sentiment model chosen. If no model is specified, the most adequate one will be detected automatically, based on the language of the text.\n"
 			+ "The current available models are the following:\n"
-			+ "\tes-general: Generic domain (Spanish)\n"
-			+ "\ten-general: Generic domain (English)\n"
-			+ "\tfr-general: Generic domain (French)\n")
+			+ "\tgeneral_es: Generic domain (Spanish)\n"
+			+ "\tgeneral_en: Generic domain (English)\n"
+			+ "\tgeneral_fr: Generic domain (French)\n"
+			+ "\tauto: AUtomatically detect language and select model acordingly.")
 	public void setmodel(String model) {
 		this.model = model;
 	}
@@ -362,26 +376,113 @@ public class MeaningCloudSentiment extends AbstractLanguageAnalyser implements
 		return debug;
 	}
 
-	@RunTime
-	@Optional
-	@CreoleParameter(comment = "Entities")
-	public void setEntities(String entities) {
-		this.entities = entities;
-	}
-
-	public String getentities() {
-		return entities;
+	public String getVerbose() {
+		return verbose;
 	}
 
 	@RunTime
 	@Optional
-	@CreoleParameter(comment = "Concepts")
-	public void setConcepts(String concepts) {
-		this.concepts = concepts;
+	@CreoleParameter(defaultValue = "n", comment = "Verbose mode")
+	public void setVerbose(String verbose) {
+		this.verbose = verbose;
 	}
 
-	public String getConcepts() {
-		return concepts;
+	public String getEgp() {
+		return egp;
+	}
+
+	@RunTime
+	@Optional
+	@CreoleParameter(defaultValue = "n", comment = "Expand global polarity")
+	public void setEgp(String egp) {
+		this.egp = egp;
+	}
+
+	public String getTt() {
+		return tt;
+	}
+
+	@RunTime
+	@Optional
+	@CreoleParameter(defaultValue = "a", comment = "Topic types")
+	public void setTt(String tt) {
+		this.tt = tt;
+	}
+
+	public String getRt() {
+		return rt;
+	}
+
+	@RunTime
+	@Optional
+	@CreoleParameter(defaultValue = "n", comment = "Relaxed typography")
+	public void setRt(String rt) {
+		this.rt = rt;
+	}
+
+	public String getUw() {
+		return uw;
+	}
+
+	@RunTime
+	@Optional
+	@CreoleParameter(defaultValue = "n", comment = "Deal with unknown words")
+	public void setUw(String uw) {
+		this.uw = uw;
+	}
+
+	public String getDm() {
+		return dm;
+	}
+
+	@RunTime
+	@Optional
+	@CreoleParameter(defaultValue = "s", comment = "Disambiguation level")
+	public void setDm(String dm) {
+		this.dm = dm;
+	}
+
+	public String getSdg() {
+		return sdg;
+	}
+
+	@RunTime
+	@Optional
+	@CreoleParameter(defaultValue = "l", comment = "Semantic disambiguation grouping")
+	public void setSdg(String sdg) {
+		this.sdg = sdg;
+	}
+
+	public String getCont() {
+		return cont;
+	}
+
+	@RunTime
+	@Optional
+	@CreoleParameter(defaultValue = "", comment = "Disambiguation context")
+	public void setCont(String cont) {
+		this.cont = cont;
+	}
+
+	public String getCs() {
+		return cs;
+	}
+	@RunTime
+	@Optional
+	@CreoleParameter(defaultValue = "n", comment = "Case sensitive concepts")
+	public void setCs(String cs) {
+		this.cs = cs;
+	}
+
+	public String getUd() {
+		return ud;
+	}
+
+	@RunTime
+	@Optional
+	@CreoleParameter(defaultValue = "", comment = "User dictionary")
+	public void setUd(String ud) {
+		this.ud = ud;
 	}
 
 } // class MeaningCloudSentiment

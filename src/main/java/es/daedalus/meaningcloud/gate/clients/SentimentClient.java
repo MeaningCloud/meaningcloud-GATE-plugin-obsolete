@@ -1,20 +1,11 @@
 package es.daedalus.meaningcloud.gate.clients;
 
-import gate.AnnotationSet;
-import gate.Factory;
-import gate.FeatureMap;
-
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.io.IOException;
 import java.io.UnsupportedEncodingException;
-import java.util.ArrayList;
-import java.util.Map;
+
+import com.google.gson.Gson;
 
 import es.daedalus.meaningcloud.gate.param.SentimentBean;
 import es.daedalus.meaningcloud.gate.param.Serialized_resp;
-
-import com.google.gson.Gson;
 
 public class SentimentClient {
 

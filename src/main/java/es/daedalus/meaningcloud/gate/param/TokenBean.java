@@ -1,14 +1,11 @@
 package es.daedalus.meaningcloud.gate.param;
 
+import es.daedalus.meaningcloud.gate.param.Serialized_resp.Annot;
 import gate.Factory;
 import gate.FeatureMap;
 
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-
-import es.daedalus.meaningcloud.gate.param.Serialized_resp.Annot;
 
 public class TokenBean {
 	public Serialized_resp.Status status;

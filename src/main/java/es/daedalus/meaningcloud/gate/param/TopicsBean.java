@@ -1,13 +1,9 @@
 package es.daedalus.meaningcloud.gate.param;
 
-import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-
-import es.daedalus.meaningcloud.gate.MeaningCloudParser;
-import es.daedalus.meaningcloud.gate.param.TokenBean.Token;
 
 public class TopicsBean {
 	public Serialized_resp.Status status;
