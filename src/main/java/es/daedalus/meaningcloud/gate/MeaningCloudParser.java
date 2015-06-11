@@ -336,7 +336,7 @@ public class MeaningCloudParser extends AbstractLanguageAnalyser implements
 
 	@RunTime
 	@Optional
-	@CreoleParameter(defaultValue = "true", comment = "This parameter indicates how reliable the text to analyze is (as far as spelling, typography, etc. are concerned), and influences how strict the engine will be when it comes to take these factors into account in the analysis.\n"
+	@CreoleParameter(defaultValue = "n", comment = "This parameter indicates how reliable the text to analyze is (as far as spelling, typography, etc. are concerned), and influences how strict the engine will be when it comes to take these factors into account in the analysis.\n"
 			+ "\n" + "y: enabled (default)\n" + "n: disabled\n" + "u: enabled for user dictionary")
 	public void setrelaxedTypography(String rt) {
 		this.relaxedTypography = rt;
