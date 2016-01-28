@@ -7,9 +7,7 @@ This Plugin allows to easily use the functionality provided by [MeaningCloud API
 
   * _[Language Identification](https://www.meaningcloud.com/developer/language-identification) (v1.1)_
   * _[Text Classification](https://www.meaningcloud.com/developer/text-classification) (v1.1)_
-  * _[Lemmatization, PoS and Parsing](https://www.meaningcloud.com/developer/lemmatization-pos-parsing) (v1.2)_
   * _[Topics Extraction](https://www.meaningcloud.com/developer/topics-extraction) (v1.2)_
-  * _[Text Proofreading](https://www.meaningcloud.com/developer/text-proofreading) (v1.2)_
   * _[Sentiment Analysis](https://www.meaningcloud.com/developer/sentiment-analysis) (v2.0)_
 
 ## How to use it
@@ -27,9 +25,8 @@ Contact us at [support@meaningcloud.com](mailto:support@meaningcloud.com) or thr
 
 ## Usage, license and copying
 
-MeaningCloud is a cloud service provided by DAEDALUS. S.A.
+MeaningCloud is a cloud service provided by MeaningCloud LLC
 
 For details please refer to: http://www.meaningcloud.com
 
-Copyright (c) 2015, DAEDALUS S.A. All rights reserved
-
+Copyright (c) 2016, MeaningCloud LLC All rights reserved

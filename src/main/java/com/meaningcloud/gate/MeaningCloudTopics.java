@@ -2,15 +2,16 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package es.daedalus.meaningcloud.gate;
+package com.meaningcloud.gate;
 
 /**
  *
  * @author ADRIAN
  */
-import es.daedalus.meaningcloud.gate.clients.TopicsClient;
-import es.daedalus.meaningcloud.gate.param.ASutil;
-import es.daedalus.meaningcloud.gate.param.DisambiguationLevel;
+import com.meaningcloud.gate.clients.TopicsClient;
+import com.meaningcloud.gate.param.ASutil;
+import com.meaningcloud.gate.param.DisambiguationLevel;
+import com.meaningcloud.gate.param.SemanticDisambiguationGrouping;
 import gate.Annotation;
 import gate.AnnotationSet;
 import gate.DocumentContent;
@@ -48,11 +49,11 @@ import org.xml.sax.SAXException;
 /**
  * This class is the implementation of the resource TOPICSMeaningCloud.
  */
-@CreoleResource(name = "MeaningCloud Topics Extraction", comment = "MeaningCloud Topics Extraction", helpURL = "http://www.meaningcloud.com/developer/topics-extraction/doc/1.2", icon = "/MeaningCloud.png")
+@CreoleResource(name = "MeaningCloud Topics Extraction", comment = "MeaningCloud Topics Extraction", helpURL = "http://www.meaningcloud.com/developer/topics-extraction/doc/2.0", icon = "/MeaningCloud.png")
 public class MeaningCloudTopics extends AbstractLanguageAnalyser implements
 		ProcessingResource, Serializable {
 
-	private String inputASname, outputASname, apiURL, key, lang, topicTypes,
+	private String inputASname, outputASname, apiURL, key, lang, ilang, topicTypes,
 			timeref;
 	private List<String> annotationTypes = new ArrayList<String>(); // list of
 																	// input
@@ -65,8 +66,9 @@ public class MeaningCloudTopics extends AbstractLanguageAnalyser implements
 																	// submitted
 	private Boolean unknownWords = false, relaxedTypography = true,
 			subTopics = false, caseSensitive = false, debug = false;
-	private String dictionary;// , userDictionary="";
+	// private String userDictionary="";
 	private DisambiguationLevel disambiguationLevel;
+	private SemanticDisambiguationGrouping sdg;
 	private String context;
 	private List<String> udDictionaries = new ArrayList<String>();
 	private static final int RETRY = 5;
@@ -78,22 +80,33 @@ public class MeaningCloudTopics extends AbstractLanguageAnalyser implements
 	public String translateDM(DisambiguationLevel dm) {
 		String ret_dm = "";
 		if (dm.equals(DisambiguationLevel.no_disambiguation))
-			ret_dm = "0";
+			ret_dm = "n";
 		else if (dm.equals(DisambiguationLevel.morphsyntactic_disambiguation))
-			ret_dm = "1";
-		else if (dm.equals(DisambiguationLevel.basic_disambiguation))
-			ret_dm = "2";
-		else if (dm.equals(DisambiguationLevel.light_disambiguation))
-			ret_dm = "3";
-		else if (dm.equals(DisambiguationLevel.strong_disambiguation))
-			ret_dm = "4";
-		else if (dm.equals(DisambiguationLevel.full_disambiguation))
-			ret_dm = "5";
+			ret_dm = "m";
+		else if (dm.equals(DisambiguationLevel.semantic_disambiguation))
+			ret_dm = "s";
 		else {
-			ret_dm = "4";
+			ret_dm = "s";
 		}
 
 		return ret_dm;
+	}
+
+	public String translateSDG(SemanticDisambiguationGrouping sdg) {
+		String ret_sdg = "";
+		if(sdg.equals(SemanticDisambiguationGrouping.none))
+			ret_sdg = "n";
+		else if(sdg.equals(SemanticDisambiguationGrouping.global_intersection))
+			ret_sdg = "g";
+		else if(sdg.equals(SemanticDisambiguationGrouping.intersection_type))
+			ret_sdg = "t";
+		else if(sdg.equals(SemanticDisambiguationGrouping.intersection_type_smallest_location))
+			ret_sdg = "l";
+		else {
+			ret_sdg = "l";
+		}
+
+		return ret_sdg;
 	}
 
 	public String textTransform(boolean bool) {
@@ -265,7 +278,7 @@ public class MeaningCloudTopics extends AbstractLanguageAnalyser implements
 
 			try {
 				post = new PostApache(api);
-				post.addParameter("src", "gate_2.1");
+				post.addParameter("src", "gate_2.2");
 				if (this.getkey() != null && !this.getkey().isEmpty())
 					post.addParameter("key", this.getkey());
 				else {
@@ -281,21 +294,21 @@ public class MeaningCloudTopics extends AbstractLanguageAnalyser implements
 							"Lang is unset");
 					return false;
 				}
+				post.addParameter("ilang", ilang);
 				post.addParameter("tt", this.gettopicTypes());
 				post.addParameter("of", "xml");
 				post.addParameter("uw", textTransform(this.getunknownWords()));
 				post.addParameter("rt",
 						textTransform(this.getrelaxedTypography()));
 				post.addParameter("st", textTransform(this.getsubTopics()));
-				post.addParameter("cs", textTransform(this.getcaseSensitive()));
 				if (ud != null)
 					post.addParameter("ud", ud);
 				post.addParameter("dm",
 						this.translateDM(this.getDisambiguationLevel()));
+				post.addParameter("sdg",
+						this.translateSDG(this.getSemanticDisambiguationGrouping()));
 				if (this.getcontext() != null)
 					post.addParameter("cont", this.getcontext());
-				if (this.getdictionary() != null)
-					post.addParameter("dic", this.getdictionary());
 				if (this.gettimeref() != null)
 					post.addParameter("timeref", this.gettimeref());
 
@@ -448,31 +461,8 @@ public class MeaningCloudTopics extends AbstractLanguageAnalyser implements
 							}
 							try {
 								List<TopicsClient.Annot> annotations = TopicsClient
-										.collectShort(response_node, "uri");
-
-								for (TopicsClient.Annot at : annotations) {
-									if (inputAnn != null) {
-										outputAnnSet.add(inputAnn
-												.getStartNode().getOffset()
-												+ at.startOff, inputAnn
-												.getStartNode().getOffset()
-												+ at.endOff, "" + type + ""
-												+ at.Name, at.fm);
-									} else {
-										outputAnnSet.add(at.startOff,
-												at.endOff, "" + type + ""
-														+ at.Name, at.fm);
-									}
-								}
-							} catch (Exception ex) {
-								Logger.getLogger(
-										MeaningCloudClass.class.getName()).log(
-										Level.SEVERE, null, ex);
-							}
-							try {
-								List<TopicsClient.Annot> annotations = TopicsClient
 										.collectShort(response_node,
-												"phone_expression");
+												"quantity_expression");
 								;
 
 								for (TopicsClient.Annot at : annotations) {
@@ -599,13 +589,23 @@ public class MeaningCloudTopics extends AbstractLanguageAnalyser implements
 	}
 
 	@RunTime
-	@CreoleParameter(defaultValue = "strong_disambiguation", comment = "Disambiguation level applied.")
+	@CreoleParameter(defaultValue = "semantic_disambiguation", comment = "Disambiguation level applied.")
 	public void setDisambiguationLevel(DisambiguationLevel ds) {
 		this.disambiguationLevel = ds;
 	}
 
 	public DisambiguationLevel getDisambiguationLevel() {
 		return disambiguationLevel;
+	}
+
+	@RunTime
+	@CreoleParameter(defaultValue = "intersection_type_smallest_location", comment = "Semantic disambiguation grouping applied.")
+	public void setSemanticDisambiguationGrouping(SemanticDisambiguationGrouping sdg) {
+		this.sdg = sdg;
+	}
+
+	public SemanticDisambiguationGrouping getSemanticDisambiguationGrouping() {
+		return sdg;
 	}
 
 	@Optional
@@ -688,7 +688,7 @@ public class MeaningCloudTopics extends AbstractLanguageAnalyser implements
 	}
 
 	@RunTime
-	@CreoleParameter(comment = "URL of the API", defaultValue = "http://api.meaningcloud.com/topics-1.2")
+	@CreoleParameter(comment = "URL of the API", defaultValue = "http://api.meaningcloud.com/topics-2.0")
 	public void setapiURL(String apiURL) {
 		this.apiURL = apiURL;
 	}
@@ -719,6 +719,17 @@ public class MeaningCloudTopics extends AbstractLanguageAnalyser implements
 
 	@RunTime
 	@Optional
+	@CreoleParameter(defaultValue = "", comment = "It specifies the languages in which the values returned will appear (in the case where they are known).")
+	public void setIlang(String ilang) {
+		this.ilang = ilang;
+	}
+
+	public String getIlang() {
+		return ilang;
+	}
+
+	@RunTime
+	@Optional
 	@CreoleParameter(defaultValue = "a", comment = "Topic Types to detect")
 	public void settopicTypes(String tt) {
 		this.topicTypes = tt;
@@ -737,17 +748,6 @@ public class MeaningCloudTopics extends AbstractLanguageAnalyser implements
 
 	public String gettimeref() {
 		return timeref;
-	}
-
-	@RunTime
-	@Optional
-	@CreoleParameter(defaultValue = "chetsdp", comment = "Dictionary")
-	public void setdictionary(String dic) {
-		this.dictionary = dic;
-	}
-
-	public String getdictionary() {
-		return dictionary;
 	}
 
 	@RunTime

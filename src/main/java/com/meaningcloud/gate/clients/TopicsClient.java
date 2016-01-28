@@ -2,7 +2,7 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package es.daedalus.meaningcloud.gate.clients;
+package com.meaningcloud.gate.clients;
 
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
@@ -15,7 +15,7 @@ import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
-import es.daedalus.meaningcloud.gate.param.TopicsBean;
+import com.meaningcloud.gate.param.TopicsBean;
 import gate.util.InvalidOffsetException;
 
 /**
@@ -118,7 +118,7 @@ public class TopicsClient {
 					ArrayList<String> semld = new ArrayList<String>(), sourceDic = new ArrayList<String>();
 					Iterator iter = ent.semld_list.iterator();
 					while (iter.hasNext()) {
-						TopicsBean.Entity.semld smld = (es.daedalus.meaningcloud.gate.param.TopicsBean.Entity.semld) iter
+						TopicsBean.Entity.semld smld = (com.meaningcloud.gate.param.TopicsBean.Entity.semld) iter
 								.next();
 						sourceDic.add(!smld.sourceDic.isEmpty() ? new String(
 								smld.sourceDic.getBytes(), "utf-8") : "");
@@ -475,7 +475,7 @@ public class TopicsClient {
 	}
 
 	public static List<Annot> collectShort(Element response, String nameNode)
-			throws InvalidOffsetException {
+		throws InvalidOffsetException, UnsupportedEncodingException {
 		List<Annot> annotations = new ArrayList<Annot>();
 
 		NodeList nodeL = response.getElementsByTagName(nameNode);
@@ -487,12 +487,12 @@ public class TopicsClient {
 			String normalizedForm = "";
 			String actualTime = "";
 			String precision = "";
-			String amount = "";
+			String amount_form = "";
 			String numericValue = "";
 			String currency = "";
-			String who = "";
+			String unit = "";
+			String who_form = "";
 			String who_lemma = "";// ToDo: list
-			String verb = "";
 			String verb_lemma = "";// ToDo: list
 			String type = "";
 			String subject_form = "";
@@ -519,18 +519,46 @@ public class TopicsClient {
 					actualTime = n.getTextContent();
 				} else if ("precision".equals(name)) {
 					precision = n.getTextContent();
-				} else if ("amount".equals(name)) {
-					amount = n.getTextContent();
+				} else if ("amount_form".equals(name)) {
+					amount_form = n.getTextContent();
 				} else if ("numeric_value".equals(name)) {
 					numericValue = n.getTextContent();
 				} else if ("currency".equals(name)) {
 					currency = n.getTextContent();
+				} else if ("unit".equals(name)) {
+					unit = n.getTextContent();
 				} else if ("who".equals(name)) {
-					who = n.getTextContent();
-				} else if ("who-lemma".equals(name)) {
-					who_lemma = n.getTextContent();
-				} else if ("verb-lemma".equals(name)) {
-					verb_lemma = n.getTextContent();
+					NodeList typeLi = n.getChildNodes();
+					TopicsBean.Quotation.Who who_elem = new TopicsBean.Quotation.Who();
+					for (int li_it = 0; li_it < typeLi.getLength(); li_it++) {
+						Node sem_node = typeLi.item(li_it);
+						String name_aux = sem_node.getNodeName();
+						// switch (name_aux) {
+						if (name_aux.equals("form"))
+							who_elem.form = new String(sem_node
+									.getTextContent().getBytes(), "UTF-8");
+						else if (name_aux.equals("lemma"))
+							who_elem.lemma = new String(sem_node
+									.getTextContent().getBytes(), "UTF-8");
+					}
+					who_form = who_elem.form;
+					who_lemma = who_elem.lemma;
+				} else if ("verb".equals(name)) {
+					NodeList typeLi = n.getChildNodes();
+					TopicsBean.Quotation.Who verb_elem = new TopicsBean.Quotation.Who();
+					for (int li_it = 0; li_it < typeLi.getLength(); li_it++) {
+						Node sem_node = typeLi.item(li_it);
+						String name_aux = sem_node.getNodeName();
+						// switch (name_aux) {
+						if (name_aux.equals("form"))
+							verb_elem.form = new String(sem_node
+									.getTextContent().getBytes(), "UTF-8");
+						else if (name_aux.equals("lemma"))
+							verb_elem.lemma = new String(sem_node
+									.getTextContent().getBytes(), "UTF-8");
+					}
+					verb_form = verb_elem.form;
+					verb_lemma = verb_elem.lemma;
 				} else if ("type".equals(name)) {
 					type = n.getTextContent();
 				} else if ("inip".equals(name)) {
@@ -570,18 +598,20 @@ public class TopicsClient {
 							fm.put("actualTime", actualTime);
 						if (!precision.isEmpty())
 							fm.put("precision", precision);
-						if (!amount.isEmpty())
-							fm.put("amount", amount);
+						if (!amount_form.isEmpty())
+							fm.put("amount_form", amount_form);
 						if (!numericValue.isEmpty())
 							fm.put("numericValue", numericValue);
 						if (!currency.isEmpty())
 							fm.put("currency", currency);
-						if (!who.isEmpty())
-							fm.put("who", who);
+							if (!unit.isEmpty())
+								fm.put("unit", unit);
+						if (!who_form.isEmpty())
+							fm.put("who_form", who_form);
 						if (!who_lemma.isEmpty())
 							fm.put("who_lemma", who_lemma);
-						if (!verb.isEmpty())
-							fm.put("verb", verb);
+						if (!verb_form.isEmpty())
+							fm.put("verb_form", verb_form);
 						if (!verb_lemma.isEmpty())
 							fm.put("verb_lemma", verb_lemma);
 						if (!type.isEmpty())

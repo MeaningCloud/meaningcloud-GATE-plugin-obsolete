@@ -4,7 +4,7 @@
  * and open the template in the editor.
  */
 
-package es.daedalus.meaningcloud.gate.param;
+package com.meaningcloud.gate.param;
 
 import gate.AnnotationSet;
 import gate.Factory;

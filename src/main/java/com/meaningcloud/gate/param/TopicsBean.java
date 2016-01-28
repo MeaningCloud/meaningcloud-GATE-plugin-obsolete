@@ -1,4 +1,4 @@
-package es.daedalus.meaningcloud.gate.param;
+package com.meaningcloud.gate.param;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -11,8 +11,7 @@ public class TopicsBean {
 	public Entity_json[] concept_list = null;
 	public Time_expression[] time_expression_list = null;
 	public Money_expression[] money_expression_list = null;
-	public Uri[] uri_list = null;
-	public Phone_expression[] phone_expression_list = null;
+	public Quantity_expression[] quantity_expression_list = null;
 	public Other[] other_expression_list = null;
 	public Quotation[] quotation_list = null;
 	public Relation[] relation_list = null;
@@ -76,7 +75,7 @@ public class TopicsBean {
 	}
 
 	public static class Money_expression {
-		String form, amount, numeric_value, currency;
+		String form, amount_form, numeric_value, currency;
 		Long inip, endp;
 	}
 
@@ -85,8 +84,8 @@ public class TopicsBean {
 		Long inip, endp;
 	}
 
-	public static class Phone_expression {
-		String form;
+	public static class Quantity_expression {
+		String form, amount_form, numeric_value, unit;
 		Long inip, endp;
 	}
 
@@ -96,8 +95,18 @@ public class TopicsBean {
 	}
 
 	public static class Quotation {
-		String form, who, who_lemma, verb, verb_lemma;
-		Long inip, endp;
+		public String form;
+		public Who who;
+		public Verb verb;
+		public Long inip, endp;
+
+		public static class Who {
+			public String form, lemma;
+		}
+
+		public static class Verb {
+			public String form, lemma;
+		}
 	}
 
 	public static class Relation {
@@ -268,32 +277,12 @@ public class TopicsBean {
 			ret += "]";
 		}
 
-		if (this.uri_list != null) {
-			if (ret.length() > 0)
-				ret += ",";
-			ret += "URI [";
-			int cnt = 0;
-			for (Uri e : uri_list) {
-				try {
-					if (cnt == 0)
-						ret += new String(e.form.getBytes(), "utf-8");
-					else
-						ret += ";" + new String(e.form.getBytes(), "utf-8");
-				} catch (Exception ex) {
-					Logger.getLogger(TopicsBean.class.getName()).log(
-							Level.SEVERE, null, ex);
-				}
-				cnt++;
-			}
-			ret += "]";
-		}
-
-		if (this.phone_expression_list != null) {
+		if (this.quantity_expression_list != null) {
 			if (ret.length() > 0)
 				ret += ",";
 			ret += "Phone [";
 			int cnt = 0;
-			for (Phone_expression e : phone_expression_list) {
+			for (Quantity_expression e : quantity_expression_list) {
 				try {
 					if (cnt == 0)
 						ret += new String(e.form.getBytes(), "utf-8");

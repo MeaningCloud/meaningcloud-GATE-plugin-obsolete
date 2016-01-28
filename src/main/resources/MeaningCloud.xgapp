@@ -51,7 +51,7 @@
               </entry>
             </localMap>
           </runtimeParams>
-          <resourceType>es.daedalus.meaningcloud.gate.MeaningCloudLang</resourceType>
+          <resourceType>com.meaningcloud.gate.MeaningCloudLang</resourceType>
           <resourceName>MeaningCloud Language Identification</resourceName>
           <initParams class="gate.util.persistence.MapPersistence">
             <mapType>gate.util.SimpleFeatureMapImpl</mapType>
@@ -71,92 +71,8 @@
                 <boolean>false</boolean>
               </entry>
               <entry>
-                <string>document</string>
-                <null/>
-              </entry>
-              <entry>
-                <string>outputType</string>
-                <string>Token</string>
-              </entry>
-              <entry>
-                <string>corpus</string>
-                <null/>
-              </entry>
-              <entry>
-                <string>outputASname</string>
-                <string>MeaningCloud</string>
-              </entry>
-              <entry>
-                <string>ud</string>
-                <null/>
-              </entry>
-              <entry>
-                <string>mode</string>
-                <string>sa</string>
-              </entry>
-              <entry>
-                <string>dictionary</string>
-                <string>chetsdp</string>
-              </entry>
-              <entry>
                 <string>apiURL</string>
-                <string>http://api.meaningcloud.com/parser-1.2</string>
-              </entry>
-              <entry>
-                <string>unknownWords</string>
-                <boolean>false</boolean>
-              </entry>
-              <entry>
-                <string>lang</string>
-                <string>en</string>
-              </entry>
-              <entry>
-                <string>annotationTypes</string>
-                <gate.util.persistence.CollectionPersistence>
-                  <localList/>
-                  <collectionType>java.util.ArrayList</collectionType>
-                </gate.util.persistence.CollectionPersistence>
-              </entry>
-              <entry>
-                <string>relaxedTypography</string>
-                <boolean>true</boolean>
-              </entry>
-              <entry>
-                <string>key</string>
-                <null/>
-              </entry>
-              <entry>
-                <string>inputASname</string>
-                <null/>
-              </entry>
-              <entry>
-                <string>disambiguationLevel</string>
-                <es.daedalus.meaningcloud.gate.param.DisambiguationLevel>strong_disambiguation</es.daedalus.meaningcloud.gate.param.DisambiguationLevel>
-              </entry>
-            </localMap>
-          </runtimeParams>
-          <resourceType>es.daedalus.meaningcloud.gate.MeaningCloudParser</resourceType>
-          <resourceName>MeaningCloud Lemmatization, PoS and Parsing</resourceName>
-          <initParams class="gate.util.persistence.MapPersistence">
-            <mapType>gate.util.SimpleFeatureMapImpl</mapType>
-            <localMap/>
-          </initParams>
-          <features class="gate.util.persistence.MapPersistence">
-            <mapType>gate.util.SimpleFeatureMapImpl</mapType>
-            <localMap/>
-          </features>
-        </gate.util.persistence.PRPersistence>
-        <gate.util.persistence.PRPersistence>
-          <runtimeParams class="gate.util.persistence.MapPersistence">
-            <mapType>gate.util.SimpleFeatureMapImpl</mapType>
-            <localMap>
-              <entry>
-                <string>debug</string>
-                <boolean>false</boolean>
-              </entry>
-              <entry>
-                <string>apiURL</string>
-                <string>http://api.meaningcloud.com/sentiment-1.2</string>
+                <string>http://api.meaningcloud.com/sentiment-2.0</string>
               </entry>
               <entry>
                 <string>concepts</string>
@@ -199,120 +115,8 @@
               </entry>
             </localMap>
           </runtimeParams>
-          <resourceType>es.daedalus.meaningcloud.gate.MeaningCloudSentiment</resourceType>
+          <resourceType>com.meaningcloud.gate.MeaningCloudSentiment</resourceType>
           <resourceName>MeaningCloud Sentiment Analysis</resourceName>
-          <initParams class="gate.util.persistence.MapPersistence">
-            <mapType>gate.util.SimpleFeatureMapImpl</mapType>
-            <localMap/>
-          </initParams>
-          <features class="gate.util.persistence.MapPersistence">
-            <mapType>gate.util.SimpleFeatureMapImpl</mapType>
-            <localMap/>
-          </features>
-        </gate.util.persistence.PRPersistence>
-        <gate.util.persistence.PRPersistence>
-          <runtimeParams class="gate.util.persistence.MapPersistence">
-            <mapType>gate.util.SimpleFeatureMapImpl</mapType>
-            <localMap>
-              <entry>
-                <string>debug</string>
-                <boolean>false</boolean>
-              </entry>
-              <entry>
-                <string>prefixed</string>
-                <boolean>true</boolean>
-              </entry>
-              <entry>
-                <string>properNouns</string>
-                <boolean>true</boolean>
-              </entry>
-              <entry>
-                <string>document</string>
-                <null/>
-              </entry>
-              <entry>
-                <string>corpus</string>
-                <null/>
-              </entry>
-              <entry>
-                <string>openingClosing</string>
-                <boolean>true</boolean>
-              </entry>
-              <entry>
-                <string>manyErrors</string>
-                <string>2</string>
-              </entry>
-              <entry>
-                <string>quotesOrItalics</string>
-                <boolean>true</boolean>
-              </entry>
-              <entry>
-                <string>outputASname</string>
-                <string>MeaningCloud</string>
-              </entry>
-              <entry>
-                <string>foreign</string>
-                <boolean>true</boolean>
-              </entry>
-              <entry>
-                <string>tautologyAndLanMisuse</string>
-                <boolean>true</boolean>
-              </entry>
-              <entry>
-                <string>spacing</string>
-                <boolean>true</boolean>
-              </entry>
-              <entry>
-                <string>dictionary</string>
-                <string>chetsdp</string>
-              </entry>
-              <entry>
-                <string>apiURL</string>
-                <string>http://api.meaningcloud.com/stilus-1.2</string>
-              </entry>
-              <entry>
-                <string>percentage</string>
-                <boolean>true</boolean>
-              </entry>
-              <entry>
-                <string>punctuation</string>
-                <boolean>true</boolean>
-              </entry>
-              <entry>
-                <string>consonantRed</string>
-                <boolean>true</boolean>
-              </entry>
-              <entry>
-                <string>lang</string>
-                <string>en</string>
-              </entry>
-              <entry>
-                <string>annotationTypes</string>
-                <gate.util.persistence.CollectionPersistence>
-                  <localList/>
-                  <collectionType>java.util.ArrayList</collectionType>
-                </gate.util.persistence.CollectionPersistence>
-              </entry>
-              <entry>
-                <string>confusion</string>
-                <boolean>true</boolean>
-              </entry>
-              <entry>
-                <string>key</string>
-                <null/>
-              </entry>
-              <entry>
-                <string>inputASname</string>
-                <null/>
-              </entry>
-              <entry>
-                <string>too_longSent</string>
-                <boolean>true</boolean>
-              </entry>
-            </localMap>
-          </runtimeParams>
-          <resourceType>es.daedalus.meaningcloud.gate.MeaningCloudProofreading</resourceType>
-          <resourceName>MeaningCloud Spell, Grammar and Style Proofreading</resourceName>
           <initParams class="gate.util.persistence.MapPersistence">
             <mapType>gate.util.SimpleFeatureMapImpl</mapType>
             <localMap/>
@@ -379,7 +183,7 @@
               </entry>
             </localMap>
           </runtimeParams>
-          <resourceType>es.daedalus.meaningcloud.gate.MeaningCloudClass</resourceType>
+          <resourceType>com.meaningcloud.gate.MeaningCloudClass</resourceType>
           <resourceName>MeaningCloud Text Classification</resourceName>
           <initParams class="gate.util.persistence.MapPersistence">
             <mapType>gate.util.SimpleFeatureMapImpl</mapType>
@@ -435,7 +239,7 @@
               </entry>
               <entry>
                 <string>apiURL</string>
-                <string>http://api.meaningcloud.com/topics-1.2</string>
+                <string>http://api.meaningcloud.com/topics-2.0</string>
               </entry>
               <entry>
                 <string>subTopics</string>
@@ -474,11 +278,11 @@
               </entry>
               <entry>
                 <string>disambiguationLevel</string>
-                <es.daedalus.meaningcloud.gate.param.DisambiguationLevel>strong_disambiguation</es.daedalus.meaningcloud.gate.param.DisambiguationLevel>
+                <com.meaningcloud.gate.param.DisambiguationLevel>semantic_disambiguation</com.meaningcloud.gate.param.DisambiguationLevel>
               </entry>
             </localMap>
           </runtimeParams>
-          <resourceType>es.daedalus.meaningcloud.gate.MeaningCloudTopics</resourceType>
+          <resourceType>com.meaningcloud.gate.MeaningCloudTopics</resourceType>
           <resourceName>MeaningCloud Topics Extraction</resourceName>
           <initParams class="gate.util.persistence.MapPersistence">
             <mapType>gate.util.SimpleFeatureMapImpl</mapType>

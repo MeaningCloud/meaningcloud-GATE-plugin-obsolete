@@ -2,10 +2,10 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package es.daedalus.meaningcloud.gate;
+package com.meaningcloud.gate;
 
-import es.daedalus.meaningcloud.gate.clients.ClassClient;
-import es.daedalus.meaningcloud.gate.param.ASutil;
+import com.meaningcloud.gate.clients.ClassClient;
+import com.meaningcloud.gate.param.ASutil;
 import gate.Annotation;
 import gate.AnnotationSet;
 import gate.DocumentContent;
@@ -90,7 +90,7 @@ public class MeaningCloudClass extends AbstractLanguageAnalyser implements
 				/*
 				 * Iterator<Annotation> inputIt =
 				 * gate.Utils.inDocumentOrder(inputAnnSet).iterator();
-				 * 
+				 *
 				 * while(inputIt.hasNext()){ Annotation ann = inputIt.next();
 				 * type = "_"+ann.getType(); try { text =
 				 * content.getContent(ann.getStartNode().getOffset(),
@@ -163,7 +163,7 @@ public class MeaningCloudClass extends AbstractLanguageAnalyser implements
 							"Key not set");
 					return;
 				}
-				post.addParameter("src", "gate_2.1");
+				post.addParameter("src", "gate_2.2");
 				post.addParameter("txt", txt);
 				post.addParameter("of", "xml");
 				post.addParameter("verbose", textTransform(this.verbose));

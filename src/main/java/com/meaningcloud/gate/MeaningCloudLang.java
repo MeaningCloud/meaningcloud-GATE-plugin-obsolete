@@ -1,7 +1,7 @@
-package es.daedalus.meaningcloud.gate;
+package com.meaningcloud.gate;
 
-import es.daedalus.meaningcloud.gate.clients.LangClient;
-import es.daedalus.meaningcloud.gate.param.ASutil;
+import com.meaningcloud.gate.clients.LangClient;
+import com.meaningcloud.gate.param.ASutil;
 import gate.Annotation;
 import gate.AnnotationSet;
 import gate.DocumentContent;
@@ -76,7 +76,7 @@ public class MeaningCloudLang extends AbstractLanguageAnalyser implements
 				/*
 				 * Iterator<Annotation> inputIt =
 				 * gate.Utils.inDocumentOrder(inputAnnSet).iterator();
-				 * 
+				 *
 				 * while(inputIt.hasNext()) { Annotation ann = inputIt.next();
 				 * try { text =
 				 * content.getContent(ann.getStartNode().getOffset(),
@@ -149,7 +149,7 @@ public class MeaningCloudLang extends AbstractLanguageAnalyser implements
 							"Key is not set");
 					return;
 				}
-				post.addParameter("src", "gate_2.1");
+				post.addParameter("src", "gate_2.2");
 				post.addParameter("txt", txt);
 				post.addParameter("of", "xml");
 

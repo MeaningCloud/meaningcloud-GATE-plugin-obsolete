@@ -2,7 +2,7 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package es.daedalus.meaningcloud.gate.clients;
+package com.meaningcloud.gate.clients;
 
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
@@ -12,8 +12,8 @@ import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
-import es.daedalus.meaningcloud.gate.MeaningCloudClass.category;
-import es.daedalus.meaningcloud.gate.MeaningCloudClass.category.term;
+import com.meaningcloud.gate.MeaningCloudClass.category;
+import com.meaningcloud.gate.MeaningCloudClass.category.term;
 import gate.util.InvalidOffsetException;
 
 /**
@@ -31,7 +31,7 @@ public class ClassClient {
 		for (int i = 0; i < nodeL.getLength(); i++) {
 			Node category = nodeL.item(i);
 			NodeList features = category.getChildNodes();
-			es.daedalus.meaningcloud.gate.MeaningCloudClass.category cat = new es.daedalus.meaningcloud.gate.MeaningCloudClass.category();
+			com.meaningcloud.gate.MeaningCloudClass.category cat = new com.meaningcloud.gate.MeaningCloudClass.category();
 			for (int j = 0; j < features.getLength(); j++) {
 				Node value = features.item(j);
 				String value_name = value.getNodeName();
@@ -53,7 +53,7 @@ public class ClassClient {
 					NodeList terms = value.getChildNodes();
 					cat.term_list = new ArrayList<term>(terms.getLength());
 					for (int k = 0; k < terms.getLength(); k++) {
-						es.daedalus.meaningcloud.gate.MeaningCloudClass.category.term t = new es.daedalus.meaningcloud.gate.MeaningCloudClass.category.term();
+						com.meaningcloud.gate.MeaningCloudClass.category.term t = new com.meaningcloud.gate.MeaningCloudClass.category.term();
 						Node term = terms.item(k);
 						NodeList term_values = term.getChildNodes();
 						for (int l = 0; l < term_values.getLength(); l++) {

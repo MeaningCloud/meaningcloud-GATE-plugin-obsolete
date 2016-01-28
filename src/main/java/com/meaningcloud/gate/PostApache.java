@@ -2,7 +2,7 @@
  * Sentiment Analysis 1.0 sample client for Java
  * (c) Daedalus
  */
-package es.daedalus.meaningcloud.gate;
+package com.meaningcloud.gate;
 
 //import java.io.BufferedReader;
 import java.io.IOException;

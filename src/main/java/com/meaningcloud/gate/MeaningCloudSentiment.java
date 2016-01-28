@@ -2,16 +2,16 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package es.daedalus.meaningcloud.gate;
+package com.meaningcloud.gate;
 
 /**
  *
  * @author ADRIAN
  */
 
-import es.daedalus.meaningcloud.gate.clients.SentimentClient;
-import es.daedalus.meaningcloud.gate.param.ASutil;
-import es.daedalus.meaningcloud.gate.param.Serialized_resp;
+import com.meaningcloud.gate.clients.SentimentClient;
+import com.meaningcloud.gate.param.ASutil;
+import com.meaningcloud.gate.param.Serialized_resp;
 import gate.Annotation;
 import gate.AnnotationSet;
 import gate.DocumentContent;
@@ -215,7 +215,7 @@ public class MeaningCloudSentiment extends AbstractLanguageAnalyser implements
 
 			Post post;
 			post = new Post(api);
-			post.addParameter("src", "gate_2.1");
+			post.addParameter("src", "gate_2.2");
 			if (this.getkey() != null && !this.getkey().isEmpty())
 				post.addParameter("key", key);
 			else {
@@ -252,7 +252,7 @@ public class MeaningCloudSentiment extends AbstractLanguageAnalyser implements
 				post.addParameter("cs", this.getCs());
 			if(this.getUd() != null && !this.getUd().isEmpty())
 				post.addParameter("ud", this.getUd());
-			
+
 			if (debug)
 				Logger.getLogger(MeaningCloudSentiment.class.getName()).info(
 						"" + post.params + "");

@@ -1,4 +1,4 @@
-package es.daedalus.meaningcloud.gate.param;
+package com.meaningcloud.gate.param;
 
 import gate.Factory;
 import gate.FeatureMap;
@@ -140,14 +140,14 @@ public class SentimentBean {
 			return sb.toString();
 		}
 	}
-	
+
 	public class Sentence {
 		String text, bop, confidence, score_tag, agreement;
 		Long inip, endp;
 		Segment[] segment_list = null;
 		SentimentedEntity[] sentimented_entity_list = null;
 		SentimentedConcept[] sentimented_concept_list = null;
-		
+
 		@Override
 		public String toString() {
 			StringBuilder sb = new StringBuilder();
@@ -344,7 +344,7 @@ public class SentimentBean {
 									polarity_term_sentimented_entity_type.add(entity_type);
 								}
 								if (pt.sentimented_concept_list != null) {
-									ArrayList<String> concept_form = new ArrayList<String>(), concept_variant = new ArrayList<String>(), concept_type = new ArrayList<String>();									
+									ArrayList<String> concept_form = new ArrayList<String>(), concept_variant = new ArrayList<String>(), concept_type = new ArrayList<String>();
 									for (SentimentedConcept c : pt.sentimented_concept_list) {
 										if (c.form != null)
 											concept_form

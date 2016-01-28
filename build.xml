@@ -4,15 +4,15 @@
 
 	<property file="build.properties" />
 	<property name="plugin.name" value="MeaningCloud"/>
-	<property name="plugin.version" value="2.1"/>
+	<property name="plugin.version" value="2.2"/>
 	<property name="version" value="1.6" />
-	
+
 	<!-- Make environment variables available -->
 	<property environment="env" />
 
 	<!-- If environment variable GATE_HOME is set, use it for
        gate.home (unless it was already set in build.properties -->
-	
+
 	<!-- <property name="gate.home" location="PATH_TO_YOUR_GATE_INSTALLATION_FOLDER" /> -->
 	<condition property="gate.home" value="${env.GATE_HOME}">
 		<isset property="env.GATE_HOME"/>
@@ -21,15 +21,15 @@
 
 	<property name="gate.lib" location="${gate.home}/lib" />
 	<property name="gate.jar" location="${gate.home}/bin/gate.jar" />
-	
-	
+
+
 	<property name="src.dir" location="src/main/java" />
 	<property name="resources.dir" location="src/main/resources" />
 	<property name="classes.dir" location="bin" />
 	<property name="dist.dir" location="dist" />
 	<property name="package.dir" location="${dist.dir}/${plugin.name}-${plugin.version}" />
 	<property name="jar.location" location="${dist.dir}/${plugin.name}-${plugin.version}.jar" />
-	
+
 
 	<!-- Path to compile - includes gate.jar and GATE/lib/*.jar -->
 	<path id="compile.classpath">
@@ -60,7 +60,7 @@
            target="${version}" />
 	</target>
 
-	
+
 
 	<!-- create the JAR file -->
 	<target name="jar" depends="compile" >
@@ -68,7 +68,7 @@
 		<jar destfile="${jar.location}"
          update="false"
          basedir="${classes.dir}" >
-			<fileset dir="${resources.dir}"> 
+			<fileset dir="${resources.dir}">
 				<include name="creole.xml" />
 				<include name="MeaningCloud.png" />
 			</fileset>
@@ -94,7 +94,7 @@
          distro.prepare: remove intermediate files that shouldn't be in the
                          distribution
   -->
-	<target name="build" depends="jar"> 
+	<target name="build" depends="jar">
 	   <zip destfile="${package.dir}/creole.zip">
 		<zipfileset file="README.md" prefix="${plugin.name}-${plugin.version}"/>
 		<zipfileset file="${resources.dir}/creole.xml" prefix="${plugin.name}-${plugin.version}" />

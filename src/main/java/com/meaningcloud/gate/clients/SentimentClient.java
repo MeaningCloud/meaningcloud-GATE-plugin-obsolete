@@ -1,11 +1,11 @@
-package es.daedalus.meaningcloud.gate.clients;
+package com.meaningcloud.gate.clients;
 
 import java.io.UnsupportedEncodingException;
 
 import com.google.gson.Gson;
 
-import es.daedalus.meaningcloud.gate.param.SentimentBean;
-import es.daedalus.meaningcloud.gate.param.Serialized_resp;
+import com.meaningcloud.gate.param.SentimentBean;
+import com.meaningcloud.gate.param.Serialized_resp;
 
 public class SentimentClient {
 
