@@ -284,9 +284,13 @@ public class MeaningCloudClass extends AbstractLanguageAnalyser implements
 			fm.put("category_term_form", cat_term_forms);
 			fm.put("category_term_abs_relevance", cat_term_abs_relevance);
 			if (inputAnn != null) {
+				Logger.getLogger(MeaningCloudClass.class.getName())
+						.info("The categories detected in the text you have processed have been set as new Features of your inputAS.");
 				FeatureMap fm2 = inputAnn.getFeatures();
 				fm2.putAll(fm);
 			} else {
+				Logger.getLogger(MeaningCloudClass.class.getName())
+						.info("The categories detected in the text you have processed have been set as new Features of your inputAS.");
 				FeatureMap fm2 = document.getFeatures();
 				fm2.putAll(fm);
 			}
