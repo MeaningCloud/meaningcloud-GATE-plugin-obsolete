@@ -2,12 +2,7 @@ package com.meaningcloud.gate;
 
 import com.meaningcloud.gate.clients.LangClient;
 import com.meaningcloud.gate.param.ASutil;
-import gate.Annotation;
-import gate.AnnotationSet;
-import gate.DocumentContent;
-import gate.Factory;
-import gate.FeatureMap;
-import gate.ProcessingResource;
+import gate.*;
 import gate.creole.AbstractLanguageAnalyser;
 import gate.creole.ExecutionException;
 import gate.creole.metadata.CreoleParameter;
@@ -16,24 +11,23 @@ import gate.creole.metadata.Optional;
 import gate.creole.metadata.RunTime;
 import gate.util.InvalidOffsetException;
 import gate.util.Out;
+import org.w3c.dom.Element;
+import org.w3c.dom.NamedNodeMap;
+import org.w3c.dom.NodeList;
+import org.xml.sax.SAXException;
 
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
-import javax.xml.parsers.ParserConfigurationException;
-
-import org.w3c.dom.Element;
-import org.w3c.dom.NamedNodeMap;
-import org.w3c.dom.NodeList;
-import org.xml.sax.SAXException;
 
 /**
  * This class is the implementation of the resource api.meaningcloud.com/lang.
@@ -41,7 +35,7 @@ import org.xml.sax.SAXException;
 @CreoleResource(name = "MeaningCloud Language Identification", comment = "MeaningCloud Language Identification", helpURL = "http://www.meaningcloud.com/developer/language-identification/doc/1.1", icon = "/MeaningCloud.png")
 public class MeaningCloudLang extends AbstractLanguageAnalyser implements
 		ProcessingResource {
-	private String apiURL, key;
+	private String apiURL, key, selection, threshold;
 
 	private String inputASname, outputASname;
 
@@ -149,9 +143,11 @@ public class MeaningCloudLang extends AbstractLanguageAnalyser implements
 							"Key is not set");
 					return;
 				}
-				post.addParameter("src", "gate_2.3");
+				post.addParameter("src", "gate_2.4");
 				post.addParameter("txt", txt);
 				post.addParameter("of", "xml");
+				post.addParameter("selection", selection);
+				post.addParameter("threshold", threshold);
 
 				byte[] response = post.getResponse().getBytes("UTF-8");
 				String resp = new String(response, "UTF-8");
@@ -181,7 +177,7 @@ public class MeaningCloudLang extends AbstractLanguageAnalyser implements
 											+ post.params.toString());
 						} else {
 							try {
-								List<String> updated = LangClient
+								Map<String, ArrayList<String>> updated = LangClient
 										.collectInfo(response_node);
 								setDocFeatures(updated, type, inputAnn);
 							} catch (Exception e) {
@@ -218,37 +214,65 @@ public class MeaningCloudLang extends AbstractLanguageAnalyser implements
 		}
 	}
 
-	public void setDocFeatures(List<String> lang_list, String type,
+	public void setDocFeatures(Map<String, ArrayList<String>> lang_list, String type,
 			Annotation inputAnn) throws InvalidOffsetException,
 			UnsupportedEncodingException {
-		if (lang_list.size() > 0) {
-			Iterator<String> it = lang_list.iterator();
-			FeatureMap fm = Factory.newFeatureMap();
-			List<String> lang = new ArrayList<String>();
-			while (it.hasNext()) {
-				lang.add(new String(it.next().getBytes(), "utf-8"));
+		FeatureMap fm = Factory.newFeatureMap();
+//		List<String> langs = lang_list.get("language");
+//		if (langs.size() > 0) {
+//			Iterator<String> it = langs.iterator();
+//			List<String> lang = new ArrayList<String>();
+//			while (it.hasNext()) {
+//				lang.add(new String(it.next().getBytes(), "utf-8"));
+//			}
+//			fm.put("language", lang);
+//		}
+		List<String> languages = lang_list.get("language");
+		if(languages.size() > 0) {
+			Iterator<String> it = languages.iterator();
+			List<String> language = new ArrayList<String>();
+			while(it.hasNext()) {
+				language.add(new String(it.next().getBytes(), "utf-8"));
 			}
-			fm.put("lang", lang);
-			if (inputAnn != null) {
-				Logger.getLogger(MeaningCloudClass.class.getName())
-						.info("The text you have processed is written in "
-								+ fm.get("lang")
-								+ ". The annotation was created as a new Feature of your inputAS");
-				FeatureMap fm2 = inputAnn.getFeatures();
-				fm2.putAll(fm);
-			} else {
-				Logger.getLogger(MeaningCloudClass.class.getName())
-						.info("The text you have processed is written in "
-								+ fm.get("lang")
-								+ ". The annotation was created as a Document Feature");
-				FeatureMap fm2 = document.getFeatures();
-				fm2.putAll(fm);
+			fm.put("language", language);
+		}
+		List<String> names = lang_list.get("name");
+		if(names.size() > 0) {
+			Iterator<String> it = names.iterator();
+			List<String> name = new ArrayList<String>();
+			while(it.hasNext()) {
+				name.add(new String(it.next().getBytes(), "utf-8"));
 			}
+			fm.put("name", name);
+		}
+		List<String> relevances = lang_list.get("relevance");
+		if(relevances.size() > 0) {
+			Iterator<String> it = relevances.iterator();
+			List<String> relevance = new ArrayList<String>();
+			while(it.hasNext()) {
+				relevance.add(new String(it.next().getBytes(), "utf-8"));
+			}
+			fm.put("relevance", relevance);
+		}
+		if (inputAnn != null) {
+			Logger.getLogger(MeaningCloudClass.class.getName())
+					.info("The text you have processed is written in "
+							+ fm.get("language")
+							+ ". The annotation was created as a new Feature of your inputAS");
+			FeatureMap fm2 = inputAnn.getFeatures();
+			fm2.putAll(fm);
+		} else {
+			Logger.getLogger(MeaningCloudClass.class.getName())
+					.info("The text you have processed is written in "
+							+ fm.get("language")
+							+ ". The annotation was created as a Document Feature");
+			FeatureMap fm2 = document.getFeatures();
+			fm2.putAll(fm);
 		}
 	}
 
 	@RunTime
-	@CreoleParameter(comment = "URL Of the API to query", defaultValue = "http://api.meaningcloud.com/lang-1.1")
+	@CreoleParameter(comment = "URL Of the API to query", defaultValue = "https://api.meaningcloud.com/lang-2.0")
 	public void setApiURL(String apiURL) {
 		this.apiURL = apiURL;
 	}
@@ -266,6 +290,21 @@ public class MeaningCloudLang extends AbstractLanguageAnalyser implements
 	public String getKey() {
 		return key;
 	}
+
+	@RunTime
+	@Optional
+	@CreoleParameter(comment = "List of expected languages, separated by |", defaultValue = "")
+	public void setSelection(String selection) { this.selection = selection; }
+
+	public String getSelection() { return selection; }
+
+	@RunTime
+	@Optional
+	@CreoleParameter(comment = "Language detection threshold as a percentage of similarity with respect to the top result",
+			defaultValue = "100")
+	public void setThreshold(String threshold) { this.threshold = threshold; }
+
+	public String getThreshold() { return threshold; }
 
 	@RunTime
 	@Optional
