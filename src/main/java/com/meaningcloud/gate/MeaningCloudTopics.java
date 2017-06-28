@@ -688,7 +688,7 @@ public class MeaningCloudTopics extends AbstractLanguageAnalyser implements
 	}
 
 	@RunTime
-	@CreoleParameter(comment = "URL of the API", defaultValue = "http://api.meaningcloud.com/topics-2.0")
+	@CreoleParameter(comment = "URL of the API", defaultValue = "https://api.meaningcloud.com/topics-2.0")
 	public void setapiURL(String apiURL) {
 		this.apiURL = apiURL;
 	}
