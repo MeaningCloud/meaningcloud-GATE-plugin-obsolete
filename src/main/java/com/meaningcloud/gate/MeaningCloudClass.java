@@ -163,7 +163,7 @@ public class MeaningCloudClass extends AbstractLanguageAnalyser implements
 							"Key not set");
 					return;
 				}
-				post.addParameter("src", "gate_2.3");
+				post.addParameter("src", "gate_2.4");
 				post.addParameter("txt", txt);
 				post.addParameter("of", "xml");
 				post.addParameter("verbose", textTransform(this.verbose));

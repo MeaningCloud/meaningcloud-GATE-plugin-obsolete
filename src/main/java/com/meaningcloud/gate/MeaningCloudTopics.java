@@ -278,7 +278,7 @@ public class MeaningCloudTopics extends AbstractLanguageAnalyser implements
 
 			try {
 				post = new PostApache(api);
-				post.addParameter("src", "gate_2.3");
+				post.addParameter("src", "gate_2.4");
 				if (this.getkey() != null && !this.getkey().isEmpty())
 					post.addParameter("key", this.getkey());
 				else {
