@@ -1,3 +1,5 @@
+DISCLAIMER: This repository is an obsolete version of the Meaningcloud GATE plugin. For an up-to-date version please refer to [meaningcloud-GATE-plugin](https://github.com/MeaningCloud/meaningcloud-GATE-plugin).
+
 # MeaningCloud Plugin for the GATE Platform
 
 > Produce more valuable content, more quickly and with lower costs, and open up new ways of doing business.
